@@ -1,0 +1,65 @@
+[
+  {
+    "id": "2da2026a-58c2-42eb-a350-11a50c024870",
+    "name": "Hiking/Biking",
+    "img": "",
+    "parent": "Get Outdoors",
+    "parentID": "15c5c3ea-69b0-4d41-ae6b-c78ab2b4ca70"
+  },
+  {
+    "id": "8d41b2e0-1a71-4cc4-bf60-2ba8d0516939",
+    "name": "Mini Golf, etc.",
+    "img": "",
+    "parent": "Get Outdoors",
+    "parentID": "15c5c3ea-69b0-4d41-ae6b-c78ab2b4ca70"
+  },
+  {
+    "id": "9eb450d0-721c-4b99-81fb-d818d6c9773d",
+    "name": "Park/Beach Hang",
+    "img": "",
+    "parent": "Get Outdoors",
+    "parentID": "15c5c3ea-69b0-4d41-ae6b-c78ab2b4ca70"
+  },
+  {
+    "id": "f2f06a31-8d4c-4116-bfff-1f2d91f9d478",
+    "name": "Bar/Restaurant",
+    "img": "",
+    "parent": "Go Out",
+    "parentID": "8b1f2f5f-4035-4343-9fc1-4b27358e03e9"
+  },
+  {
+    "id": "64edae1d-75ed-4461-ac85-bb338eee27eb",
+    "name": "Clubbing",
+    "img": "",
+    "parent": "Go Out",
+    "parentID": "8b1f2f5f-4035-4343-9fc1-4b27358e03e9"
+  },
+  {
+    "id": "ae5646ae-c66a-49a2-8c4b-f0ba226008c0",
+    "name": "Special Event",
+    "img": "",
+    "parent": "Go Out",
+    "parentID": "8b1f2f5f-4035-4343-9fc1-4b27358e03e9"
+  },
+  {
+    "id": "cb57a196-8607-4c32-aa43-65d3f5cb0856",
+    "name": "Game Night",
+    "img": "",
+    "parent": "Stay In",
+    "parentID": "dea8db93-9c3f-4484-831f-b3dcf44365ef"
+  },
+  {
+    "id": "bfd533ba-59f9-4b07-ac4e-1d988128a65a",
+    "name": "Online Hang",
+    "img": "",
+    "parent": "Stay In",
+    "parentID": "dea8db93-9c3f-4484-831f-b3dcf44365ef"
+  },
+  {
+    "id": "f37b2169-87c1-4355-8a49-de5a33e6f0b0",
+    "name": "House Party",
+    "img": "",
+    "parent": "Stay In",
+    "parentID": "dea8db93-9c3f-4484-831f-b3dcf44365ef"
+  }
+]

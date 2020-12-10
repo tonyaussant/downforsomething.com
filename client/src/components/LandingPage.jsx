@@ -1,6 +1,17 @@
+import {Link} from 'react-router-dom';
+import Hero from './children/Hero';
+
 function LandingPage() {
   return(
-    <h1>Hello there!</h1>
+    <div>
+      <Hero/>
+      <Link to='/initiate'>
+        Initiate
+      </Link>
+      <Link to='/join'>
+        Join
+      </Link>
+    </div>
   );
 }
 
