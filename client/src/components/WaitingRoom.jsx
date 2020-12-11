@@ -1,16 +1,17 @@
 import {Link} from 'react-router-dom';
 import Header from './children/Header';
 
-function Join() {
+function WaitingRoom(props) {
+  const {params} = props.match;
+
   return(
     <div>
       <Header/>
-      <div>Join</div>
-      <Link to='/waitingroom/phase1' phase='phase1'>
-        Continue
+      <Link to={`/choices/${params.phase}`}>
+        Start
       </Link>
     </div>
   );
 }
 
-export default Join;
+export default WaitingRoom;
