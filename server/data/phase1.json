@@ -1,16 +1,19 @@
 [
   {
     "id": "15c5c3ea-69b0-4d41-ae6b-c78ab2b4ca70",
+    "option": 1,
     "name": "Get Outdoors",
-    "img": ""
+    "img": "https://media.giphy.com/media/33F5USzk3gJdZTinpS/source.mp4"
   },
   {
     "id": "8b1f2f5f-4035-4343-9fc1-4b27358e03e9",
+    "option": 2,
     "name": "Go Out",
     "img": ""
   },
   {
     "id": "dea8db93-9c3f-4484-831f-b3dcf44365ef",
+    "option": 3,
     "name": "Stay In",
     "img": ""
   }

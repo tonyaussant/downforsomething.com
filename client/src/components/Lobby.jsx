@@ -1,16 +1,15 @@
 import {Link} from 'react-router-dom';
 import Header from './children/Header';
 
-function Initiate() {
+function Lobby() {
   return(
     <div>
       <Header/>
-      <div>Initiate</div>
-      <Link to='/lobby'>
-        Continue
+      <Link to={`/phase1`}>
+        Start
       </Link>
     </div>
   );
 }
 
-export default Initiate;
+export default Lobby;
