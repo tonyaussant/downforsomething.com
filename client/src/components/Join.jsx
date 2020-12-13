@@ -6,7 +6,7 @@ function Join() {
     <div>
       <Header/>
       <div>Join</div>
-      <Link to='/waitingroom/phase1' phase='phase1'>
+      <Link to='/lobby'>
         Continue
       </Link>
     </div>

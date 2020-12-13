@@ -1,17 +1,15 @@
 import {Link} from 'react-router-dom';
 import Header from './children/Header';
 
-function WaitingRoom(props) {
-  const {params} = props.match;
-
+function Lobby() {
   return(
     <div>
       <Header/>
-      <Link to={`/choices/${params.phase}`}>
+      <Link to={`/phase1`}>
         Start
       </Link>
     </div>
   );
 }
 
-export default WaitingRoom;
+export default Lobby;

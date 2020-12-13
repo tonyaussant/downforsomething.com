@@ -1,10 +1,9 @@
 import {Component} from 'react';
-import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 import Header from './children/Header';
 import ChoiceCard from './children/ChoiceCard';
 
-class Choices extends Component {
+class Phase2 extends Component {
   state = {
     phaseData: [],
     option1: 0,
@@ -14,11 +13,11 @@ class Choices extends Component {
   }
 
   componentDidMount() {
-    this.getPhaseData(this.props.match.params.phase);
+    this.getPhase2Data(this.props.match.params.parentID);
   }
 
-  getPhaseData(phase) {
-    axios.get(`http://localhost:8080/${phase}`)
+  getPhase2Data(parentID) {
+    axios.get(`http://localhost:8080/phase1/${parentID}/phase2`)
     .then((result) => {
       this.setState({
         phaseData: result.data,
@@ -47,6 +46,27 @@ class Choices extends Component {
     }
   }
 
+  checkConsensus() {
+    const option1 = this.state.option1;
+    const option2 = this.state.option2;
+    const option3 = this.state.option3;
+    if(option1 > option2 && option1 > option3) {
+      return 'option1';
+    } else if(option2 > option1 && option2 > option3) {
+      return 'option2';
+    } else if(option3 > option1 && option3 > option2) {
+      return 'option3';
+    } else if(option1 > option3 && option1 === option2) {
+      return 'option1&2';
+    } else if(option1 > option2 && option1 === option3) {
+      return 'option1&3';
+    } else if(option2 > option1 && option2 === option3) {
+      return 'option2&3';
+    } else {
+      return "noconsensus"
+    }
+  }
+
   render() {
     if(this.state.phaseData[0] || this.state.pageLoad === false) {
       return(
@@ -55,12 +75,10 @@ class Choices extends Component {
           {this.state.phaseData.map((choice, index) => <ChoiceCard key={choice.id}  index={index} option={choice.option} name={choice.name} img={choice.img} clickHandler={this.choiceMade}/>)}
         </div>
       );
-    } else if(this.props.match.params.phase === 'phase1'){
-      return(
-        <Redirect to={`/waitingroom/phase2`}/>
-      );
+    } else {
+      return "";
     }
   }
 }
 
-export default Choices;
+export default Phase2;

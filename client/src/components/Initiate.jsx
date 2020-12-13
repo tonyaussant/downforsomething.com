@@ -6,7 +6,7 @@ function Initiate() {
     <div>
       <Header/>
       <div>Initiate</div>
-      <Link to='/waitingroom/phase1'>
+      <Link to='/lobby'>
         Continue
       </Link>
     </div>
