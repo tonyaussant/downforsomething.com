@@ -7,9 +7,8 @@ const phase1Route = require('./routes/phase1');
 const phase2Route = require('./routes/phase2');
 
 require('dotenv').config();
-const port = process.env.PORT;
+const mainPort = process.env.MAIN_PORT;
 const mainURL = process.env.BACKEND_URL;
-const giphyApiKey = process.env.GIPHY_API_KEY;
 
 app.use(express.json());
 app.use(cors());
@@ -45,6 +44,6 @@ app.get('/', (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  ora(`listening at ${mainURL}:${port}`).start();
+app.listen(mainPort, () => {
+  ora(`listening at ${mainURL}:${mainPort}`).start();
 });

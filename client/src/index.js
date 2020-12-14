@@ -6,8 +6,7 @@ import LandingPage from './components/LandingPage';
 import Initiate from './components/Initiate';
 import Join from './components/Join';
 import Lobby from './components/Lobby';
-import Phase1 from './components/Phase1';
-import Phase2 from './components/Phase2';
+import Choices from './components/Choices';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -16,10 +15,9 @@ ReactDOM.render(
         <Route path='/' component={LandingPage} exact/>
         <Route path='/initiate' component={Initiate}/>
         <Route path='/join' component={Join}/>
-        <Route path='/lobby' component={Lobby}/>
-        <Route path='/phase1/' component={Phase1}/>
-        <Route path='/phase1/:id' component={Phase1}/>
-        <Route path='/phase2/:parentID' component={Phase2}/>
+        <Route path='/lobby/:roomCode/:displayName' component={Lobby}/>
+        <Route path='/choices/:phase/:roomCode/:displayName' component={Choices}/>
+        <Route path='/choices/:phase/:parentID/:roomCode/:displayName' component={Choices}/>
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,

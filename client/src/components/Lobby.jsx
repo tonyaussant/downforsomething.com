@@ -1,11 +1,14 @@
 import {Link} from 'react-router-dom';
 import Header from './children/Header';
 
-function Lobby() {
+function Lobby(props) {
+  const {roomCode, displayName} = props.match.params;
+
   return(
     <div>
       <Header/>
-      <Link to={`/phase1`}>
+      <h2>{roomCode}</h2>
+      <Link to={`/choices/phase1/${roomCode}/${displayName}`}>
         Start
       </Link>
     </div>
