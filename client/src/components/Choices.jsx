@@ -1,17 +1,18 @@
 import {Component} from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import Header from './children/Header';
 import ChoiceCard from './children/ChoiceCard';
 
-class Phase1 extends Component {
+class Choices extends Component {
   state = {
     phaseData: [],
     hiddenPhaseData: [],
     option1: 0,
     option2: 0,
     option3: 0,
-    pageLoad: false
+    pageLoad: false,
+    currentPhase: 1
   }
 
   componentDidMount() {
@@ -23,8 +24,31 @@ class Phase1 extends Component {
     .then((result) => {
       this.setState({
         phaseData: result.data,
+        hiddenPhaseData: [],
+        option1: 0,
+        option2: 0,
+        option3: 0,
         pageLoad: true
       });
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
+
+  getPhase2Data(parentID) {
+    axios.get(`http://localhost:8080/phase1/${parentID}/phase2`)
+    .then((result) => {
+      this.setState({
+        phaseData: result.data,
+        hiddenPhaseData: [],
+        option1: 0,
+        option2: 0,
+        option3: 0,
+        pageLoad: true,
+        currentPhase: 2
+      });
+      return <Redirect to='/phase2/:parentID/:roomCode/:displayName'/>
     })
     .catch((error) => {
       console.log(error);
@@ -92,56 +116,97 @@ class Phase1 extends Component {
     }
   }
 
+  getNextPhase(parentID) {
+    this.getPhase2Data(parentID);
+  }
+
   retryPhase() {
+    this.getPhase1Data();
+  }
+
+  retryPhaseWithTwo(topChoices) {
     this.setState({
-      phaseData: [],
+      phaseData: topChoices,
       hiddenPhaseData: [],
       option1: 0,
       option2: 0,
       option3: 0,
-      pageLoad: false
-    });
-    this.getPhase1Data();
+    })
+  }
+
+  pickRandom() {
+    const randomNumber = Math.random();
+    if(randomNumber <= 0.3333) {
+      this.setState({
+        option1: 1,
+        option2: 0,
+        option3: 0
+      });
+    } else if(randomNumber <= 0.6666) {
+      this.setState({
+        option1: 0,
+        option2: 1,
+        option3: 0
+      });
+    } else {
+      this.setState({
+        option1: 0,
+        option2: 0,
+        option3: 1
+      });
+    }
   }
 
   render() {
-    if(this.state.phaseData[0] || this.state.pageLoad === false) {
+    const {phase, roomCode, displayName} = this.props.match.params;
+
+    if(phase === 'phase1' && this.state.currentPhase === 2) {
+      return(
+        <Redirect to={`/choices/phase2/${this.state.phaseData[0].parentID}/${roomCode}/${displayName}`}/>
+      );
+    } else if(this.state.phaseData[0]) {
       return(
         <div>
           <Header/>
           {this.state.phaseData.map((choice, index) => <ChoiceCard key={choice.id}  index={index} option={choice.option} name={choice.name} img={choice.img} clickHandler={this.choiceMade}/>)}
         </div>
       );
+    } else if(this.state.pageLoad === false) {
+      return(
+        <h1>Loading</h1>
+      );
     } else {
       const topChoice = this.checkConsensus();
       if(topChoice === 'noConsensus') {
         return(
           <div>
+            <Header/>
             <h2>No consensus reached</h2>
             <button onClick={() => this.retryPhase()}>Retry</button>
+            <button onClick={() => this.pickRandom()}>Pick Random</button>
           </div>
         )
       } else if(topChoice.length === 1) {
         return(
           <div>
+            <Header/>
             <h2>{`Most popular choice is ${topChoice[0].name}`}</h2>
-            <Link to={`/phase2/${topChoice[0].id}`}>
-              Continue
-            </Link>
+            <button onClick={() => this.getNextPhase(topChoice[0].id)}>Continue</button>
           </div>
         );
       } else if(topChoice.length === 2) {
         return(
           <div>
+            <Header/>
             <h2>{`Most popular choices are ${topChoice[0].name} and ${topChoice[1].name}`}</h2>
-              Retry with those only
+            <button onClick={() => this.retryPhase()}>Retry</button>
+            <button onClick={() => this.pickRandom()}>Pick Random</button>
+            <button onClick={() => this.retryPhaseWithTwo(topChoice)}>Retry with Top Choices</button>
           </div>
         );
-      } else {
-        return '';
       }
     }
   }
 }
 
-export default Phase1;
+export default Choices;
