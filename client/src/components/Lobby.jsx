@@ -6,7 +6,7 @@ function Lobby(props) {
 
   return(
     <div>
-      <Header/>
+      <Header roomCode={roomCode} displayName={displayName}/>
       <h2>{roomCode}</h2>
       <Link to={`/choices/phase1/${roomCode}/${displayName}`}>
         Start

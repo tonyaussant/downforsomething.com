@@ -1,0 +1,4 @@
+@mixin set-width {
+  width: $mobile-content-width;
+  margin: 0 auto;
+}

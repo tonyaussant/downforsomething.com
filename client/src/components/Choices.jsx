@@ -116,10 +116,6 @@ class Choices extends Component {
     }
   }
 
-  getNextPhase(parentID) {
-    this.getPhase2Data(parentID);
-  }
-
   retryPhase() {
     this.getPhase1Data();
   }
@@ -167,7 +163,7 @@ class Choices extends Component {
     } else if(this.state.phaseData[0]) {
       return(
         <div>
-          <Header/>
+          <Header roomCode={roomCode} displayName={displayName}/>
           {this.state.phaseData.map((choice, index) => <ChoiceCard key={choice.id}  index={index} option={choice.option} name={choice.name} img={choice.img} clickHandler={this.choiceMade}/>)}
         </div>
       );
@@ -180,24 +176,37 @@ class Choices extends Component {
       if(topChoice === 'noConsensus') {
         return(
           <div>
-            <Header/>
+            <Header roomCode={roomCode} displayName={displayName}/>
             <h2>No consensus reached</h2>
             <button onClick={() => this.retryPhase()}>Retry</button>
             <button onClick={() => this.pickRandom()}>Pick Random</button>
           </div>
         )
+      } else if(topChoice.length === 1 && phase === 'phase2') {
+        return(
+          <Redirect to={`/results/${topChoice[0].id}/${roomCode}/${displayName}`}/>
+        );
+      } else if(phase === 'results') {
+        console.log(topChoice[0]);
+        return(
+          <div>
+            <Header roomCode={roomCode} displayName={displayName}/>
+            <h2>{`The group has chosen ${topChoice[0].name}!`}</h2>
+            <h2>{topChoice[0].resultLinks[0].url}</h2>
+          </div>
+        );
       } else if(topChoice.length === 1) {
         return(
           <div>
-            <Header/>
+            <Header roomCode={roomCode} displayName={displayName}/>
             <h2>{`Most popular choice is ${topChoice[0].name}`}</h2>
-            <button onClick={() => this.getNextPhase(topChoice[0].id)}>Continue</button>
+            <button onClick={() => this.getPhase2Data(topChoice[0].id)}>Continue</button>
           </div>
         );
       } else if(topChoice.length === 2) {
         return(
           <div>
-            <Header/>
+            <Header roomCode={roomCode} displayName={displayName}/>
             <h2>{`Most popular choices are ${topChoice[0].name} and ${topChoice[1].name}`}</h2>
             <button onClick={() => this.retryPhase()}>Retry</button>
             <button onClick={() => this.pickRandom()}>Pick Random</button>

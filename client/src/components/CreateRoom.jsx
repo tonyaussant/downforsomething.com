@@ -3,7 +3,7 @@ import {Redirect} from 'react-router-dom';
 import randomize from 'randomatic';
 import Header from './children/Header';
 
-class Initiate extends Component {
+class CreateRoom extends Component {
   state = {
     roomCode: '',
     displayName: ''
@@ -26,16 +26,18 @@ class Initiate extends Component {
       return(
         <div>
           <Header/>
-          <div>Create New Room</div>
-          <form action="submit" onSubmit={this.createRoom}>
-            <label htmlFor="name">Display Name:</label>
-            <input type="text" name="name"/>
-            <input type="submit" value="Create Room"/>
-          </form>
+          <section className='main create-join'>
+          <h1 className='title'>create a plan</h1>
+            <form className='create-join__form' action="submit" onSubmit={this.createRoom}>
+              <label className='text' htmlFor="name">display name:</label>
+              <input className='input create-join__input' type="text" name="name"/>
+              <input className='button button--body create-join__button' type="submit" value="Create Room"/>
+            </form>
+          </section>
         </div>
       );
     }
   }
 }
 
-export default Initiate;
+export default CreateRoom;

@@ -1,15 +1,17 @@
 import {Link} from 'react-router-dom';
-import Hero from './children/Hero';
+import logo from '../logo/logo.svg';
 
 function LandingPage() {
   return(
-    <div>
-      <Hero/>
-      <Link to='/initiate'>
-        Initiate
+    <div className='landing-page'>
+      <img src={logo} alt='down for something logo'/>
+      <h2 className='title landing-page__tagline'>a way to simplify making plans with groups</h2>
+
+      <Link className='button button--body landing-page__button' to='/createroom'>
+        create a plan
       </Link>
-      <Link to='/join'>
-        Join
+      <Link className='button button--body landing-page__button' to='/joinroom'>
+        join a plan
       </Link>
     </div>
   );
