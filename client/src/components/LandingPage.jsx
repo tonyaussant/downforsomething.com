@@ -7,10 +7,10 @@ function LandingPage() {
       <img src={logo} alt='down for something logo'/>
       <h2 className='title landing-page__tagline'>a way to simplify making plans with groups</h2>
 
-      <Link className='button button--body landing-page__button' to='/createroom'>
+      <Link className='button landing-page__button' to='/createplan'>
         create a plan
       </Link>
-      <Link className='button button--body landing-page__button' to='/joinroom'>
+      <Link className='button landing-page__button' to='/joinplan'>
         join a plan
       </Link>
     </div>

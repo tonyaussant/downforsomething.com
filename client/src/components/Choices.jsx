@@ -48,7 +48,7 @@ class Choices extends Component {
         pageLoad: true,
         currentPhase: 2
       });
-      return <Redirect to='/phase2/:parentID/:roomCode/:displayName'/>
+      return <Redirect to='/phase2/:parentID/:planCode/:name'/>
     })
     .catch((error) => {
       console.log(error);
@@ -116,10 +116,6 @@ class Choices extends Component {
     }
   }
 
-  retryPhase() {
-    this.getPhase1Data();
-  }
-
   retryPhaseWithTwo(topChoices) {
     this.setState({
       phaseData: topChoices,
@@ -154,63 +150,100 @@ class Choices extends Component {
   }
 
   render() {
-    const {phase, roomCode, displayName} = this.props.match.params;
+    const {phase, planCode, name} = this.props.match.params;
+    const {phaseData, currentPhase, pageLoad} = this.state;
 
-    if(phase === 'phase1' && this.state.currentPhase === 2) {
+    if(phase === 'phase1' && currentPhase === 2) {
       return(
-        <Redirect to={`/choices/phase2/${this.state.phaseData[0].parentID}/${roomCode}/${displayName}`}/>
+        <Redirect to={`/choices/phase2/${phaseData[0].parentID}/${planCode}/${name}`}/>
       );
-    } else if(this.state.phaseData[0]) {
+    } else if(phaseData[0]) {
       return(
         <div>
-          <Header roomCode={roomCode} displayName={displayName}/>
-          {this.state.phaseData.map((choice, index) => <ChoiceCard key={choice.id}  index={index} option={choice.option} name={choice.name} img={choice.img} clickHandler={this.choiceMade}/>)}
+          <Header/>
+
+          {phaseData.map((choice, index) => 
+          <ChoiceCard key={choice.id}  index={index} option={choice.option} name={choice.name} img={choice.img} clickHandler={this.choiceMade}/>)}
         </div>
       );
-    } else if(this.state.pageLoad === false) {
+    } else if(pageLoad === false) {
       return(
-        <h1>Loading</h1>
+        <div>
+          <Header/>
+
+          <div className='main'>
+            <h1 className='title main__wrapper'>loading</h1>
+          </div>
+        </div>
       );
     } else {
       const topChoice = this.checkConsensus();
       if(topChoice === 'noConsensus') {
         return(
           <div>
-            <Header roomCode={roomCode} displayName={displayName}/>
-            <h2>No consensus reached</h2>
-            <button onClick={() => this.retryPhase()}>Retry</button>
-            <button onClick={() => this.pickRandom()}>Pick Random</button>
+            <Header/>
+
+            <section className='main choices'>
+              <div className='main__wrapper'>
+                <h1 className='title choices__title'>No consensus reached</h1>
+
+                <button className='button choices__button' onClick={() => this.getPhase1Data()}>retry</button>
+
+                <button className='button choices__button' onClick={() => this.pickRandom()}>pick random</button>
+              </div>
+            </section>
           </div>
         )
       } else if(topChoice.length === 1 && phase === 'phase2') {
         return(
-          <Redirect to={`/results/${topChoice[0].id}/${roomCode}/${displayName}`}/>
+          <Redirect to={`/results/${topChoice[0].id}/${planCode}/${name}`}/>
         );
       } else if(phase === 'results') {
-        console.log(topChoice[0]);
         return(
           <div>
-            <Header roomCode={roomCode} displayName={displayName}/>
-            <h2>{`The group has chosen ${topChoice[0].name}!`}</h2>
-            <h2>{topChoice[0].resultLinks[0].url}</h2>
+            <Header/>
+
+            <section className='main'>
+              <div className='main__wrapper'>
+                <h1 className='title'>{`the group has chosen to ${topChoice[0].parent} and ${topChoice[0].name}!`}</h1>
+
+                <img className='gif' src={topChoice[0].img} alt={topChoice[0].name}/>
+
+                <h2 className='text'>{topChoice[0].resultLinks[0].url}</h2>
+              </div>
+            </section>
           </div>
         );
       } else if(topChoice.length === 1) {
         return(
           <div>
-            <Header roomCode={roomCode} displayName={displayName}/>
-            <h2>{`Most popular choice is ${topChoice[0].name}`}</h2>
-            <button onClick={() => this.getPhase2Data(topChoice[0].id)}>Continue</button>
+            <Header/>
+
+            <section className='main'>
+              <div className='main__wrapper'>
+                <h1 className='title'>{`the most popular choice is ${topChoice[0].name}`}</h1>
+
+                <img className='gif' src={topChoice[0].img} alt={topChoice[0].name}/>
+
+                <button className='button' onClick={() => this.getPhase2Data(topChoice[0].id)}>continue</button>
+              </div>
+            </section>
           </div>
         );
       } else if(topChoice.length === 2) {
         return(
           <div>
-            <Header roomCode={roomCode} displayName={displayName}/>
-            <h2>{`Most popular choices are ${topChoice[0].name} and ${topChoice[1].name}`}</h2>
-            <button onClick={() => this.retryPhase()}>Retry</button>
-            <button onClick={() => this.pickRandom()}>Pick Random</button>
-            <button onClick={() => this.retryPhaseWithTwo(topChoice)}>Retry with Top Choices</button>
+            <Header/>
+
+            <section className='main choices'>
+              <div className='main__wrapper'>
+                <h1 className='title choices__title'>{`the most popular choices are ${topChoice[0].name} and ${topChoice[1].name}`}</h1>
+                
+                <button className='button choices__button' onClick={() => this.getPhase1Data()}>retry</button>
+                <button className='button choices__button' onClick={() => this.pickRandom()}>pick random</button>
+                <button className='button choices__button' onClick={() => this.retryPhaseWithTwo(topChoice)}>retry with top choices</button>
+              </div>
+            </section>
           </div>
         );
       }

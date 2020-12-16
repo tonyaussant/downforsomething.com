@@ -1,6 +1,6 @@
 .header {
   padding: 1rem 0;
-  border-bottom: $primary-border;
+  box-shadow: $header-box-shadow;
 
   &__wrapper {
     @include set-width;
@@ -11,5 +11,12 @@
 
   &__logo {
     height: 3rem;
+  }
+
+  &__button {
+    color: $color-dark;
+    background-color: $color-light;
+    border: $main-border;
+    padding: 0.375rem 0.625rem;
   }
 }
