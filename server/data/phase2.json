@@ -2,73 +2,118 @@
   {
     "id": "2da2026a-58c2-42eb-a350-11a50c024870",
     "option": 1,
-    "name": "Hiking/Biking",
-    "img": "",
-    "parent": "Get Outdoors",
-    "parentID": "15c5c3ea-69b0-4d41-ae6b-c78ab2b4ca70"
+    "name": "go hiking or biking",
+    "img": "https://media.giphy.com/media/dZRCL4lz0lZKdlckNp/giphy.gif",
+    "parent": "get outdoors",
+    "parentID": "15c5c3ea-69b0-4d41-ae6b-c78ab2b4ca70",
+    "resultLinks": [
+      {
+        "url": "hiking.com"
+      }
+    ]
   },
   {
     "id": "8d41b2e0-1a71-4cc4-bf60-2ba8d0516939",
     "option": 2,
-    "name": "Mini Golf, etc.",
-    "img": "",
-    "parent": "Get Outdoors",
-    "parentID": "15c5c3ea-69b0-4d41-ae6b-c78ab2b4ca70"
+    "name": "play mini golf",
+    "img": "https://media.giphy.com/media/O2kFK6fdz217a/giphy.gif",
+    "parent": "get outdoors",
+    "parentID": "15c5c3ea-69b0-4d41-ae6b-c78ab2b4ca70",
+    "resultLinks": [
+      {
+        "url": "minigolf.com"
+      }
+    ]
   },
   {
     "id": "9eb450d0-721c-4b99-81fb-d818d6c9773d",
     "option": 3,
-    "name": "Park/Beach Hang",
-    "img": "",
-    "parent": "Get Outdoors",
-    "parentID": "15c5c3ea-69b0-4d41-ae6b-c78ab2b4ca70"
+    "name": " have a park or beach hang",
+    "img": "https://media.giphy.com/media/KGz8qEN28Q1O0/giphy.gif",
+    "parent": "get outdoors",
+    "parentID": "15c5c3ea-69b0-4d41-ae6b-c78ab2b4ca70",
+    "resultLinks": [
+      {
+        "url": "parks.com"
+      }
+    ]
   },
   {
     "id": "f2f06a31-8d4c-4116-bfff-1f2d91f9d478",
     "option": 1,
-    "name": "Bar/Restaurant",
-    "img": "",
-    "parent": "Go Out",
-    "parentID": "8b1f2f5f-4035-4343-9fc1-4b27358e03e9"
+    "name": "go to a bar or restaurant",
+    "img": "https://media.giphy.com/media/WEdghkflLfKE0/giphy.gif",
+    "parent": "go out",
+    "parentID": "8b1f2f5f-4035-4343-9fc1-4b27358e03e9",
+    "resultLinks": [
+      {
+        "url": "bars.com"
+      }
+    ]
   },
   {
     "id": "64edae1d-75ed-4461-ac85-bb338eee27eb",
     "option": 2,
-    "name": "Clubbing",
-    "img": "",
-    "parent": "Go Out",
-    "parentID": "8b1f2f5f-4035-4343-9fc1-4b27358e03e9"
+    "name": "go clubbing",
+    "img": "https://media.giphy.com/media/MJL5ae814FDTW/giphy.gif",
+    "parent": "go out",
+    "parentID": "8b1f2f5f-4035-4343-9fc1-4b27358e03e9",
+    "resultLinks": [
+      {
+        "url": "clubs.com"
+      }
+    ]
   },
   {
     "id": "ae5646ae-c66a-49a2-8c4b-f0ba226008c0",
     "option": 3,
-    "name": "Movie",
-    "img": "",
-    "parent": "Go Out",
-    "parentID": "8b1f2f5f-4035-4343-9fc1-4b27358e03e9"
+    "name": "see a movie",
+    "img": "https://media.giphy.com/media/Bzebpz5rnyBb2/giphy.gif",
+    "parent": "go out",
+    "parentID": "8b1f2f5f-4035-4343-9fc1-4b27358e03e9",
+    "resultLinks": [
+      {
+        "url": "movies.com"
+      }
+    ]
   },
   {
     "id": "cb57a196-8607-4c32-aa43-65d3f5cb0856",
     "option": 1,
-    "name": "Board Game Night",
+    "name": "play some board games",
     "img": "",
-    "parent": "Stay In",
-    "parentID": "dea8db93-9c3f-4484-831f-b3dcf44365ef"
+    "parent": "stay in",
+    "parentID": "dea8db93-9c3f-4484-831f-b3dcf44365ef",
+    "resultLinks": [
+      {
+        "url": "boardgames.com"
+      }
+    ]
   },
   {
     "id": "bfd533ba-59f9-4b07-ac4e-1d988128a65a",
     "option": 2,
-    "name": "Movie Night",
+    "name": "binge some movies or tv",
     "img": "",
-    "parent": "Stay In",
-    "parentID": "dea8db93-9c3f-4484-831f-b3dcf44365ef"
+    "parent": "stay in",
+    "parentID": "dea8db93-9c3f-4484-831f-b3dcf44365ef",
+    "resultLinks": [
+      {
+        "url": "streaming.com"
+      }
+    ]
   },
   {
     "id": "f37b2169-87c1-4355-8a49-de5a33e6f0b0",
     "option": 3,
-    "name": "House Party",
+    "name": "have a house party",
     "img": "",
-    "parent": "Stay In",
-    "parentID": "dea8db93-9c3f-4484-831f-b3dcf44365ef"
+    "parent": "stay in",
+    "parentID": "dea8db93-9c3f-4484-831f-b3dcf44365ef",
+    "resultLinks": [
+      {
+        "url": "houseparty.com"
+      }
+    ]
   }
 ]

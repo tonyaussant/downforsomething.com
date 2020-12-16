@@ -1,3 +1,73 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background-color: $color-light;
+}
+
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: $text-font;
+  color: $color-dark;
+}
+
+.main {
+  margin-top: 0.125rem;
+
+  &__wrapper {
+    @include set-width;
+    padding: 1.25rem 0;
+  }
+}
+
+.title {
+  font-family: $title-font;
+  font-size: 1.75rem;
+}
+
+.text {
+  font-size: 1rem;
+}
+
+.button {
+  color: $color-light;
+  background-color: $color-highlight;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  box-shadow: $main-box-shadow;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.input {
+  color: $color-dark;
+  font-family: $text-font;
+  font-size: 1rem;
+  padding: 0.375rem 0.625rem;
+  border: $main-border;
+  border-radius: 0.75rem;
+  box-shadow: $main-box-shadow;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.gif {
+  width: 100%;
+  max-width: 18.5rem;
+  height: calc(80vw * 0.5946);
+  max-height: 11rem;
+  object-fit: cover;
+  border-radius: 0.875rem;
+  margin: 1rem 0 1.25rem;
+}
+
+a {
+  text-decoration: none;
 }

@@ -1,9 +1,204 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Roboto:wght@400;700&display=swap");
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background-color: #FAFAFB;
+}
+
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Open Sans", sans-serif;
+  color: #37393A;
+}
+
+.main {
+  margin-top: 0.125rem;
+}
+
+.main__wrapper {
+  width: 90%;
+  margin: 0 auto;
+  padding: 1.25rem 0;
+}
+
+.title {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.75rem;
+}
+
+.text {
+  font-size: 1rem;
+}
+
+.button {
+  color: #FAFAFB;
+  background-color: #2071C1;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  -webkit-box-shadow: 3px 3px 3px -2px #37393A;
+          box-shadow: 3px 3px 3px -2px #37393A;
+  cursor: pointer;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.input {
+  color: #37393A;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1rem;
+  padding: 0.375rem 0.625rem;
+  border: 0.125rem solid #2071C1;
+  border-radius: 0.75rem;
+  -webkit-box-shadow: 3px 3px 3px -2px #37393A;
+          box-shadow: 3px 3px 3px -2px #37393A;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.gif {
+  width: 100%;
+  max-width: 18.5rem;
+  height: calc(80vw * 0.5946);
+  max-height: 11rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 0.875rem;
+  margin: 1rem 0 1.25rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+.header {
+  padding: 1rem 0;
+  -webkit-box-shadow: 0 6px 6px -6px #37393A;
+          box-shadow: 0 6px 6px -6px #37393A;
+}
+
+.header__wrapper {
+  width: 90%;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .header__logo {
   height: 3rem;
+}
+
+.header__button {
+  color: #37393A;
+  background-color: #FAFAFB;
+  border: 0.125rem solid #2071C1;
+  padding: 0.375rem 0.625rem;
+}
+
+.landing-page {
+  width: 90%;
+  margin: 0 auto;
+  padding: 1rem 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+.landing-page__tagline {
+  padding: 1.25rem 0 1.5rem;
+}
+
+.landing-page__button {
+  margin-bottom: 1rem;
+}
+
+.create-join__form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  padding-top: 1.25rem;
+}
+
+.create-join__input {
+  margin: 0.5rem 0 1rem;
+}
+
+.create-join__button {
+  margin-top: 0.25rem;
+}
+
+.lobby__title {
+  padding-bottom: 1.5rem;
+}
+
+.choice-card {
+  padding: 1rem 0;
+  margin: 0.125rem;
+  border-radius: 1rem;
+  -webkit-box-shadow: 3px 3px 3px -2px #37393A;
+          box-shadow: 3px 3px 3px -2px #37393A;
+}
+
+.choice-card__wrapper {
+  width: 80%;
+  max-width: 185rem;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.choice-card__button-box {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.choices__title {
+  padding-bottom: 1.5rem;
+}
+
+.choices__button {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
 }
 /*# sourceMappingURL=index.css.map */
