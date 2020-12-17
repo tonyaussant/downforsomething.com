@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Roboto:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap");
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -8,7 +8,6 @@
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
   color: #37393A;
 }
 
@@ -27,15 +26,23 @@ body {
   font-size: 1.75rem;
 }
 
+.sub-title {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.375rem;
+}
+
 .text {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
   font-size: 1rem;
 }
 
 .button {
   color: #FAFAFB;
   background-color: #2071C1;
+  font-family: "Open Sans", sans-serif;
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 600;
   padding: 0.5rem 0.75rem;
   border-radius: 0.75rem;
   border: none;
@@ -104,6 +111,7 @@ a {
 
 .header__button {
   color: #37393A;
+  font-weight: bold;
   background-color: #FAFAFB;
   border: 0.125rem solid #2071C1;
   padding: 0.375rem 0.625rem;
@@ -130,7 +138,7 @@ a {
 }
 
 .landing-page__button {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .create-join__form {
@@ -200,5 +208,16 @@ a {
 .choices__button {
   margin-right: 1rem;
   margin-bottom: 1rem;
+}
+
+.link-card__name {
+  padding: 1.25rem 0 0.25rem;
+  font-weight: bold;
+}
+
+.link-card__url {
+  word-wrap: break-word;
+  color: #2071C1;
+  text-decoration: underline;
 }
 /*# sourceMappingURL=index.css.map */

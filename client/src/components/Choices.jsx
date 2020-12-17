@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 import Header from './children/Header';
 import ChoiceCard from './children/ChoiceCard';
+import LinkCard from './children/LinkCard';
 
 class Choices extends Component {
   state = {
@@ -62,7 +63,6 @@ class Choices extends Component {
 
   getTiedOptionsData(option1, option2) {
     const tiedOptionsData = this.state.hiddenPhaseData.filter(choice => choice.option === option1 || choice.option === option2);
-    console.log(tiedOptionsData);
     return tiedOptionsData;
   }
 
@@ -209,7 +209,10 @@ class Choices extends Component {
 
                 <img className='gif' src={topChoice[0].img} alt={topChoice[0].name}/>
 
-                <h2 className='text'>{topChoice[0].resultLinks[0].url}</h2>
+                <h2 className='sub-title'>here are some suggestions to help you have the best time:</h2>
+
+                {topChoice[0].resultLinks.map((link) => 
+                <LinkCard key={link.id} name={link.name} url={link.url}/>)}
               </div>
             </section>
           </div>

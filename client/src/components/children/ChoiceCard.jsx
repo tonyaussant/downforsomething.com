@@ -4,7 +4,7 @@ function ChoiceCard(props) {
   return(
     <div className='choice-card'>
       <div className='choice-card__wrapper'>
-        <h2>{name}</h2>
+        <h2 className='title'>{name}</h2>
 
         <img className='gif' src={img} alt={name}/>
 
