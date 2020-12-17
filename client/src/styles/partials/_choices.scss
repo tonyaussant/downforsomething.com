@@ -8,3 +8,16 @@
     margin-bottom: 1rem;
   }
 }
+
+.link-card {
+  &__name {
+    padding: 1.25rem 0 0.25rem;
+    font-weight: bold;
+  }
+
+  &__url {
+    word-wrap: break-word;
+    color: $color-highlight;
+    text-decoration: underline;
+  }
+}
