@@ -164,7 +164,7 @@ a {
 }
 
 .lobby__title {
-  padding-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
 }
 
 .choice-card {
@@ -219,5 +219,24 @@ a {
   word-wrap: break-word;
   color: #2071C1;
   text-decoration: underline;
+}
+
+.demo {
+  padding-bottom: 1.25rem;
+}
+
+.demo__link {
+  color: #909497;
+  list-style-type: none;
+  padding-bottom: 0.75rem;
+}
+
+.directions {
+  padding-bottom: 1.75rem;
+  font-weight: normal;
+}
+
+.paragraph {
+  padding-bottom: 0.75rem;
 }
 /*# sourceMappingURL=index.css.map */
