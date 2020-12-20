@@ -156,7 +156,7 @@ class Choices extends Component {
       this.setState({
         wait: false
       });
-    }, 3500)
+    }, 2500)
   }
 
   render() {

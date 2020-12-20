@@ -15,15 +15,7 @@ class Lobby extends Component {
   generateUsers() {
     setTimeout(() => {
       const userArray = this.state.userNames;
-      userArray.push('John');
-      this.setState({
-        userNames: userArray
-      })
-    }, 3000);
-
-    setTimeout(() => {
-      const userArray = this.state.userNames;
-      userArray.push('Paul');
+      userArray.push('Eleanor');
       this.setState({
         userNames: userArray
       })
@@ -31,19 +23,27 @@ class Lobby extends Component {
 
     setTimeout(() => {
       const userArray = this.state.userNames;
-      userArray.push('George');
+      userArray.push('Chidi');
       this.setState({
         userNames: userArray
       })
-    }, 7000);
+    }, 8000);
 
     setTimeout(() => {
       const userArray = this.state.userNames;
-      userArray.push('Ringo');
+      userArray.push('Jason');
       this.setState({
         userNames: userArray
       })
-    }, 9000);
+    }, 10000);
+
+    setTimeout(() => {
+      const userArray = this.state.userNames;
+      userArray.push('Tahani');
+      this.setState({
+        userNames: userArray
+      })
+    }, 12000);
   }
 
   render() {
