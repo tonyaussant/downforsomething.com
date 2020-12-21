@@ -13,7 +13,8 @@ class Choices extends Component {
     option2: 0,
     option3: 0,
     pageLoad: false,
-    currentPhase: 1
+    currentPhase: 1,
+    wait: true
   }
 
   componentDidMount() {
@@ -26,8 +27,8 @@ class Choices extends Component {
       this.setState({
         phaseData: result.data,
         hiddenPhaseData: [],
-        option1: 0,
-        option2: 0,
+        option1: 3,
+        option2: 1,
         option3: 0,
         pageLoad: true
       });
@@ -43,11 +44,12 @@ class Choices extends Component {
       this.setState({
         phaseData: result.data,
         hiddenPhaseData: [],
-        option1: 0,
+        option1: 2,
         option2: 0,
-        option3: 0,
+        option3: 1,
         pageLoad: true,
-        currentPhase: 2
+        currentPhase: 2,
+        wait: true
       });
       return <Redirect to='/phase2/:parentID/:planCode/:name'/>
     })
@@ -149,9 +151,17 @@ class Choices extends Component {
     }
   }
 
+  setWait() {
+    setTimeout(() => {
+      this.setState({
+        wait: false
+      });
+    }, 2500)
+  }
+
   render() {
     const {phase, planCode, name} = this.props.match.params;
-    const {phaseData, currentPhase, pageLoad} = this.state;
+    const {phaseData, currentPhase, pageLoad, wait} = this.state;
 
     if(phase === 'phase1' && currentPhase === 2) {
       return(
@@ -173,6 +183,17 @@ class Choices extends Component {
 
           <div className='main'>
             <h1 className='title main__wrapper'>loading</h1>
+          </div>
+        </div>
+      );
+    } else if(wait === true) {
+      this.setWait();
+      return(
+        <div>
+          <Header/>
+
+          <div className='main'>
+            <h1 className='title main__wrapper'>waiting for rest of group to choose</h1>
           </div>
         </div>
       );
