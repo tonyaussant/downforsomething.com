@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Phase1 {
+  id        String  @id @default(uuid())
+  option    Int
+  name      String
+  img       String
+  children  Phase2[]
+}
+
+model Phase2 {
+  id        String  @id @default(uuid())
+  option    Int
+  name      String
+  img       String
+  parent    Phase1  @relation(fields: [parentID], references: [id])
+  parentID  String
+  links     Link[]
+}
+
+model Link {
+  id        String  @id @default(uuid())
+  name      String
+  url       String
+  parent    Phase2  @relation(fields: [parentID], references: [id])
+  parentID  String
+}
