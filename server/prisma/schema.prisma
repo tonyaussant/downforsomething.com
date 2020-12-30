@@ -19,19 +19,21 @@ model Phase1 {
 }
 
 model Phase2 {
-  id        String  @id @default(uuid())
-  option    Int
-  name      String
-  img       String
-  parent    Phase1  @relation(fields: [parentID], references: [id])
-  parentID  String
-  links     Link[]
+  id          String  @id @default(uuid())
+  option      Int
+  name        String
+  img         String
+  parent      Phase1  @relation(fields: [parentID, parentName], references: [id, name])
+  parentID    String
+  parentName  String
+  results     Results[]
 }
 
-model Link {
-  id        String  @id @default(uuid())
-  name      String
-  url       String
-  parent    Phase2  @relation(fields: [parentID], references: [id])
-  parentID  String
+model Results {
+  id          String  @id @default(uuid())
+  name        String
+  url         String
+  parent      Phase2  @relation(fields: [parentID, parentName], references: [id, name])
+  parentID    String
+  parentName  String
 }

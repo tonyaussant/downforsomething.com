@@ -9,12 +9,12 @@ class Choices extends Component {
   state = {
     phaseData: [],
     hiddenPhaseData: [],
+    resultsData: [],
     option1: 0,
     option2: 0,
     option3: 0,
     pageLoad: false,
     currentPhase: 1,
-    wait: true
   }
 
   componentDidMount() {
@@ -27,8 +27,8 @@ class Choices extends Component {
       this.setState({
         phaseData: result.data,
         hiddenPhaseData: [],
-        option1: 3,
-        option2: 1,
+        option1: 0,
+        option2: 0,
         option3: 0,
         pageLoad: true
       });
@@ -44,14 +44,24 @@ class Choices extends Component {
       this.setState({
         phaseData: result.data,
         hiddenPhaseData: [],
-        option1: 2,
+        option1: 0,
         option2: 0,
-        option3: 1,
-        pageLoad: true,
-        currentPhase: 2,
-        wait: true
+        option3: 0,
+        currentPhase: 2
       });
-      return <Redirect to='/phase2/:parentID/:planCode/:name'/>
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
+
+  getResultsData(parentID) {
+    axios.get(`http://localhost:8080/phase2/${parentID}/results`)
+    .then((result) => {
+      this.setState({
+        resultsData: result.data,
+        currentPhase: 3
+      });
     })
     .catch((error) => {
       console.log(error);
@@ -151,21 +161,13 @@ class Choices extends Component {
     }
   }
 
-  setWait() {
-    setTimeout(() => {
-      this.setState({
-        wait: false
-      });
-    }, 2500)
-  }
-
   render() {
     const {phase, planCode, name} = this.props.match.params;
-    const {phaseData, currentPhase, pageLoad, wait} = this.state;
+    const {phaseData, resultsData, currentPhase, pageLoad} = this.state;
 
     if(phase === 'phase1' && currentPhase === 2) {
       return(
-        <Redirect to={`/choices/phase2/${phaseData[0].parentID}/${planCode}/${name}`}/>
+        <Redirect to={`/phase2/${planCode}/${name}`}/>
       );
     } else if(phaseData[0]) {
       return(
@@ -186,17 +188,6 @@ class Choices extends Component {
           </div>
         </div>
       );
-    } else if(wait === true) {
-      this.setWait();
-      return(
-        <div>
-          <Header/>
-
-          <div className='main'>
-            <h1 className='title main__wrapper'>waiting for rest of group to choose</h1>
-          </div>
-        </div>
-      );
     } else {
       const topChoice = this.checkConsensus();
       if(topChoice === 'noConsensus') {
@@ -214,29 +205,43 @@ class Choices extends Component {
               </div>
             </section>
           </div>
-        )
-      } else if(topChoice.length === 1 && phase === 'phase2') {
-        return(
-          <Redirect to={`/results/${topChoice[0].id}/${planCode}/${name}`}/>
         );
       } else if(phase === 'results') {
-        return(
-          <div>
-            <Header/>
-
-            <section className='main'>
-              <div className='main__wrapper'>
-                <h1 className='title'>{`the group has chosen to ${topChoice[0].parent} and ${topChoice[0].name}!`}</h1>
-
-                <img className='gif' src={topChoice[0].img} alt={topChoice[0].name}/>
-
-                <h2 className='sub-title'>here are some suggestions to help you have the best time:</h2>
-
-                {topChoice[0].resultLinks.map((link) => 
-                <LinkCard key={link.id} name={link.name} url={link.url}/>)}
+        if(!resultsData[0]) {
+          return(
+            <div>
+              <Header/>
+    
+              <div className='main'>
+                <h1 className='title main__wrapper'>loading</h1>
               </div>
-            </section>
-          </div>
+            </div>
+          );
+        } else {
+          return(
+            <div>
+              <Header/>
+  
+              <section className='main'>
+                <div className='main__wrapper'>
+                  <h1 className='title'>{`the group has chosen to ${topChoice[0].parentName} and ${topChoice[0].name}!`}</h1>
+  
+                  <img className='gif' src={topChoice[0].img} alt={topChoice[0].name}/>
+  
+                  <h2 className='sub-title'>here are some suggestions to help you have the best time:</h2>
+  
+                  {resultsData.map((result) => 
+                  <LinkCard key={result.id} name={result.name} url={result.url}/>)}
+                </div>
+              </section>
+            </div>
+          );
+        }
+      } else if(topChoice.length === 1 && phase === 'phase2') {
+        this.getResultsData(topChoice[0].id);
+
+        return(
+          <Redirect to={`/results/${planCode}/${name}`}/>
         );
       } else if(topChoice.length === 1) {
         return(

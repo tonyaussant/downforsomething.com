@@ -8,7 +8,7 @@ const option1 = {
       option: 1,
       name: 'go hiking or biking',
       img: 'https://media.giphy.com/media/dZRCL4lz0lZKdlckNp/giphy.gif',
-      links: {
+      results: {
         create: [
         {
           name: '20 best hikes near vancouver',
@@ -24,7 +24,7 @@ const option1 = {
       option: 2,
       name: 'play mini golf',
       img: 'https://media.giphy.com/media/O2kFK6fdz217a/giphy.gif',
-      links: {
+      results: {
         create: {
           name: '10 spots to play mini golf in vancouver',
           url: 'https://www.savvymom.ca/article/mini-golf-vancouver'
@@ -35,7 +35,7 @@ const option1 = {
       option: 3,
       name: 'have a park or beach hang',
       img: 'https://media.giphy.com/media/KGz8qEN28Q1O0/giphy.gif',
-      links: {
+      results: {
         create: [
         {
           name: '11 best parks in vancouver',
@@ -59,7 +59,7 @@ const option2 = {
       option: 1,
       name: 'go to a bar or restaurant',
       img: 'https://media.giphy.com/media/WEdghkflLfKE0/giphy.gif',
-      links: {
+      results: {
         create: [{
           name: 'best group friendly restaurants in vancouver',
           url: 'https://www.10best.com/destinations/canada/vancouver/restaurants/group-friendly'
@@ -78,7 +78,7 @@ const option2 = {
       option: 2,
       name: 'go clubbing',
       img: 'https://media.giphy.com/media/MJL5ae814FDTW/giphy.gif',
-      links: {
+      results: {
         create: {
           name: 'best nightclubs in vancouver',
           url: 'https://theculturetrip.com/north-america/canada/vancouver/articles/the-10-best-nightclubs-in-vancouver'
@@ -89,7 +89,7 @@ const option2 = {
       option: 3,
       name: 'see a movie',
       img: 'https://media.giphy.com/media/Bzebpz5rnyBb2/giphy.gif',
-      links: {
+      results: {
         create: {
           name: 'local movie showtimes',
           url: 'https://www.cineplex.com'
@@ -106,9 +106,9 @@ const option3 = {
   children: {
     create: [{ 
       option: 1,
-      name: 'play some baord games',
+      name: 'play some board games',
       img: 'https://media.giphy.com/media/jSVNWawkSIO9odplcJ/giphy.gif',
-      links: {
+      results: {
         create: {
           name: 'best board games of 2020',
           url: 'https://www.vulture.com/article/best-board-games-of-2020.html'
@@ -119,7 +119,7 @@ const option3 = {
       option: 2,
       name: 'play games online',
       img: 'https://media.giphy.com/media/cgCMnZr84zE40/giphy.gif',
-      links: {
+      results: {
         create: {
           name: 'best online games to play with friends',
           url: 'https://parade.com/1012420/nicolepajer/best-online-games'
@@ -130,7 +130,7 @@ const option3 = {
       option: 3,
       name: 'have a house party',
       img: 'https://media.giphy.com/media/13jxyFwcS7dsdy/giphy.gif',
-      links: {
+      results: {
         create: [{
           name: '100 best party songs',
           url: 'https://www.timeout.com/london/music/best-party-songs'

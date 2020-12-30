@@ -8,44 +8,6 @@ class Lobby extends Component {
     userNames: []
   }
 
-  componentDidMount() {
-    this.generateUsers();
-  }
-
-  generateUsers() {
-    setTimeout(() => {
-      const userArray = this.state.userNames;
-      userArray.push('Eleanor');
-      this.setState({
-        userNames: userArray
-      })
-    }, 5000);
-
-    setTimeout(() => {
-      const userArray = this.state.userNames;
-      userArray.push('Chidi');
-      this.setState({
-        userNames: userArray
-      })
-    }, 8000);
-
-    setTimeout(() => {
-      const userArray = this.state.userNames;
-      userArray.push('Jason');
-      this.setState({
-        userNames: userArray
-      })
-    }, 10000);
-
-    setTimeout(() => {
-      const userArray = this.state.userNames;
-      userArray.push('Tahani');
-      this.setState({
-        userNames: userArray
-      })
-    }, 12000);
-  }
-
   render() {
     const {planCode, name} = this.props.match.params;
 

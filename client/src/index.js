@@ -18,9 +18,7 @@ ReactDOM.render(
         <Route path='/joinplan' component={JoinPlan}/>
         <Route path='/lobby/:planCode/:name' component={Lobby}/>
         <Route path='/directions/:planCode/:name' component={Directions}/>
-        <Route path='/choices/:phase/:planCode/:name' component={Choices}/>
-        <Route path='/choices/:phase/:parentID/:planCode/:name' component={Choices}/>
-        <Route path='/:phase/:id/:planCode/:name' component={Choices}/>
+        <Route path='/:phase/:planCode/:name' component={Choices}/>
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,

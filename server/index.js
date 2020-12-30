@@ -39,11 +39,15 @@ app.get('/', (req, res) => {
       {
         method: 'get',
         endpoint: '/phase1/:id/phase2'
+      },
+      {
+        method: 'get',
+        endpoint: '/phase2/:id/results'
       }
     ]
   });
 });
 
 app.listen(mainPort, () => {
-  ora(`listening at ${mainURL}:${mainPort}`).start();
+  ora(`listening at ${mainURL}:${mainPort} `).start();
 });

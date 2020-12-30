@@ -1,7 +1,7 @@
 const {PrismaClient} = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const data = require('./data/phaseData');
+const data = require('../data/phaseData');
 
 async function main() {
   await prisma.phase1.create({data: data.option1});

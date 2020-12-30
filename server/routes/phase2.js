@@ -1,15 +1,42 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
-const functions = require('../functions/functions');
-const phase2Data = path.join(__dirname, '../data/phase2.json');
 
-router.get('/', (req, res) => {
-  res.json(functions.getPhaseData(phase2Data));
+const {PrismaClient} = require('@prisma/client');
+const prisma = new PrismaClient();
+
+router.get('/', async (req, res) => {
+  const data = await prisma.phase2.findMany({
+    orderBy: {
+      option: 'asc'
+    }
+  });
+  res.json(data);
 });
 
-router.get('/:id', (req, res) => {
-  res.json(functions.getPhaseDataByID(phase2Data, req.params.id));
+router.get('/:id', async (req, res) => {
+  const data = await prisma.phase2.findUnique({
+    where: {
+      id: req.params.id
+    }
+  });
+  if(data === null) {
+    return res.json(`No data found with ID: ${req.params.id}`);
+  } else {
+    res.json(data);
+  }
+});
+
+router.get('/:id/results', async (req, res) => {
+  const data = await prisma.results.findMany({
+    where: {
+      parentID: req.params.id
+    }
+  });
+  if(!data.length) {
+    return res.json(`No data found with ID: ${req.params.id}`);
+  } else {
+    res.json(data);
+  }
 });
 
 module.exports = router;
