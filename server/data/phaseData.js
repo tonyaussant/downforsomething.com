@@ -2,7 +2,7 @@ const option1 = {
   option: 1,
   name: 'get outdoors',
   img: 'https://media.giphy.com/media/33F5USzk3gJdZTinpS/giphy.gif',
-  children: {
+  phase2: {
     create: [
     { 
       option: 1,
@@ -54,7 +54,7 @@ const option2 = {
   option: 2,
   name: 'go out',
   img: 'https://media.giphy.com/media/3oz8xO9TDYd5HxXDUY/giphy.gif',
-  children: {
+  phase2: {
     create: [{ 
       option: 1,
       name: 'go to a bar or restaurant',
@@ -103,7 +103,7 @@ const option3 = {
   option: 3,
   name: 'stay in',
   img: 'https://media.giphy.com/media/3orieYmXYkhT6OxoFq/giphy.gif',
-  children: {
+  phase2: {
     create: [{ 
       option: 1,
       name: 'play some board games',

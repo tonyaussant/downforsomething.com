@@ -1,5 +1,13 @@
 const express = require('express');
 const app = express();
+
+const server = require('http').createServer(app);
+const io = require('socket.io')(server, {
+  cors: {
+    origin: '*',
+  }
+});
+
 const cors = require('cors');
 const helmet = require('helmet');
 const ora = require('ora');
@@ -48,6 +56,9 @@ app.get('/', (req, res) => {
   });
 });
 
-app.listen(mainPort, () => {
+io.on('connection', (socket) => {
+});
+
+server.listen(mainPort, () => {
   ora(`listening at ${mainURL}:${mainPort} `).start();
 });

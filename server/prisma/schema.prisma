@@ -11,29 +11,46 @@ generator client {
 }
 
 model Phase1 {
-  id        String  @id @default(uuid())
-  option    Int
-  name      String
-  img       String
-  children  Phase2[]
+  id      String  @id @default(uuid())
+  option  Int
+  name    String
+  img     String
+  phase2  Phase2[]
 }
 
 model Phase2 {
-  id          String  @id @default(uuid())
-  option      Int
-  name        String
-  img         String
-  parent      Phase1  @relation(fields: [parentID, parentName], references: [id, name])
-  parentID    String
-  parentName  String
-  results     Results[]
+  id        String    @id @default(uuid())
+  option    Int
+  name      String
+  img       String
+  phase1    Phase1    @relation(fields: [parentID], references: [id])
+  parentID  String
+  results   Results[]
 }
 
 model Results {
-  id          String  @id @default(uuid())
-  name        String
-  url         String
-  parent      Phase2  @relation(fields: [parentID, parentName], references: [id, name])
-  parentID    String
-  parentName  String
+  id        String  @id @default(uuid())
+  name      String
+  url       String
+  phase2    Phase2  @relation(fields: [parentID], references: [id])
+  parentID  String
+}
+
+model Plans {
+  code          String  @id
+  option1       Int
+  option2       Int
+  option3       Int
+  choicesMade   Int
+  choicesNeeded Int
+  currentPhase  Int
+  roomOpen      Boolean
+  users         Users[]
+}
+
+model Users {
+  id        String  @id @default(uuid())
+  name      String
+  plans     Plans   @relation(fields: [planCode], references: [code])
+  planCode  String
 }
