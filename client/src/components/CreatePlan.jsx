@@ -21,7 +21,7 @@ class CreatePlan extends Component {
 
   render() {
     if(this.state.planCode) {
-      return <Redirect to={`/lobby/${this.state.planCode}/${this.state.name}`}/>
+      return <Redirect to={`/lobby/primary/${this.state.planCode}/${this.state.name}`}/>
     } else {
       return(
         <div>

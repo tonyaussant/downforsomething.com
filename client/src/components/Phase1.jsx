@@ -1,20 +1,17 @@
 import {Component} from 'react';
 import axios from 'axios';
-import {Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import Header from './children/Header';
 import ChoiceCard from './children/ChoiceCard';
-import LinkCard from './children/LinkCard';
 
-class Choices extends Component {
+class Phase1 extends Component {
   state = {
     phaseData: [],
     hiddenPhaseData: [],
-    resultsData: [],
     option1: 0,
     option2: 0,
     option3: 0,
     pageLoad: false,
-    currentPhase: 1,
   }
 
   componentDidMount() {
@@ -31,36 +28,6 @@ class Choices extends Component {
         option2: 0,
         option3: 0,
         pageLoad: true
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-  }
-
-  getPhase2Data(parentID) {
-    axios.get(`http://localhost:8080/phase1/${parentID}/phase2`)
-    .then((result) => {
-      this.setState({
-        phaseData: result.data,
-        hiddenPhaseData: [],
-        option1: 0,
-        option2: 0,
-        option3: 0,
-        currentPhase: 2
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-  }
-
-  getResultsData(parentID) {
-    axios.get(`http://localhost:8080/phase2/${parentID}/results`)
-    .then((result) => {
-      this.setState({
-        resultsData: result.data,
-        currentPhase: 3
       });
     })
     .catch((error) => {
@@ -162,14 +129,10 @@ class Choices extends Component {
   }
 
   render() {
-    const {phase, planCode, name} = this.props.match.params;
-    const {phaseData, resultsData, currentPhase, pageLoad} = this.state;
+    const {user, planCode, name} = this.props.match.params;
+    const {phaseData, pageLoad} = this.state;
 
-    if(phase === 'phase1' && currentPhase === 2) {
-      return(
-        <Redirect to={`/phase2/${planCode}/${name}`}/>
-      );
-    } else if(phaseData[0]) {
+    if(phaseData[0]) {
       return(
         <div>
           <Header/>
@@ -197,7 +160,7 @@ class Choices extends Component {
 
             <section className='main choices'>
               <div className='main__wrapper'>
-                <h1 className='title choices__title'>No consensus reached</h1>
+                <h1 className='title choices__title'>no consensus reached</h1>
 
                 <button className='button choices__button' onClick={() => this.getPhase1Data()}>retry</button>
 
@@ -205,43 +168,6 @@ class Choices extends Component {
               </div>
             </section>
           </div>
-        );
-      } else if(phase === 'results') {
-        if(!resultsData[0]) {
-          return(
-            <div>
-              <Header/>
-    
-              <div className='main'>
-                <h1 className='title main__wrapper'>loading</h1>
-              </div>
-            </div>
-          );
-        } else {
-          return(
-            <div>
-              <Header/>
-  
-              <section className='main'>
-                <div className='main__wrapper'>
-                  <h1 className='title'>{`the group has chosen to ${topChoice[0].parentName} and ${topChoice[0].name}!`}</h1>
-  
-                  <img className='gif' src={topChoice[0].img} alt={topChoice[0].name}/>
-  
-                  <h2 className='sub-title'>here are some suggestions to help you have the best time:</h2>
-  
-                  {resultsData.map((result) => 
-                  <LinkCard key={result.id} name={result.name} url={result.url}/>)}
-                </div>
-              </section>
-            </div>
-          );
-        }
-      } else if(topChoice.length === 1 && phase === 'phase2') {
-        this.getResultsData(topChoice[0].id);
-
-        return(
-          <Redirect to={`/results/${planCode}/${name}`}/>
         );
       } else if(topChoice.length === 1) {
         return(
@@ -254,7 +180,9 @@ class Choices extends Component {
 
                 <img className='gif' src={topChoice[0].img} alt={topChoice[0].name}/>
 
-                <button className='button' onClick={() => this.getPhase2Data(topChoice[0].id)}>continue</button>
+                <Link className='button' to={`/phase2/${topChoice[0].id}/${user}/${planCode}/${name}`}>
+                  start
+                </Link>
               </div>
             </section>
           </div>
@@ -280,4 +208,4 @@ class Choices extends Component {
   }
 }
 
-export default Choices;
+export default Phase1;

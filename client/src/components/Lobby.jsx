@@ -9,7 +9,7 @@ class Lobby extends Component {
   }
 
   render() {
-    const {planCode, name} = this.props.match.params;
+    const {user, planCode, name} = this.props.match.params;
 
     return(
       <div>
@@ -25,7 +25,7 @@ class Lobby extends Component {
               <UserName key={index} name={userName}/>)}
             </ul>
   
-            <Link className='button' to={`/directions/${planCode}/${name}`}>
+            <Link className='button' to={`/directions/${user}/${planCode}/${name}`}>
               start
             </Link>
           </div>
