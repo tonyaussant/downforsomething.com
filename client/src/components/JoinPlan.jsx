@@ -1,21 +1,60 @@
 import {Component} from 'react';
+import axios from 'axios';
 import {Redirect} from 'react-router-dom';
+import {io} from 'socket.io-client';
 import Header from './children/Header';
 
 class JoinPlan extends Component {
   state = {
-    panCode: '',
+    planCode: '',
     name: ''
+  }
+
+  checkPlanCode(planCode) {
+    axios.get(`http://localhost:8080/plans`)
+    .then((result) => {
+      const isPlanCode = result.data.filter(plan => plan.code === planCode);
+      if(isPlanCode[0]) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }
 
   joinPlan = event => {
     event.preventDefault();
     const name = event.target.name.value;
     const planCode = event.target.room.value;
-    this.setState({
-      planCode: planCode,
-      name: name
-    });
+
+    axios.get(`http://localhost:8080/plans`)
+    .then((result) => {
+      const isPlanCode = result.data.filter(plan => plan.code === planCode);
+      if(isPlanCode) {
+        const socket = io('http://localhost:8080');
+        socket.emit('joinRoom', {
+          planCode: planCode,
+        });
+        socket.emit('joinPlan', {
+          planCode: planCode,
+          name: name
+        });
+        socket.on('userCreated', () => {
+          this.setState({
+            planCode: planCode,
+            name: name
+          });
+        });
+      } else {
+        console.log('plan does not exist');
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }
 
   render() {

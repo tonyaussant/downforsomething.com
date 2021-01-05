@@ -38,18 +38,18 @@ model Results {
 
 model Plans {
   code          String  @id
-  option1       Int
-  option2       Int
-  option3       Int
-  choicesMade   Int
-  choicesNeeded Int
-  currentPhase  Int
-  roomOpen      Boolean
+  option1       Int     @default(0)
+  option2       Int     @default(0)
+  option3       Int     @default(0)
+  choicesMade   Int     @default(0)
+  choicesNeeded Int     @default(99)
+  currentPhase  Int     @default(1)
+  roomOpen      Boolean @default(true)
   users         Users[]
 }
 
 model Users {
-  id        String  @id @default(uuid())
+  socketID  String  @id
   name      String
   plans     Plans   @relation(fields: [planCode], references: [code])
   planCode  String

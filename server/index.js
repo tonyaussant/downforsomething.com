@@ -1,3 +1,6 @@
+const {PrismaClient} = require('@prisma/client');
+const prisma = new PrismaClient();
+
 const express = require('express');
 const app = express();
 
@@ -13,6 +16,8 @@ const helmet = require('helmet');
 const ora = require('ora');
 const phase1Route = require('./routes/phase1');
 const phase2Route = require('./routes/phase2');
+const plansRoute = require('./routes/plans');
+const functions = require('./functions/prisma');
 
 require('dotenv').config();
 const mainPort = process.env.MAIN_PORT;
@@ -23,40 +28,32 @@ app.use(cors());
 app.use(helmet());
 app.use('/phase1', phase1Route);
 app.use('/phase2', phase2Route);
-
-app.get('/', (req, res) => {
-  res.json({
-    welcome: 'Welcome to the Down For Something API',
-    routes: [
-      {
-        method: 'get',
-        endpoint: '/phase1'
-      },
-      {
-        method: 'get',
-        endpoint: '/phase1/:id'
-      },
-      {
-        method: 'get',
-        endpoint: '/phase2'
-      },
-      {
-        method: 'get',
-        endpoint: '/phase2/:id'
-      },
-      {
-        method: 'get',
-        endpoint: '/phase1/:id/phase2'
-      },
-      {
-        method: 'get',
-        endpoint: '/phase2/:id/results'
-      }
-    ]
-  });
-});
+app.use('/plans', plansRoute);
 
 io.on('connection', (socket) => {
+  socket.on('joinRoom', (data) => {
+    socket.join(data.planCode);
+  });
+
+  socket.on('createPlan', (data) => {
+    functions.createPlan(data.planCode, data.name, socket.id)
+      .finally(async () => {
+        await prisma.$disconnect();
+        io.to(data.planCode).emit('planCreated');
+      });
+  });
+
+  socket.on('joinPlan', (data) => {
+    functions.createUser(data.planCode, data.name, socket.id)
+      .finally(async () => {
+        io.to(data.planCode).emit('userCreated');
+        await prisma.$disconnect();
+      });
+  })
+
+  socket.on('disconnect', (reason) => {
+    console.log(reason);
+  })
 });
 
 server.listen(mainPort, () => {

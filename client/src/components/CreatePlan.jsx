@@ -1,5 +1,6 @@
 import {Component} from 'react';
 import {Redirect} from 'react-router-dom';
+import {io} from 'socket.io-client';
 import randomize from 'randomatic';
 import Header from './children/Header';
 
@@ -13,9 +14,19 @@ class CreatePlan extends Component {
     event.preventDefault();
     const name = event.target.name.value;
     const planCode = randomize('aA0', 6);
-    this.setState({
+    const socket = io('http://localhost:8080');
+    socket.emit('joinRoom', {
+      planCode: planCode,
+    });
+    socket.emit('createPlan', {
       planCode: planCode,
       name: name
+    });
+    socket.on('planCreated', () => {
+      this.setState({
+        planCode: planCode,
+        name: name
+      });
     });
   }
 
