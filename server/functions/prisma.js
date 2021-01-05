@@ -1,14 +1,6 @@
 const {PrismaClient} = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const data = require('../data/phaseData');
-
-async function main() {
-  await prisma.phase1.create({data: data.option1});
-  await prisma.phase1.create({data: data.option2});
-  await prisma.phase1.create({data: data.option3});
-}
-
 async function createPlan(planCode, displayName, socketID) {
   await prisma.plans.create({
     data: {
@@ -30,15 +22,58 @@ async function createUser(planCode, displayName, socketID) {
       name: displayName,
       socketID: socketID,
       plans: {
-        connect: {code: planCode,}
+        connect: {
+          code: planCode
+        }
       }
     }
   });
 }
 
-main()
-  .finally(async () => {
-    await prisma.$disconnect();
+async function startPlan(planCode) {
+  const users = await prisma.users.findMany({
+    where: {
+      planCode: planCode
+    }
   });
+  const choicesNeeded = (users.length * 3);
+  await prisma.plans.update({
+    where: {
+      code: planCode
+    },
+    data: {
+      choicesNeeded: choicesNeeded,
+      roomOpen: false
+    }
+  });
+}
 
-module.exports = {createPlan, createUser}
+async function choiceMade(planCode, optionPicked) {
+  const currentData = await prisma.plans.findUnique({
+    where: {
+      code: planCode
+    }
+  });
+  if(optionPicked) {
+    await prisma.plans.update({
+      where: {
+        code: planCode
+      },
+      data: {
+        [optionPicked]: currentData[optionPicked] + 1,
+        choicesMade: currentData.choicesMade + 1
+      }
+    });
+  } else {
+    await prisma.plans.update({
+      where: {
+        code: planCode
+      },
+      data: {
+        choicesMade: currentData.choicesMade + 1
+      }
+    });
+  }
+}
+
+module.exports = {createPlan, createUser, startPlan, choiceMade}

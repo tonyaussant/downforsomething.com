@@ -1,6 +1,7 @@
 import {Component} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import {io} from 'socket.io-client';
 import Header from './children/Header';
 import ChoiceCard from './children/ChoiceCard';
 
@@ -11,6 +12,8 @@ class Phase1 extends Component {
     option1: 0,
     option2: 0,
     option3: 0,
+    choicesMade: 0,
+    choicesNeeded: 99,
     pageLoad: false,
   }
 
@@ -19,7 +22,7 @@ class Phase1 extends Component {
   }
 
   getPhase1Data() {
-    axios.get(`http://localhost:8080/phase1`)
+    axios.get('http://localhost:8080/phase1')
     .then((result) => {
       this.setState({
         phaseData: result.data,
@@ -27,7 +30,24 @@ class Phase1 extends Component {
         option1: 0,
         option2: 0,
         option3: 0,
+        choicesMade: 0,
         pageLoad: true
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
+
+  getPlanData() {
+    axios.get(`http://localhost:8080/plans/${this.props.match.params.planCode}`)
+    .then((result) => {
+      this.setState({
+        option1: result.data.option1,
+        option2: result.data.option2,
+        option3: result.data.option3,
+        choicesMade: result.data.choicesMade,
+        choicesNeeded: result.data.choicesNeeded
       });
     })
     .catch((error) => {
@@ -46,20 +66,30 @@ class Phase1 extends Component {
   }
 
   choiceMade = (event, option, index) => {
+    const {planCode} = this.props.match.params;
+    const {phaseData, hiddenPhaseData} = this.state;
+
     const optionPicked = `option${option}`
     const btnPressed = event.target.value;
-    const phaseDataUpdate = this.state.phaseData;
-    const hiddenPhaseDataUpdate = this.state.hiddenPhaseData;
+    const phaseDataUpdate = phaseData;
+    const hiddenPhaseDataUpdate = hiddenPhaseData;
     const removedOption = phaseDataUpdate.splice(index, 1);
     hiddenPhaseDataUpdate.push(removedOption[0]);
+    const socket = io('http://localhost:8080');
 
     if(btnPressed === 'yes') {
+      socket.emit('choiceMade', {
+        planCode: planCode,
+        optionPicked: optionPicked
+      });
       this.setState({
         phaseData: phaseDataUpdate,
-        [optionPicked]: this.state[optionPicked] + 1,
         hiddenPhaseData: hiddenPhaseDataUpdate
       });
     } else {
+      socket.emit('choiceMade', {
+        planCode: planCode,
+      });
       this.setState({
         phaseData: phaseDataUpdate,
         hiddenPhaseData: hiddenPhaseDataUpdate
@@ -130,7 +160,15 @@ class Phase1 extends Component {
 
   render() {
     const {user, planCode, name} = this.props.match.params;
-    const {phaseData, pageLoad} = this.state;
+    const {phaseData, choicesMade, choicesNeeded, pageLoad} = this.state;
+    const socket = io('http://localhost:8080');
+
+    socket.emit('joinRoom', {
+      planCode: planCode,
+    });
+    socket.on('choiceMade', () => {
+      this.getPlanData();
+    });
 
     if(phaseData[0]) {
       return(
@@ -151,7 +189,7 @@ class Phase1 extends Component {
           </div>
         </div>
       );
-    } else {
+    } else if(choicesMade === choicesNeeded) {
       const topChoice = this.checkConsensus();
       if(topChoice === 'noConsensus') {
         return(
@@ -204,6 +242,16 @@ class Phase1 extends Component {
           </div>
         );
       }
+    } else {
+      return(
+        <div>
+          <Header/>
+
+          <div className='main'>
+            <h1 className='title main__wrapper'>waiting for rest of group to choose</h1>
+          </div>
+        </div>
+      );
     }
   }
 }

@@ -6,6 +6,7 @@ const app = express();
 
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
+  pingTimeout: 30000,
   cors: {
     origin: '*',
   }
@@ -37,6 +38,9 @@ io.on('connection', (socket) => {
 
   socket.on('createPlan', (data) => {
     functions.createPlan(data.planCode, data.name, socket.id)
+      .catch(error => {
+        throw error
+      })
       .finally(async () => {
         await prisma.$disconnect();
         io.to(data.planCode).emit('planCreated');
@@ -45,8 +49,32 @@ io.on('connection', (socket) => {
 
   socket.on('joinPlan', (data) => {
     functions.createUser(data.planCode, data.name, socket.id)
+      .catch(error => {
+        throw error
+      })
       .finally(async () => {
         io.to(data.planCode).emit('userCreated');
+        await prisma.$disconnect();
+      });
+  })
+
+  socket.on('startPlan', (data) => {
+    functions.startPlan(data.planCode)
+      .catch(error => {
+        throw error
+      })
+      .finally(async () => {
+        await prisma.$disconnect();
+      });
+  })
+
+  socket.on('choiceMade', (data) => {
+    functions.choiceMade(data.planCode, data.optionPicked)
+      .catch(error => {
+        throw error
+      })
+      .finally(async () => {
+        io.to(data.planCode).emit('choiceMade');
         await prisma.$disconnect();
       });
   })

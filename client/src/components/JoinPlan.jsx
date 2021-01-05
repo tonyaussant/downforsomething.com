@@ -10,30 +10,14 @@ class JoinPlan extends Component {
     name: ''
   }
 
-  checkPlanCode(planCode) {
-    axios.get(`http://localhost:8080/plans`)
-    .then((result) => {
-      const isPlanCode = result.data.filter(plan => plan.code === planCode);
-      if(isPlanCode[0]) {
-        return true;
-      } else {
-        return false;
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-  }
-
   joinPlan = event => {
     event.preventDefault();
     const name = event.target.name.value;
     const planCode = event.target.room.value;
 
-    axios.get(`http://localhost:8080/plans`)
+    axios.get(`http://localhost:8080/plans/${planCode}`)
     .then((result) => {
-      const isPlanCode = result.data.filter(plan => plan.code === planCode);
-      if(isPlanCode) {
+      if(result.data.roomOpen) {
         const socket = io('http://localhost:8080');
         socket.emit('joinRoom', {
           planCode: planCode,
@@ -49,7 +33,7 @@ class JoinPlan extends Component {
           });
         });
       } else {
-        console.log('plan does not exist');
+        console.log('plan has already started');
       }
     })
     .catch((error) => {

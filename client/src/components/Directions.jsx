@@ -1,8 +1,14 @@
 import {Link} from 'react-router-dom';
+import {io} from 'socket.io-client';
 import Header from './children/Header';
 
 function Directions(props) {
   const {user, planCode, name} = props.match.params;
+  const socket = io('http://localhost:8080');
+
+  socket.emit('startPlan', {
+    planCode: planCode
+  });
 
   return (
     <div>
