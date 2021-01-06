@@ -1,5 +1,5 @@
 function ChoiceCard(props) {
-  const {index, option, name, img, clickHandler} = props;
+  const {index, option, name, img, choiceMade} = props;
 
   return(
     <div className='choice-card'>
@@ -9,9 +9,9 @@ function ChoiceCard(props) {
         <img className='gif' src={img} alt={name}/>
 
         <div className='choice-card__button-box'>
-          <button className='button choice-card__button' value='yes' onClick={(event) => clickHandler(event, option, index)}>i'm in</button>
+          <button className='button choice-card__button' value='yes' onClick={(event) => choiceMade(event, option, index)}>i'm in</button>
 
-          <button className='button choice-card__button' value='no' onClick={(event) => clickHandler(event, option, index)}>i'm out</button>
+          <button className='button choice-card__button' value='no' onClick={(event) => choiceMade(event, option, index)}>i'm out</button>
         </div>
       </div>
     </div>

@@ -20,7 +20,7 @@ function Directions(props) {
         <p className='sub-title directions'>select "i'm in" for as many options that you are up for</p>
 
         <Link className='button' to={`/phase1/${user}/${planCode}/${name}`}>
-          start
+          continue
         </Link>
         </div>
       </section>

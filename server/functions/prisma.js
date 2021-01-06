@@ -76,4 +76,18 @@ async function choiceMade(planCode, optionPicked) {
   }
 }
 
-module.exports = {createPlan, createUser, startPlan, choiceMade}
+async function resetPlan(planCode) {
+  await prisma.plans.update({
+    where: {
+      code: planCode
+    },
+    data: {
+      option1: 0,
+      option2: 0,
+      option3: 0,
+      choicesMade: 0
+    }
+  });
+}
+
+module.exports = {createPlan, createUser, startPlan, choiceMade, resetPlan}

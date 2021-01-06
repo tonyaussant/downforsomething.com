@@ -2,7 +2,9 @@ import {Component} from 'react';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 import Header from './children/Header';
-import ChoiceCard from './children/ChoiceCard';
+import Loading from './children/Loading';
+import Waiting from './children/Waiting';
+import Choices from './children/Choices';
 
 class Phase2 extends Component {
   state = {
@@ -135,22 +137,11 @@ class Phase2 extends Component {
     
     if(phaseData[0]) {
       return(
-        <div>
-          <Header/>
-
-          {phaseData.map((choice, index) => 
-          <ChoiceCard key={choice.id}  index={index} option={choice.option} name={choice.name} img={choice.img} clickHandler={this.choiceMade}/>)}
-        </div>
+        <Choices phaseData={phaseData} choiceMade={this.choiceMade}/>
       );
     } else if(pageLoad === false) {
       return(
-        <div>
-          <Header/>
-
-          <div className='main'>
-            <h1 className='title main__wrapper'>loading</h1>
-          </div>
-        </div>
+        <Loading/>
       );
     } else {
       const topChoice = this.checkConsensus();
@@ -163,8 +154,7 @@ class Phase2 extends Component {
               <div className='main__wrapper'>
                 <h1 className='title choices__title'>no consensus reached</h1>
 
-                <button className='button choices__button' onClick={() => this.getPhase1Data()}>retry</button>
-
+                <button className='button choices__button' onClick={() => this.getPhase2Data()}>retry</button>
                 <button className='button choices__button' onClick={() => this.pickRandom()}>pick random</button>
               </div>
             </section>
@@ -183,7 +173,7 @@ class Phase2 extends Component {
               <div className='main__wrapper'>
                 <h1 className='title choices__title'>{`the most popular choices are ${topChoice[0].name} and ${topChoice[1].name}`}</h1>
                 
-                <button className='button choices__button' onClick={() => this.getPhase1Data()}>retry</button>
+                <button className='button choices__button' onClick={() => this.getPhase2Data()}>retry</button>
                 <button className='button choices__button' onClick={() => this.pickRandom()}>pick random</button>
                 <button className='button choices__button' onClick={() => this.retryPhaseWithTwo(topChoice)}>retry with top choices</button>
               </div>

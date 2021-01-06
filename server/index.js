@@ -74,7 +74,18 @@ io.on('connection', (socket) => {
         throw error
       })
       .finally(async () => {
-        io.to(data.planCode).emit('choiceMade');
+        io.to(data.planCode).emit('choiceMade', (data));
+        await prisma.$disconnect();
+      });
+  })
+
+  socket.on('resetPlan', (data) => {
+    functions.resetPlan(data.planCode)
+      .catch(error => {
+        throw error
+      })
+      .finally(async () => {
+        io.to(data.planCode).emit('resetPlan');
         await prisma.$disconnect();
       });
   })

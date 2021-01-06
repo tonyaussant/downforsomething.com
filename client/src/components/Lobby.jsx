@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Link} from 'react-router-dom';
 import {io} from 'socket.io-client';
 import Header from './children/Header';
+import Loading from './children/Loading';
 import UserName from './children/UserName';
 
 class Lobby extends Component {
@@ -61,13 +62,7 @@ class Lobby extends Component {
       );
     } else {
       return(
-        <div>
-          <Header/>
-
-          <div className='main'>
-            <h1 className='title main__wrapper'>loading</h1>
-          </div>
-        </div>
+        <Loading/>
       );
     }
   }

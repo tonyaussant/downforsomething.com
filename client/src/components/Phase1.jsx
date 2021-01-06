@@ -3,7 +3,9 @@ import axios from 'axios';
 import {Link} from 'react-router-dom';
 import {io} from 'socket.io-client';
 import Header from './children/Header';
-import ChoiceCard from './children/ChoiceCard';
+import Loading from './children/Loading';
+import Waiting from './children/Waiting';
+import Choices from './children/Choices';
 
 class Phase1 extends Component {
   state = {
@@ -97,6 +99,12 @@ class Phase1 extends Component {
     }
   }
 
+  resetPlanData() {
+    socket.emit('resetPlan', {
+      planCode: planCode
+    });
+  }
+
   checkConsensus() {
     const option1 = this.state.option1;
     const option2 = this.state.option2;
@@ -164,30 +172,22 @@ class Phase1 extends Component {
     const socket = io('http://localhost:8080');
 
     socket.emit('joinRoom', {
-      planCode: planCode,
+      planCode: planCode
     });
     socket.on('choiceMade', () => {
+      this.getPlanData();
+    });
+    socket.on('resetPlan', () => {
       this.getPlanData();
     });
 
     if(phaseData[0]) {
       return(
-        <div>
-          <Header/>
-
-          {phaseData.map((choice, index) => 
-          <ChoiceCard key={choice.id}  index={index} option={choice.option} name={choice.name} img={choice.img} clickHandler={this.choiceMade}/>)}
-        </div>
+        <Choices phaseData={phaseData} choiceMade={this.choiceMade}/>
       );
     } else if(pageLoad === false) {
       return(
-        <div>
-          <Header/>
-
-          <div className='main'>
-            <h1 className='title main__wrapper'>loading</h1>
-          </div>
-        </div>
+        <Loading/>
       );
     } else if(choicesMade === choicesNeeded) {
       const topChoice = this.checkConsensus();
@@ -201,7 +201,6 @@ class Phase1 extends Component {
                 <h1 className='title choices__title'>no consensus reached</h1>
 
                 <button className='button choices__button' onClick={() => this.getPhase1Data()}>retry</button>
-
                 <button className='button choices__button' onClick={() => this.pickRandom()}>pick random</button>
               </div>
             </section>
@@ -219,7 +218,7 @@ class Phase1 extends Component {
                 <img className='gif' src={topChoice[0].img} alt={topChoice[0].name}/>
 
                 <Link className='button' to={`/phase2/${topChoice[0].id}/${user}/${planCode}/${name}`}>
-                  start
+                  continue
                 </Link>
               </div>
             </section>
@@ -244,13 +243,7 @@ class Phase1 extends Component {
       }
     } else {
       return(
-        <div>
-          <Header/>
-
-          <div className='main'>
-            <h1 className='title main__wrapper'>waiting for rest of group to choose</h1>
-          </div>
-        </div>
+        <Waiting/>
       );
     }
   }
