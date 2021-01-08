@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 async function createPlan(planCode, displayName, socketID) {
   await prisma.plans.create({
     data: {
-      code: planCode,
+      planCode: planCode,
       users: {
         create: [
         {
@@ -23,7 +23,7 @@ async function createUser(planCode, displayName, socketID) {
       socketID: socketID,
       plans: {
         connect: {
-          code: planCode
+          planCode: planCode
         }
       }
     }
@@ -39,7 +39,7 @@ async function startPlan(planCode) {
   const choicesNeeded = (users.length * 3);
   await prisma.plans.update({
     where: {
-      code: planCode
+      planCode: planCode
     },
     data: {
       choicesNeeded: choicesNeeded,
@@ -48,46 +48,63 @@ async function startPlan(planCode) {
   });
 }
 
-async function choiceMade(planCode, optionPicked) {
-  const currentData = await prisma.plans.findUnique({
-    where: {
-      code: planCode
-    }
-  });
-  if(optionPicked) {
-    await prisma.plans.update({
-      where: {
-        code: planCode
-      },
-      data: {
-        [optionPicked]: currentData[optionPicked] + 1,
-        choicesMade: currentData.choicesMade + 1
-      }
-    });
-  } else {
-    await prisma.plans.update({
-      where: {
-        code: planCode
-      },
-      data: {
-        choicesMade: currentData.choicesMade + 1
-      }
-    });
-  }
-}
-
-async function resetPlan(planCode) {
+async function startPhase(planCode) {
   await prisma.plans.update({
     where: {
-      code: planCode
+      planCode: planCode
     },
     data: {
-      option1: 0,
-      option2: 0,
-      option3: 0,
-      choicesMade: 0
+      phaseStarted: true
     }
   });
 }
 
-module.exports = {createPlan, createUser, startPlan, choiceMade, resetPlan}
+async function finishedPhase(data) {
+  const currentData = await prisma.plans.findUnique({
+    where: {
+      planCode: data.planCode
+    }
+  });
+  await prisma.plans.update({
+    where: {
+      planCode: data.planCode
+    },
+    data: {
+      option1Total: currentData.option1Total + data.option1,
+      option2Total: currentData.option2Total + data.option2,
+      option3Total: currentData.option3Total + data.option3,
+      choicesTotal: currentData.choicesTotal + data.choicesMade
+    }
+  });
+}
+
+async function retryPhase(planCode) {
+  await prisma.plans.update({
+    where: {
+      planCode: planCode
+    },
+    data: {
+      option1Total: 0,
+      option2Total: 0,
+      option3Total: 0,
+      choicesTotal: 0
+    }
+  });
+}
+
+async function nextPhase(planCode) {
+  await prisma.plans.update({
+    where: {
+      planCode: planCode
+    },
+    data: {
+      option1Total: 0,
+      option2Total: 0,
+      option3Total: 0,
+      choicesTotal: 0,
+      phaseStarted: false
+    }
+  });
+}
+
+module.exports = {createPlan, createUser, startPlan, startPhase, finishedPhase, retryPhase, nextPhase}

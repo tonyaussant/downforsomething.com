@@ -1,8 +1,8 @@
 import {Component} from 'react';
 import axios from 'axios';
-import Header from './children/Header';
+import Header from './children/elements/Header';
 import Loading from './children/Loading';
-import LinkCard from './children/LinkCard';
+import LinkCard from './children/elements/LinkCard';
 
 class Choices extends Component {
   state = {

@@ -2,7 +2,7 @@ import {Component} from 'react';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 import {io} from 'socket.io-client';
-import Header from './children/Header';
+import Header from './children//elements/Header';
 
 class JoinPlan extends Component {
   state = {
@@ -18,15 +18,18 @@ class JoinPlan extends Component {
     axios.get(`http://localhost:8080/plans/${planCode}`)
     .then((result) => {
       if(result.data.roomOpen) {
-        const socket = io('http://localhost:8080');
+        const socket = io('http://localhost:8040');
+
         socket.emit('joinRoom', {
           planCode: planCode,
         });
+
         socket.emit('joinPlan', {
           planCode: planCode,
           name: name
         });
-        socket.on('userCreated', () => {
+        
+        socket.on('joinPlan', () => {
           this.setState({
             planCode: planCode,
             name: name

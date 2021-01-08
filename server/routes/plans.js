@@ -9,27 +9,27 @@ router.get('/', async (req, res) => {
   res.json(data);
 });
 
-router.get('/:code', async (req, res) => {
+router.get('/:planCode', async (req, res) => {
   const data = await prisma.plans.findUnique({
     where: {
-      code: req.params.code
+      planCode: req.params.planCode
     }
   });
   if(data === null) {
-    return res.json(`No plan found with code: ${req.params.code}`);
+    return res.json(`No plan found with plan code: ${req.params.planCode}`);
   } else {
     res.json(data);
   }
 });
 
-router.get('/:code/users', async (req, res) => {
+router.get('/:planCode/users', async (req, res) => {
   const data = await prisma.users.findMany({
     where: {
-      planCode: req.params.code
+      planCode: req.params.planCode
     }
   });
   if(!data.length) {
-    return res.json(`No plan found with code: ${req.params.code}`);
+    return res.json(`No plan found with plan code: ${req.params.planCode}`);
   } else {
     res.json(data);
   }

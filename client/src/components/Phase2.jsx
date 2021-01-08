@@ -1,10 +1,9 @@
 import {Component} from 'react';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
-import Header from './children/Header';
+import Header from './children/elements/Header';
 import Loading from './children/Loading';
-import Waiting from './children/Waiting';
-import Choices from './children/Choices';
+import Options from './children/Options';
 
 class Phase2 extends Component {
   state = {
@@ -137,7 +136,7 @@ class Phase2 extends Component {
     
     if(phaseData[0]) {
       return(
-        <Choices phaseData={phaseData} choiceMade={this.choiceMade}/>
+        <Options phaseData={phaseData} choiceMade={this.choiceMade}/>
       );
     } else if(pageLoad === false) {
       return(

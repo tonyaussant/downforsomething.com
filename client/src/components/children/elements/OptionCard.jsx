@@ -1,4 +1,4 @@
-function ChoiceCard(props) {
+function OptionCard(props) {
   const {index, option, name, img, choiceMade} = props;
 
   return(
@@ -18,4 +18,4 @@ function ChoiceCard(props) {
   );
 }
 
-export default ChoiceCard;
+export default OptionCard;

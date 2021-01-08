@@ -1,39 +1,81 @@
 import {Component} from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {io} from 'socket.io-client';
-import Header from './children/Header';
-import Loading from './children/Loading';
 import Waiting from './children/Waiting';
-import Choices from './children/Choices';
+import PrePhase from './children/PrePhase';
+import Options from './children/Options';
+import TieBreaker from './children/TieBreaker';
 
 class Phase1 extends Component {
   state = {
     phaseData: [],
     hiddenPhaseData: [],
+    topChoices: [],
+    winnerID: '',
     option1: 0,
     option2: 0,
     option3: 0,
+    option1Total: 0,
+    option2Total: 0,
+    option3Total: 0,
     choicesMade: 0,
+    choicesTotal: 0,
     choicesNeeded: 99,
-    pageLoad: false,
+    phaseStarted: false
   }
 
   componentDidMount() {
     this.getPhase1Data();
+    const socket = io('http://localhost:8040');
+
+    socket.emit('joinRoom', {
+      planCode: this.props.match.params.planCode
+    });
+
+    socket.on('startPhase', () => {
+      this.setState({
+        phaseStarted: true
+      });
+    });
+
+    socket.on('finishedPhase', () => {
+      this.getPlanData();
+    });
+
+    socket.on('retryPhase', () => {
+      this.getPhase1Data();
+    });
+
+    socket.on('retryWithTwo', () => {
+      this.resetPhaseData(this.state.topChoices, 1);
+    });
+
+    socket.on('nextPhase', (winnerID) => {
+      this.setState({
+        winnerID: winnerID
+      });
+    });
   }
 
-  getPhase1Data() {
+  getPhase1Data = () => {
     axios.get('http://localhost:8080/phase1')
     .then((result) => {
       this.setState({
         phaseData: result.data,
         hiddenPhaseData: [],
+        topChoices: [],
         option1: 0,
         option2: 0,
         option3: 0,
+        option1Total: 0,
+        option2Total: 0,
+        option3Total: 0,
         choicesMade: 0,
-        pageLoad: true
+        choicesTotal: 0,
+        pageLoaded: true
+      }, () => {
+        this.getPlanData();
       });
     })
     .catch((error) => {
@@ -41,15 +83,24 @@ class Phase1 extends Component {
     })
   }
 
-  getPlanData() {
+  getPlanData = () => {
     axios.get(`http://localhost:8080/plans/${this.props.match.params.planCode}`)
     .then((result) => {
       this.setState({
-        option1: result.data.option1,
-        option2: result.data.option2,
-        option3: result.data.option3,
-        choicesMade: result.data.choicesMade,
-        choicesNeeded: result.data.choicesNeeded
+        option1Total: result.data.option1Total,
+        option2Total: result.data.option2Total,
+        option3Total: result.data.option3Total,
+        choicesTotal: result.data.choicesTotal,
+        choicesNeeded: result.data.choicesNeeded,
+        phaseStarted: result.data.phaseStarted
+      }, () => {
+        if(this.state.choicesTotal === this.state.choicesNeeded) {
+          if(this.state.hiddenPhaseData[0]) {
+            this.checkConsensus(this.state.hiddenPhaseData);
+          } else {
+            this.checkConsensus(this.state.phaseData);
+          }
+        }
       });
     })
     .catch((error) => {
@@ -57,190 +108,199 @@ class Phase1 extends Component {
     })
   }
 
-  getWinningOptionData(option) {
-    const winningOptionData = this.state.hiddenPhaseData.filter(choice => choice.option === option);
-    return winningOptionData;
-  }
+  startPhase = () => {
+    const socket = io('http://localhost:8040');
 
-  getTiedOptionsData(option1, option2) {
-    const tiedOptionsData = this.state.hiddenPhaseData.filter(choice => choice.option === option1 || choice.option === option2);
-    return tiedOptionsData;
-  }
-
-  choiceMade = (event, option, index) => {
-    const {planCode} = this.props.match.params;
-    const {phaseData, hiddenPhaseData} = this.state;
-
-    const optionPicked = `option${option}`
-    const btnPressed = event.target.value;
-    const phaseDataUpdate = phaseData;
-    const hiddenPhaseDataUpdate = hiddenPhaseData;
-    const removedOption = phaseDataUpdate.splice(index, 1);
-    hiddenPhaseDataUpdate.push(removedOption[0]);
-    const socket = io('http://localhost:8080');
-
-    if(btnPressed === 'yes') {
-      socket.emit('choiceMade', {
-        planCode: planCode,
-        optionPicked: optionPicked
-      });
-      this.setState({
-        phaseData: phaseDataUpdate,
-        hiddenPhaseData: hiddenPhaseDataUpdate
-      });
-    } else {
-      socket.emit('choiceMade', {
-        planCode: planCode,
-      });
-      this.setState({
-        phaseData: phaseDataUpdate,
-        hiddenPhaseData: hiddenPhaseDataUpdate
-      });
-    }
-  }
-
-  resetPlanData() {
-    socket.emit('resetPlan', {
-      planCode: planCode
+    socket.emit('startPhase', {
+      planCode: this.props.match.params.planCode
     });
   }
 
-  checkConsensus() {
-    const option1 = this.state.option1;
-    const option2 = this.state.option2;
-    const option3 = this.state.option3;
+  choiceMade = (event, option, index) => {
+    const optionPicked = `option${option}`
+    const btnPressed = event.target.value;
+    const phaseDataUpdate = this.state.phaseData;
+    const hiddenPhaseDataUpdate = this.state.hiddenPhaseData;
+    const removedOption = phaseDataUpdate.splice(index, 1);
+    hiddenPhaseDataUpdate.push(removedOption[0]);
 
-    if(option1 > option2 && option1 > option3) {
-      const option1Data = this.getWinningOptionData(1);
-      return option1Data;
-    } else if(option2 > option1 && option2 > option3) {
-      const option2Data = this.getWinningOptionData(2);
-      return option2Data;
-    } else if(option3 > option1 && option3 > option2) {
-      const option3Data = this.getWinningOptionData(3);
-      return option3Data;
-    } else if(option1 > option3 && option1 === option2) {
-      const options1And2Data = this.getTiedOptionsData(1, 2);
-      return options1And2Data;
-    } else if(option1 > option2 && option1 === option3) {
-      const options1And3Data = this.getTiedOptionsData(1, 3);
-      return options1And3Data;
-    } else if(option2 > option1 && option2 === option3) {
-      const options2And3Data = this.getTiedOptionsData(2, 3);
-      return options2And3Data;
+    if(btnPressed === 'yes') {
+      this.setState({
+        phaseData: phaseDataUpdate,
+        hiddenPhaseData: hiddenPhaseDataUpdate,
+        [optionPicked]: this.state[optionPicked] + 1,
+        choicesMade: this.state.choicesMade + 1
+      }, () => {
+        if(this.state.choicesMade === 3) {
+          this.finishedPhase();
+        }
+      });
     } else {
-      return "noConsensus"
+      this.setState({
+        phaseData: phaseDataUpdate,
+        hiddenPhaseData: hiddenPhaseDataUpdate,
+        choicesMade: this.state.choicesMade + 1
+      }, () => {
+        if(this.state.choicesMade === 3) {
+          this.finishedPhase();
+        }
+      });
     }
   }
 
-  retryPhaseWithTwo(topChoices) {
+  finishedPhase = () => {
+    const socket = io('http://localhost:8040');
+
+    socket.emit('finishedPhase', {
+      planCode: this.props.match.params.planCode,
+      option1: this.state.option1,
+      option2: this.state.option2,
+      option3: this.state.option3,
+      choicesMade: this.state.choicesMade
+    });
+  }
+
+  resetPlanData = () => {
+    const socket = io('http://localhost:8040');
+
+    socket.emit('resetPlan', {
+      planCode: this.props.match.params.planCode
+    });
+  }
+
+  resetPhaseData = (choiceData, choicesMade) => {
     this.setState({
-      phaseData: topChoices,
+      phaseData: choiceData,
       hiddenPhaseData: [],
+      topChoices: [],
       option1: 0,
       option2: 0,
       option3: 0,
-    })
+      option1Total: 0,
+      option2Total: 0,
+      option3Total: 0,
+      choicesMade: choicesMade,
+      choicesTotal: 0
+    });
   }
 
-  pickRandom() {
+  startNextPhase = (winnerID) => {
+    const socket = io('http://localhost:8040');
+    socket.emit('nextPhase', {
+      planCode: this.props.match.params.planCode,
+      winnerID: winnerID
+    });
+  }
+
+  checkConsensus = (optionData) => {
+    const option1 = this.state.option1Total;
+    const option2 = this.state.option2Total;
+    const option3 = this.state.option3Total;
+
+    if(option1 > option2 && option1 > option3) {
+      const option1Data = optionData.filter(choice => choice.option === 1);
+      this.startNextPhase(option1Data[0].id);
+
+    } else if(option2 > option1 && option2 > option3) {
+      const option2Data = optionData.filter(choice => choice.option === 2);
+      this.startNextPhase(option2Data[0].id);
+
+    } else if(option3 > option1 && option3 > option2) {
+      const option3Data = optionData.filter(choice => choice.option === 3);
+      this.startNextPhase(option3Data[0].id);
+
+    } else if(option1 > option3 && option1 === option2) {
+      const options1And2Data = optionData.filter(choice => choice.option === 1 || choice.option === 2);
+      this.setState({
+        topChoices: options1And2Data
+      });
+
+    } else if(option1 > option2 && option1 === option3) {
+      const options1And3Data = optionData.filter(choice => choice.option === 1 || choice.option === 3);
+      this.setState({
+        topChoices: options1And3Data
+      });
+
+    } else if(option2 > option1 && option2 === option3) {
+      const options2And3Data = optionData.filter(choice => choice.option === 2 || choice.option === 3);
+      this.setState({
+        topChoices: options2And3Data
+      });
+
+    } else {
+      this.setState({
+        topChoices: optionData
+      });
+    }
+  }
+
+  retryPhase = () => {
+    const socket = io('http://localhost:8040');
+
+    socket.emit('retryPhase', {
+      planCode: this.props.match.params.planCode
+    });
+  }
+
+  retryWithTwo = () => {
+    const socket = io('http://localhost:8040');
+
+    socket.emit('retryWithTwo', {
+      planCode: this.props.match.params.planCode
+    });
+  }
+
+  pickRandom = () => {
     const randomNumber = Math.random();
+    const {hiddenPhaseData} = this.state;
+
     if(randomNumber <= 0.3333) {
       this.setState({
-        option1: 1,
-        option2: 0,
-        option3: 0
+        option1Total: 1,
+        option2Total: 0,
+        option3Total: 0
+      }, () => {
+        this.checkConsensus(hiddenPhaseData);
       });
     } else if(randomNumber <= 0.6666) {
       this.setState({
-        option1: 0,
-        option2: 1,
-        option3: 0
+        option1Total: 0,
+        option2Total: 1,
+        option3Total: 0
+      }, () => {
+        this.checkConsensus(hiddenPhaseData);
       });
     } else {
       this.setState({
-        option1: 0,
-        option2: 0,
-        option3: 1
+        option1Total: 0,
+        option2Total: 0,
+        option3Total: 1
+      }, () => {
+        this.checkConsensus(hiddenPhaseData);
       });
     }
   }
 
   render() {
     const {user, planCode, name} = this.props.match.params;
-    const {phaseData, choicesMade, choicesNeeded, pageLoad} = this.state;
-    const socket = io('http://localhost:8080');
+    const {phaseData, topChoices, phaseStarted, winnerID} = this.state;
 
-    socket.emit('joinRoom', {
-      planCode: planCode
-    });
-    socket.on('choiceMade', () => {
-      this.getPlanData();
-    });
-    socket.on('resetPlan', () => {
-      this.getPlanData();
-    });
-
-    if(phaseData[0]) {
+    if(!phaseStarted) {
       return(
-        <Choices phaseData={phaseData} choiceMade={this.choiceMade}/>
+        <PrePhase name={name} startPhase={this.startPhase}/>
       );
-    } else if(pageLoad === false) {
+    } else if(winnerID) {
       return(
-        <Loading/>
+        <Redirect to={`/phase2/${winnerID}/${user}/${planCode}/${name}`}/>
       );
-    } else if(choicesMade === choicesNeeded) {
-      const topChoice = this.checkConsensus();
-      if(topChoice === 'noConsensus') {
-        return(
-          <div>
-            <Header/>
-
-            <section className='main choices'>
-              <div className='main__wrapper'>
-                <h1 className='title choices__title'>no consensus reached</h1>
-
-                <button className='button choices__button' onClick={() => this.getPhase1Data()}>retry</button>
-                <button className='button choices__button' onClick={() => this.pickRandom()}>pick random</button>
-              </div>
-            </section>
-          </div>
-        );
-      } else if(topChoice.length === 1) {
-        return(
-          <div>
-            <Header/>
-
-            <section className='main'>
-              <div className='main__wrapper'>
-                <h1 className='title'>{`the most popular choice is ${topChoice[0].name}`}</h1>
-
-                <img className='gif' src={topChoice[0].img} alt={topChoice[0].name}/>
-
-                <Link className='button' to={`/phase2/${topChoice[0].id}/${user}/${planCode}/${name}`}>
-                  continue
-                </Link>
-              </div>
-            </section>
-          </div>
-        );
-      } else if(topChoice.length === 2) {
-        return(
-          <div>
-            <Header/>
-
-            <section className='main choices'>
-              <div className='main__wrapper'>
-                <h1 className='title choices__title'>{`the most popular choices are ${topChoice[0].name} and ${topChoice[1].name}`}</h1>
-                
-                <button className='button choices__button' onClick={() => this.getPhase1Data()}>retry</button>
-                <button className='button choices__button' onClick={() => this.pickRandom()}>pick random</button>
-                <button className='button choices__button' onClick={() => this.retryPhaseWithTwo(topChoice)}>retry with top choices</button>
-              </div>
-            </section>
-          </div>
-        );
-      }
+    } else if(topChoices[0]) {
+      return(
+        <TieBreaker user={user} topChoices={topChoices} retryPhase={this.retryPhase} retryWithTwo={this.retryWithTwo} pickRandom={this.pickRandom}/>
+      );
+    } else if(phaseData[0]) {
+      return(
+        <Options phaseData={phaseData} choiceMade={this.choiceMade}/>
+      );
     } else {
       return(
         <Waiting/>
