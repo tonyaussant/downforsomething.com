@@ -48,17 +48,6 @@ async function startPlan(planCode) {
   });
 }
 
-async function startPhase(planCode) {
-  await prisma.plans.update({
-    where: {
-      planCode: planCode
-    },
-    data: {
-      phaseStarted: true
-    }
-  });
-}
-
 async function finishedPhase(data) {
   const currentData = await prisma.plans.findUnique({
     where: {
@@ -78,7 +67,7 @@ async function finishedPhase(data) {
   });
 }
 
-async function retryPhase(planCode) {
+async function resetPhase(planCode) {
   await prisma.plans.update({
     where: {
       planCode: planCode
@@ -92,19 +81,4 @@ async function retryPhase(planCode) {
   });
 }
 
-async function nextPhase(planCode) {
-  await prisma.plans.update({
-    where: {
-      planCode: planCode
-    },
-    data: {
-      option1Total: 0,
-      option2Total: 0,
-      option3Total: 0,
-      choicesTotal: 0,
-      phaseStarted: false
-    }
-  });
-}
-
-module.exports = {createPlan, createUser, startPlan, startPhase, finishedPhase, retryPhase, nextPhase}
+module.exports = {createPlan, createUser, startPlan, finishedPhase, resetPhase}

@@ -67,17 +67,6 @@ io.on('connection', (socket) => {
       });
   });
 
-  socket.on('startPhase', (data) => {
-    functions.startPhase(data.planCode)
-      .catch(error => {
-        throw error
-      })
-      .finally(async () => {
-        io.to(data.planCode).emit('startPhase');
-        await prisma.$disconnect();
-      });
-  });
-
   socket.on('finishedPhase', (data) => {
     functions.finishedPhase(data)
       .catch(error => {
@@ -90,7 +79,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('retryPhase', (data) => {
-    functions.retryPhase(data.planCode)
+    functions.resetPhase(data.planCode)
       .catch(error => {
         throw error
       })
@@ -101,7 +90,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('retryWithTwo', (data) => {
-    functions.retryPhase(data.planCode)
+    functions.resetPhase(data.planCode)
       .catch(error => {
         throw error
       })
@@ -112,7 +101,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('nextPhase', (data) => {
-    functions.nextPhase(data.planCode)
+    functions.resetPhase(data.planCode)
       .catch(error => {
         throw error
       })
@@ -121,6 +110,10 @@ io.on('connection', (socket) => {
         await prisma.$disconnect();
       });
   });
+
+  socket.on('getResults', (data) => {
+    io.to(data.planCode).emit('getResults', data.winnerID);
+  })
 
   socket.on('disconnect', (reason) => {
     console.log(reason);

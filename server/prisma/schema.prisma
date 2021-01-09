@@ -43,7 +43,6 @@ model Plans {
   option3Total  Int     @default(0)
   choicesTotal  Int     @default(0)
   choicesNeeded Int     @default(99)
-  phaseStarted  Boolean @default(false)
   roomOpen      Boolean @default(true)
   users         Users[]
 }

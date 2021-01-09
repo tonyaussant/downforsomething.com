@@ -22,7 +22,7 @@ class Phase1 extends Component {
     choicesMade: 0,
     choicesTotal: 0,
     choicesNeeded: 99,
-    phaseStarted: false
+    pageLoaded: false
   }
 
   componentDidMount() {
@@ -31,12 +31,6 @@ class Phase1 extends Component {
 
     socket.emit('joinRoom', {
       planCode: this.props.match.params.planCode
-    });
-
-    socket.on('startPhase', () => {
-      this.setState({
-        phaseStarted: true
-      });
     });
 
     socket.on('finishedPhase', () => {
@@ -72,8 +66,7 @@ class Phase1 extends Component {
         option2Total: 0,
         option3Total: 0,
         choicesMade: 0,
-        choicesTotal: 0,
-        pageLoaded: true
+        choicesTotal: 0
       }, () => {
         this.getPlanData();
       });
@@ -91,8 +84,7 @@ class Phase1 extends Component {
         option2Total: result.data.option2Total,
         option3Total: result.data.option3Total,
         choicesTotal: result.data.choicesTotal,
-        choicesNeeded: result.data.choicesNeeded,
-        phaseStarted: result.data.phaseStarted
+        choicesNeeded: result.data.choicesNeeded
       }, () => {
         if(this.state.choicesTotal === this.state.choicesNeeded) {
           if(this.state.hiddenPhaseData[0]) {
@@ -108,12 +100,10 @@ class Phase1 extends Component {
     })
   }
 
-  startPhase = () => {
-    const socket = io('http://localhost:8040');
-
-    socket.emit('startPhase', {
-      planCode: this.props.match.params.planCode
-    });
+  loadPage = () => {
+    this.setState({
+      pageLoaded: true
+    })
   }
 
   choiceMade = (event, option, index) => {
@@ -283,11 +273,11 @@ class Phase1 extends Component {
 
   render() {
     const {user, planCode, name} = this.props.match.params;
-    const {phaseData, topChoices, phaseStarted, winnerID} = this.state;
+    const {phaseData, topChoices, pageLoaded, winnerID} = this.state;
 
-    if(!phaseStarted) {
+    if(!pageLoaded) {
       return(
-        <PrePhase name={name} startPhase={this.startPhase}/>
+        <PrePhase displayName={name} loadPage={this.loadPage}/>
       );
     } else if(winnerID) {
       return(
