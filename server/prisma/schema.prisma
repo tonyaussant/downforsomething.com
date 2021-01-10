@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Phase1 {
+  id      String  @id @default(uuid())
+  option  Int
+  name    String
+  img     String
+  phase2  Phase2[]
+}
+
+model Phase2 {
+  id        String    @id @default(uuid())
+  option    Int
+  name      String
+  img       String
+  phase1    Phase1    @relation(fields: [parentID], references: [id])
+  parentID  String
+  results   Results[]
+}
+
+model Results {
+  id        String  @id @default(uuid())
+  name      String
+  url       String
+  phase2    Phase2  @relation(fields: [parentID], references: [id])
+  parentID  String
+}
+
+model Plans {
+  planCode      String  @id
+  option1Total  Int     @default(0)
+  option2Total  Int     @default(0)
+  option3Total  Int     @default(0)
+  choicesTotal  Int     @default(0)
+  choicesNeeded Int     @default(99)
+  roomOpen      Boolean @default(true)
+  users         Users[]
+}
+
+model Users {
+  socketID  String  @id
+  name      String
+  plans     Plans   @relation(fields: [planCode], references: [planCode])
+  planCode  String
+}

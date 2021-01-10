@@ -1,0 +1,8 @@
+-- AlterTable
+ALTER TABLE `Plans` MODIFY `option1` INT NOT NULL DEFAULT 0,
+    MODIFY `option2` INT NOT NULL DEFAULT 0,
+    MODIFY `option3` INT NOT NULL DEFAULT 0,
+    MODIFY `choicesMade` INT NOT NULL DEFAULT 0,
+    MODIFY `choicesNeeded` INT NOT NULL DEFAULT 99,
+    MODIFY `currentPhase` INT NOT NULL DEFAULT 1,
+    MODIFY `roomOpen` BOOLEAN NOT NULL DEFAULT true;

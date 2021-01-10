@@ -1,10 +1,12 @@
 import {Component} from 'react';
+import axios from 'axios';
 import {Redirect} from 'react-router-dom';
-import Header from './children/Header';
+import {io} from 'socket.io-client';
+import Header from './children//elements/Header';
 
 class JoinPlan extends Component {
   state = {
-    panCode: '',
+    planCode: '',
     name: ''
   }
 
@@ -12,15 +14,39 @@ class JoinPlan extends Component {
     event.preventDefault();
     const name = event.target.name.value;
     const planCode = event.target.room.value;
-    this.setState({
-      planCode: planCode,
-      name: name
-    });
+
+    axios.get(`http://localhost:8080/plans/${planCode}`)
+    .then((result) => {
+      if(result.data.roomOpen) {
+        const socket = io('http://localhost:8040');
+
+        socket.emit('joinRoom', {
+          planCode: planCode,
+        });
+
+        socket.emit('joinPlan', {
+          planCode: planCode,
+          name: name
+        });
+        
+        socket.on('joinPlan', () => {
+          this.setState({
+            planCode: planCode,
+            name: name
+          });
+        });
+      } else {
+        console.log('plan has already started');
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }
 
   render() {
     if(this.state.planCode) {
-      return <Redirect to={`/lobby/${this.state.planCode}/${this.state.name}`}/>
+      return <Redirect to={`/lobby/secondary/${this.state.planCode}/${this.state.name}`}/>
     } else {
       return(
         <div>
