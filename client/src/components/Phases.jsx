@@ -1,18 +1,19 @@
 import {Component} from 'react';
 import axios from 'axios';
-import {Redirect} from 'react-router-dom';
 import {io} from 'socket.io-client';
-import Waiting from './children/Waiting';
-import PrePhase from './children/PrePhase';
-import Options from './children/Options';
-import TieBreaker from './children/TieBreaker';
+import Phase1 from './children/Phase1';
+import Phase2 from './children/Phase2';
+import Results from './children/Results';
 
-class Phase1 extends Component {
+class Phases extends Component {
   state = {
     phaseData: [],
     hiddenPhaseData: [],
     topChoices: [],
-    winnerID: '',
+    winnerData: [],
+    resultsData: [],
+    phase1WinnerID: '',
+    phase2WinnerID: '',
     option1: 0,
     option2: 0,
     option3: 0,
@@ -26,11 +27,21 @@ class Phase1 extends Component {
   }
 
   componentDidMount() {
-    this.getPhase1Data();
+    const {parentID, planCode} = this.props.match.params;
+    const {path} = this.props.match;
+    
+    if(path === '/phase1/:user/:planCode/:name/') {
+      this.getPhase1Data();
+    } else if(path === '/phase2/:parentID/:user/:planCode/:name/') {
+      this.getPhase1WinnerData(parentID);
+    } else {
+      this.getPhase2WinnerData(parentID);
+    }
+
     const socket = io('http://localhost:8040');
 
     socket.emit('joinRoom', {
-      planCode: this.props.match.params.planCode
+      planCode: planCode
     });
 
     socket.on('finishedPhase', () => {
@@ -38,7 +49,11 @@ class Phase1 extends Component {
     });
 
     socket.on('retryPhase', () => {
-      this.getPhase1Data();
+      if(path === '/phase1/:user/:planCode/:name/') {
+        this.getPhase1Data();
+      } else {
+        this.getPhase1WinnerData(parentID);
+      }
     });
 
     socket.on('retryWithTwo', () => {
@@ -47,7 +62,19 @@ class Phase1 extends Component {
 
     socket.on('nextPhase', (winnerID) => {
       this.setState({
-        winnerID: winnerID
+        phase1WinnerID: winnerID,
+        pageLoaded: false
+      }, () => {
+        this.getPhase1WinnerData(winnerID);
+      });
+    });
+
+    socket.on('getResults', (winnerID) => {
+      this.setState({
+        phase2WinnerID: winnerID,
+        pageLoaded: false
+      }, () => {
+        this.getPhase2WinnerData(winnerID);
       });
     });
   }
@@ -69,6 +96,71 @@ class Phase1 extends Component {
         choicesTotal: 0
       }, () => {
         this.getPlanData();
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
+
+  getPhase1WinnerData(winnerID) {
+    axios.get(`http://localhost:8080/phase1/${winnerID}`)
+    .then((result) => {
+      this.setState({
+        winnerData: result.data
+      }, () => {
+        this.getPhase2Data(winnerID);
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
+
+  getPhase2WinnerData(winnerID) {
+    axios.get(`http://localhost:8080/phase2/${winnerID}`)
+    .then((result) => {
+      this.setState({
+        winnerData: result.data
+      }, () => {
+        this.getResultsData(winnerID);
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }2
+
+  getPhase2Data = (parentID) => {
+    axios.get(`http://localhost:8080/phase1/${parentID}/phase2`)
+    .then((result) => {
+      this.setState({
+        phaseData: result.data,
+        hiddenPhaseData: [],
+        topChoices: [],
+        option1: 0,
+        option2: 0,
+        option3: 0,
+        option1Total: 0,
+        option2Total: 0,
+        option3Total: 0,
+        choicesMade: 0,
+        choicesTotal: 0,
+      }, () => {
+        this.getPlanData();
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
+
+  getResultsData(parentID) {
+    axios.get(`http://localhost:8080/phase2/${parentID}/results`)
+    .then((result) => {
+      this.setState({
+        resultsData: result.data,
+        pageLoaded: true
       });
     })
     .catch((error) => {
@@ -176,7 +268,19 @@ class Phase1 extends Component {
 
   startNextPhase = (winnerID) => {
     const socket = io('http://localhost:8040');
-    socket.emit('nextPhase', {
+    this.setState({
+      pageLoaded: false
+    }, () => {
+      socket.emit('nextPhase', {
+        planCode: this.props.match.params.planCode,
+        winnerID: winnerID
+      });
+    })
+  }
+
+  getResults = (winnerID) => {
+    const socket = io('http://localhost:8040');
+    socket.emit('getResults', {
       planCode: this.props.match.params.planCode,
       winnerID: winnerID
     });
@@ -186,18 +290,32 @@ class Phase1 extends Component {
     const option1 = this.state.option1Total;
     const option2 = this.state.option2Total;
     const option3 = this.state.option3Total;
+    const {path} = this.props.match;
+    const phase1Path = '/phase1/:user/:planCode/:name/'
 
     if(option1 > option2 && option1 > option3) {
       const option1Data = optionData.filter(choice => choice.option === 1);
-      this.startNextPhase(option1Data[0].id);
+      if(path === phase1Path) {
+        this.startNextPhase(option1Data[0].id);
+      } else {
+        this.getResults(option1Data[0].id);
+      }
 
     } else if(option2 > option1 && option2 > option3) {
       const option2Data = optionData.filter(choice => choice.option === 2);
-      this.startNextPhase(option2Data[0].id);
+      if(path === phase1Path) {
+        this.startNextPhase(option2Data[0].id);
+      } else {
+        this.getResults(option2Data[0].id);
+      }
 
     } else if(option3 > option1 && option3 > option2) {
       const option3Data = optionData.filter(choice => choice.option === 3);
-      this.startNextPhase(option3Data[0].id);
+      if(path === phase1Path) {
+        this.startNextPhase(option3Data[0].id);
+      } else {
+        this.getResults(option3Data[0].id);
+      }
 
     } else if(option1 > option3 && option1 === option2) {
       const options1And2Data = optionData.filter(choice => choice.option === 1 || choice.option === 2);
@@ -242,7 +360,7 @@ class Phase1 extends Component {
 
   pickRandom = () => {
     const randomNumber = Math.random();
-    const {hiddenPhaseData} = this.state;
+    const {hiddenPhaseData, phaseData} = this.state;
 
     if(randomNumber <= 0.3333) {
       this.setState({
@@ -250,7 +368,11 @@ class Phase1 extends Component {
         option2Total: 0,
         option3Total: 0
       }, () => {
-        this.checkConsensus(hiddenPhaseData);
+        if(hiddenPhaseData[0]) {
+          this.checkConsensus(hiddenPhaseData);
+        } else {
+          this.checkConsensus(phaseData);
+        }
       });
     } else if(randomNumber <= 0.6666) {
       this.setState({
@@ -258,7 +380,11 @@ class Phase1 extends Component {
         option2Total: 1,
         option3Total: 0
       }, () => {
-        this.checkConsensus(hiddenPhaseData);
+        if(hiddenPhaseData[0]) {
+          this.checkConsensus(hiddenPhaseData);
+        } else {
+          this.checkConsensus(phaseData);
+        }
       });
     } else {
       this.setState({
@@ -266,37 +392,40 @@ class Phase1 extends Component {
         option2Total: 0,
         option3Total: 1
       }, () => {
-        this.checkConsensus(hiddenPhaseData);
+        if(hiddenPhaseData[0]) {
+          this.checkConsensus(hiddenPhaseData);
+        } else {
+          this.checkConsensus(phaseData);
+        }
       });
     }
   }
 
   render() {
-    const {user, planCode, name} = this.props.match.params;
-    const {phaseData, topChoices, pageLoaded, winnerID} = this.state;
+    const {path} = this.props.match;
 
-    if(!pageLoaded) {
+    const functions = {
+      loadPage: this.loadPage, 
+      retryPhase: this.retryPhase,
+      retryWithTwo: this.retryWithTwo,
+      pickRandom: this.pickRandom, 
+      choiceMade: this.choiceMade
+    }
+
+    if(path === '/phase1/:user/:planCode/:name/') {
       return(
-        <PrePhase displayName={name} loadPage={this.loadPage}/>
+        <Phase1 params={this.props.match.params} state={this.state} functions={functions}/>
       );
-    } else if(winnerID) {
+    } else if(path === '/phase2/:parentID/:user/:planCode/:name/') {
       return(
-        <Redirect to={`/phase2/${winnerID}/${user}/${planCode}/${name}`}/>
-      );
-    } else if(topChoices[0]) {
-      return(
-        <TieBreaker user={user} topChoices={topChoices} retryPhase={this.retryPhase} retryWithTwo={this.retryWithTwo} pickRandom={this.pickRandom}/>
-      );
-    } else if(phaseData[0]) {
-      return(
-        <Options phaseData={phaseData} choiceMade={this.choiceMade}/>
+        <Phase2 params={this.props.match.params} state={this.state} functions={functions}/>
       );
     } else {
       return(
-        <Waiting/>
+        <Results state={this.state}/>
       );
     }
   }
 }
 
-export default Phase1;
+export default Phases;
