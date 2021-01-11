@@ -56,15 +56,15 @@ class Lobby extends Component {
   }
   
   render() {
-    const {user, planCode, name} = this.props.match.params;
+    const {planCode, name} = this.props.match.params;
     const {users, startPlan} = this.state;
 
     if(users[0]) {
       if(startPlan) {
         return(
-          <Redirect to={`/phase1/${user}/${planCode}/${name}`}/>
+          <Redirect to={`/phase1/${planCode}/${name}`}/>
         );
-      } else if(user === 'primary') {
+      } else {
         return(
           <div>
             <Header/>
@@ -75,7 +75,7 @@ class Lobby extends Component {
       
                 <ul className='demo'>
                   {users.map((user) => 
-                  <UserName key={user.socketID} name={user.name}/>)}
+                  <UserName key={user.id} name={user.name}/>)}
                 </ul>
       
                 <button className='button' onClick={() => this.startPlan()}>start</button>
@@ -83,24 +83,7 @@ class Lobby extends Component {
             </section>
           </div>
         );
-      } else {
-        return(
-          <div>
-            <Header/>
-            <section className='main lobby'>
-              <div className='main__wrapper'>
-                <h1 className='title lobby__title'>plan code: {planCode}</h1>
-                <h2 className='sub-title lobby__title'>share your plan code with others. the group leader will press start when everyone has joined</h2>
-      
-                <ul className='demo'>
-                  {users.map((user) => 
-                  <UserName key={user.socketID} name={user.name}/>)}
-                </ul>
-              </div>
-            </section>
-          </div>
-        );
-      }
+      } 
     } else {
       return(
         <Loading/>

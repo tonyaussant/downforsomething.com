@@ -35,18 +35,19 @@ io.on('connection', (socket) => {
   });
 
   socket.on('createPlan', (data) => {
-    functions.createPlan(data.planCode, data.name, socket.id)
+    functions.createPlan(data.planCode, data.name)
       .catch(error => {
         throw error
       })
       .finally(async () => {
         io.to(data.planCode).emit('createPlan');
+        functions.planExpiry(data.planCode);
         await prisma.$disconnect();
       });
   });
 
   socket.on('joinPlan', (data) => {
-    functions.createUser(data.planCode, data.name, socket.id)
+    functions.createUser(data.planCode, data.name)
       .catch(error => {
         throw error
       })
@@ -113,10 +114,16 @@ io.on('connection', (socket) => {
 
   socket.on('getResults', (data) => {
     io.to(data.planCode).emit('getResults', data.winnerID);
-  })
+  });
 
-  socket.on('disconnect', (reason) => {
-    console.log(reason);
+  socket.on('deletePlan', (data) => {
+    functions.deletePlan(data.planCode)
+      .catch(error => {
+        throw error
+      })
+      .finally(async () => {
+        await prisma.$disconnect();
+      });
   });
 });
 
