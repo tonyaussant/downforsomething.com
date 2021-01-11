@@ -5,13 +5,13 @@ import Options from './Options';
 import TieBreaker from './TieBreaker';
 
 function Phase1(props) {
-  const {user, planCode, name} = props.params;
+  const {planCode, name} = props.params;
   const {phaseData, topChoices, pageLoaded, phase1WinnerID} = props.state;
   const {loadPage, retryPhase, retryWithTwo, pickRandom, choiceMade} = props.functions;
 
   if(phase1WinnerID) {
     return(
-      <Redirect to={`/phase2/${phase1WinnerID}/${user}/${planCode}/${name}`}/>
+      <Redirect to={`/phase2/${phase1WinnerID}/${planCode}/${name}`}/>
     );
   } else if(!pageLoaded) {
     return(
@@ -19,7 +19,7 @@ function Phase1(props) {
     );
   } else if(topChoices[0]) {
     return(
-      <TieBreaker user={user} topChoices={topChoices} retryPhase={retryPhase} retryWithTwo={retryWithTwo} pickRandom={pickRandom}/>
+      <TieBreaker topChoices={topChoices} retryPhase={retryPhase} retryWithTwo={retryWithTwo} pickRandom={pickRandom}/>
     );
   } else if(phaseData[0]) {
     return(

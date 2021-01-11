@@ -15,10 +15,8 @@ ReactDOM.render(
         <Route path='/' component={LandingPage} exact/>
         <Route path='/createplan' component={CreatePlan}/>
         <Route path='/joinplan' component={JoinPlan}/>
-        <Route path='/lobby/:user/:planCode/:name' component={Lobby}/>
-        <Route path='/phase1/:user/:planCode/:name/' component={Phases}/>
-        <Route path='/phase2/:parentID/:user/:planCode/:name/' component={Phases}/>
-        <Route path='/results/:parentID/:user/:planCode/:name' component={Phases}/>
+        <Route path='/lobby/:planCode/:name' component={Lobby}/>
+        <Route path={['/phase1/:planCode/:name/', '/phase2/:parentID/:planCode/:name/', '/results/:parentID/:planCode/:name']} component={Phases}/>
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,

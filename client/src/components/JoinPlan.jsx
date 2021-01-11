@@ -46,7 +46,7 @@ class JoinPlan extends Component {
 
   render() {
     if(this.state.planCode) {
-      return <Redirect to={`/lobby/secondary/${this.state.planCode}/${this.state.name}`}/>
+      return <Redirect to={`/lobby/${this.state.planCode}/${this.state.name}`}/>
     } else {
       return(
         <div>

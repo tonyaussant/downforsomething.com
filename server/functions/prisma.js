@@ -1,26 +1,24 @@
 const {PrismaClient} = require('@prisma/client');
 const prisma = new PrismaClient();
 
-async function createPlan(planCode, displayName, socketID) {
+async function createPlan(planCode, displayName) {
   await prisma.plans.create({
     data: {
       planCode: planCode,
       users: {
         create: [
         {
-          name: displayName,
-          socketID: socketID
+          name: displayName
         }]
       }
     }
   });
 }
 
-async function createUser(planCode, displayName, socketID) {
+async function createUser(planCode, displayName) {
   await prisma.users.create({
     data: {
       name: displayName,
-      socketID: socketID,
       plans: {
         connect: {
           planCode: planCode
@@ -35,6 +33,8 @@ async function startPlan(planCode) {
     where: {
       planCode: planCode
     }
+  }, {
+    
   });
   const choicesNeeded = (users.length * 3);
   await prisma.plans.update({
@@ -81,4 +81,24 @@ async function resetPhase(planCode) {
   });
 }
 
-module.exports = {createPlan, createUser, startPlan, finishedPhase, resetPhase}
+async function deletePlan(planCode) {
+  await prisma.plans.delete({
+    where: {
+      planCode: planCode
+    }
+  });
+}
+
+function planExpiry(planCode) {
+  setTimeout(() => {
+    deletePlan(planCode)
+    .catch(error => {
+      throw error
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+  }, 1800000);
+}
+
+module.exports = {createPlan, createUser, startPlan, finishedPhase, resetPhase, deletePlan, planExpiry}

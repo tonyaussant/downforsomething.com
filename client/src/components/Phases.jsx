@@ -30,9 +30,9 @@ class Phases extends Component {
     const {parentID, planCode} = this.props.match.params;
     const {path} = this.props.match;
     
-    if(path === '/phase1/:user/:planCode/:name/') {
+    if(path === '/phase1/:planCode/:name/') {
       this.getPhase1Data();
-    } else if(path === '/phase2/:parentID/:user/:planCode/:name/') {
+    } else if(path === '/phase2/:parentID/:planCode/:name/') {
       this.getPhase1WinnerData(parentID);
     } else {
       this.getPhase2WinnerData(parentID);
@@ -49,7 +49,7 @@ class Phases extends Component {
     });
 
     socket.on('retryPhase', () => {
-      if(path === '/phase1/:user/:planCode/:name/') {
+      if(path === '/phase1/:planCode/:name/') {
         this.getPhase1Data();
       } else {
         this.getPhase1WinnerData(parentID);
@@ -161,6 +161,8 @@ class Phases extends Component {
       this.setState({
         resultsData: result.data,
         pageLoaded: true
+      }, () => {
+        this.deletePlanData();
       });
     })
     .catch((error) => {
@@ -190,6 +192,14 @@ class Phases extends Component {
     .catch((error) => {
       console.log(error);
     })
+  }
+
+  deletePlanData = () => {
+    const socket = io('http://localhost:8040');
+
+    socket.emit('deletePlan', {
+      planCode: this.props.match.params.planCode
+    });
   }
 
   loadPage = () => {
@@ -291,7 +301,7 @@ class Phases extends Component {
     const option2 = this.state.option2Total;
     const option3 = this.state.option3Total;
     const {path} = this.props.match;
-    const phase1Path = '/phase1/:user/:planCode/:name/'
+    const phase1Path = '/phase1/:planCode/:name/'
 
     if(option1 > option2 && option1 > option3) {
       const option1Data = optionData.filter(choice => choice.option === 1);
@@ -412,11 +422,11 @@ class Phases extends Component {
       choiceMade: this.choiceMade
     }
 
-    if(path === '/phase1/:user/:planCode/:name/') {
+    if(path === '/phase1/:planCode/:name/') {
       return(
         <Phase1 params={this.props.match.params} state={this.state} functions={functions}/>
       );
-    } else if(path === '/phase2/:parentID/:user/:planCode/:name/') {
+    } else if(path === '/phase2/:parentID/:planCode/:name/') {
       return(
         <Phase2 params={this.props.match.params} state={this.state} functions={functions}/>
       );
