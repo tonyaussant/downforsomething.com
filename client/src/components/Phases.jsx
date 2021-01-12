@@ -1,6 +1,7 @@
 import {Component} from 'react';
 import axios from 'axios';
 import {io} from 'socket.io-client';
+import {randomOptionThree, randomOptionFive, consensusChecker} from '../functions/functions';
 import Phase1 from './children/Phase1';
 import Phase2 from './children/Phase2';
 import Results from './children/Results';
@@ -12,17 +13,29 @@ class Phases extends Component {
     topChoices: [],
     winnerData: [],
     resultsData: [],
+    users: [],
     phase1WinnerID: '',
     phase2WinnerID: '',
     option1: 0,
     option2: 0,
-    option3: 0,
+    option3: 0, 
+    option4: 0,
+    option5: 0,
     option1Total: 0,
     option2Total: 0,
     option3Total: 0,
+    option4Total: 0,
+    option5Total: 0,
     choicesMade: 0,
     choicesTotal: 0,
     choicesNeeded: 99,
+    retry: 0,
+    random: 0,
+    retryTotal: 0,
+    randomTotal: 0,
+    tieBreakers: 0,
+    tieBreakersTotal: 0,
+    tieBreakersNeeded: 99,
     pageLoaded: false
   }
 
@@ -54,10 +67,6 @@ class Phases extends Component {
       } else {
         this.getPhase1WinnerData(parentID);
       }
-    });
-
-    socket.on('retryWithTwo', () => {
-      this.resetPhaseData(this.state.topChoices, 1);
     });
 
     socket.on('nextPhase', (winnerID) => {
@@ -93,7 +102,11 @@ class Phases extends Component {
         option2Total: 0,
         option3Total: 0,
         choicesMade: 0,
-        choicesTotal: 0
+        choicesTotal: 0,
+        retryTotal: 0,
+        randomTotal: 0,
+        tieBreakers: 0,
+        tieBreakersTotal: 0
       }, () => {
         this.getPlanData();
       });
@@ -141,11 +154,17 @@ class Phases extends Component {
         option1: 0,
         option2: 0,
         option3: 0,
+        option4: 0,
+        option5: 0,
         option1Total: 0,
         option2Total: 0,
         option3Total: 0,
+        option4Total: 0,
+        option5Total: 0,
         choicesMade: 0,
         choicesTotal: 0,
+        tieBreakers: 0,
+        tieBreakersTotal: 0
       }, () => {
         this.getPlanData();
       });
@@ -177,15 +196,23 @@ class Phases extends Component {
         option1Total: result.data.option1Total,
         option2Total: result.data.option2Total,
         option3Total: result.data.option3Total,
+        option4Total: result.data.option4Total,
+        option5Total: result.data.option5Total,
         choicesTotal: result.data.choicesTotal,
-        choicesNeeded: result.data.choicesNeeded
+        choicesNeeded: result.data.choicesNeeded,
+        retryTotal: result.data.retryTotal,
+        randomTotal: result.data.randomTotal,
+        tieBreakersTotal: result.data.tieBreakersTotal,
+        tieBreakersNeeded: result.data.tieBreakersNeeded
       }, () => {
         if(this.state.choicesTotal === this.state.choicesNeeded) {
           if(this.state.hiddenPhaseData[0]) {
-            this.checkConsensus(this.state.hiddenPhaseData);
+            this.checkOptionsConsensus(this.state.hiddenPhaseData);
           } else {
-            this.checkConsensus(this.state.phaseData);
+            this.checkOptionsConsensus(this.state.phaseData);
           }
+        } else if(this.state.tieBreakersTotal === this.state.tieBreakersNeeded) {
+          this.checkTieBreakerConsensus();
         }
       });
     })
@@ -208,9 +235,12 @@ class Phases extends Component {
     })
   }
 
-  choiceMade = (event, option, index) => {
+  optionPicked = (event, option, index) => {
     const optionPicked = `option${option}`
     const btnPressed = event.target.value;
+    const {path} = this.props.match;
+    const phase1Path = '/phase1/:planCode/:name/';
+
     const phaseDataUpdate = this.state.phaseData;
     const hiddenPhaseDataUpdate = this.state.hiddenPhaseData;
     const removedOption = phaseDataUpdate.splice(index, 1);
@@ -223,7 +253,9 @@ class Phases extends Component {
         [optionPicked]: this.state[optionPicked] + 1,
         choicesMade: this.state.choicesMade + 1
       }, () => {
-        if(this.state.choicesMade === 3) {
+        if(path === phase1Path && this.state.choicesMade === 3) {
+          this.finishedPhase();
+        } else if(this.state.choicesMade === 5) {
           this.finishedPhase();
         }
       });
@@ -233,9 +265,35 @@ class Phases extends Component {
         hiddenPhaseData: hiddenPhaseDataUpdate,
         choicesMade: this.state.choicesMade + 1
       }, () => {
-        if(this.state.choicesMade === 3) {
-          this.finishedPhase();
+        if(path === phase1Path) {
+          if(this.state.choicesMade === 3) {
+            this.finishedPhase();
+          }
+        } else {
+          if(this.state.choicesMade === 5) {
+            this.finishedPhase();
+          }
         }
+      });
+    }
+  }
+
+  tieBreakerPicked = (event) => {
+    const btnPressed = event.target.value;
+
+    if(btnPressed === 'retry') {
+      this.setState({
+        retry: 1,
+        tieBreakers: 1
+      }, () => {
+        this.finishedPhase();
+      });
+    } else {
+      this.setState({
+        random: 1,
+        tieBreakers: 1
+      }, () => {
+        this.finishedPhase();
       });
     }
   }
@@ -248,7 +306,12 @@ class Phases extends Component {
       option1: this.state.option1,
       option2: this.state.option2,
       option3: this.state.option3,
-      choicesMade: this.state.choicesMade
+      option4: this.state.option4,
+      option5: this.state.option5,
+      choicesMade: this.state.choicesMade,
+      retry: this.state.retry,
+      random: this.state.random,
+      tieBreakers: this.state.tieBreakers
     });
   }
 
@@ -257,22 +320,6 @@ class Phases extends Component {
 
     socket.emit('resetPlan', {
       planCode: this.props.match.params.planCode
-    });
-  }
-
-  resetPhaseData = (choiceData, choicesMade) => {
-    this.setState({
-      phaseData: choiceData,
-      hiddenPhaseData: [],
-      topChoices: [],
-      option1: 0,
-      option2: 0,
-      option3: 0,
-      option1Total: 0,
-      option2Total: 0,
-      option3Total: 0,
-      choicesMade: choicesMade,
-      choicesTotal: 0
     });
   }
 
@@ -296,59 +343,36 @@ class Phases extends Component {
     });
   }
 
-  checkConsensus = (optionData) => {
+  checkOptionsConsensus = (optionData) => {
     const option1 = this.state.option1Total;
     const option2 = this.state.option2Total;
     const option3 = this.state.option3Total;
+    const option4 = this.state.option4Total;
+    const option5 = this.state.option5Total;
     const {path} = this.props.match;
-    const phase1Path = '/phase1/:planCode/:name/'
 
-    if(option1 > option2 && option1 > option3) {
-      const option1Data = optionData.filter(choice => choice.option === 1);
-      if(path === phase1Path) {
-        this.startNextPhase(option1Data[0].id);
+    const winningOptionData = consensusChecker(optionData, option1, option2, option3, option4, option5);
+    if(winningOptionData.length === 1) {
+      if(path === '/phase1/:planCode/:name/') {
+        this.startNextPhase(winningOptionData[0].id);
       } else {
-        this.getResults(option1Data[0].id);
+        this.getResults(winningOptionData[0].id);
       }
-
-    } else if(option2 > option1 && option2 > option3) {
-      const option2Data = optionData.filter(choice => choice.option === 2);
-      if(path === phase1Path) {
-        this.startNextPhase(option2Data[0].id);
-      } else {
-        this.getResults(option2Data[0].id);
-      }
-
-    } else if(option3 > option1 && option3 > option2) {
-      const option3Data = optionData.filter(choice => choice.option === 3);
-      if(path === phase1Path) {
-        this.startNextPhase(option3Data[0].id);
-      } else {
-        this.getResults(option3Data[0].id);
-      }
-
-    } else if(option1 > option3 && option1 === option2) {
-      const options1And2Data = optionData.filter(choice => choice.option === 1 || choice.option === 2);
-      this.setState({
-        topChoices: options1And2Data
-      });
-
-    } else if(option1 > option2 && option1 === option3) {
-      const options1And3Data = optionData.filter(choice => choice.option === 1 || choice.option === 3);
-      this.setState({
-        topChoices: options1And3Data
-      });
-
-    } else if(option2 > option1 && option2 === option3) {
-      const options2And3Data = optionData.filter(choice => choice.option === 2 || choice.option === 3);
-      this.setState({
-        topChoices: options2And3Data
-      });
-
     } else {
       this.setState({
-        topChoices: optionData
+        topChoices: winningOptionData
       });
+    }
+  }
+
+  checkTieBreakerConsensus = () => {
+    const retry = this.state.retryTotal;
+    const random = this.state.randomTotal;
+
+    if(retry >= random) {
+      this.retryPhase();
+    } else {
+      this.pickRandom();
     }
   }
 
@@ -360,54 +384,34 @@ class Phases extends Component {
     });
   }
 
-  retryWithTwo = () => {
-    const socket = io('http://localhost:8040');
-
-    socket.emit('retryWithTwo', {
-      planCode: this.props.match.params.planCode
-    });
-  }
-
   pickRandom = () => {
-    const randomNumber = Math.random();
     const {hiddenPhaseData, phaseData} = this.state;
+    const {path} = this.props.match;
 
-    if(randomNumber <= 0.3333) {
+    if(path === '/phase1/:planCode/:name/') {
+      const winningOption = randomOptionThree();
+
       this.setState({
-        option1Total: 1,
-        option2Total: 0,
-        option3Total: 0
+        [winningOption]: 999
       }, () => {
         if(hiddenPhaseData[0]) {
-          this.checkConsensus(hiddenPhaseData);
+          this.checkOptionsConsensus(hiddenPhaseData);
         } else {
-          this.checkConsensus(phaseData);
+          this.checkOptionsConsensus(phaseData);
         }
-      });
-    } else if(randomNumber <= 0.6666) {
-      this.setState({
-        option1Total: 0,
-        option2Total: 1,
-        option3Total: 0
-      }, () => {
-        if(hiddenPhaseData[0]) {
-          this.checkConsensus(hiddenPhaseData);
-        } else {
-          this.checkConsensus(phaseData);
-        }
-      });
+      })
     } else {
+      const winningOption = randomOptionFive();
+
       this.setState({
-        option1Total: 0,
-        option2Total: 0,
-        option3Total: 1
+        [winningOption]: 999
       }, () => {
         if(hiddenPhaseData[0]) {
-          this.checkConsensus(hiddenPhaseData);
+          this.checkOptionsConsensus(hiddenPhaseData);
         } else {
-          this.checkConsensus(phaseData);
+          this.checkOptionsConsensus(phaseData);
         }
-      });
+      })
     }
   }
 
@@ -416,10 +420,8 @@ class Phases extends Component {
 
     const functions = {
       loadPage: this.loadPage, 
-      retryPhase: this.retryPhase,
-      retryWithTwo: this.retryWithTwo,
-      pickRandom: this.pickRandom, 
-      choiceMade: this.choiceMade
+      optionPicked: this.optionPicked,
+      tieBreakerPicked: this.tieBreakerPicked
     }
 
     if(path === '/phase1/:planCode/:name/') {

@@ -7,7 +7,7 @@ function Options(props) {
       <Header/>
 
       {props.phaseData.map((choice, index) => 
-      <OptionCard key={choice.id}  index={index} option={choice.option} name={choice.name} img={choice.img} choiceMade={props.choiceMade}/>)}
+      <OptionCard key={choice.id}  index={index} option={choice.option} name={choice.name} img={choice.img} optionPicked={props.optionPicked}/>)}
     </div>
   );
 }

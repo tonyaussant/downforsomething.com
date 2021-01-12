@@ -1,16 +1,16 @@
-import TwoWayTie from './TwoWayTie';
-import ThreeWayTie from './ThreeWayTie';
+import OptionsTied from './OptionsTied';
+import NoConsensus from './NoConsensus';
 
 function TieBreaker(props) {
-  const {topChoices, retryPhase, retryWithTwo, pickRandom} = props
+  const {phase, topChoices, tieBreakers, tieBreakerPicked} = props
 
-  if(topChoices.length === 2) {
+  if((phase === 'phase1' && topChoices.length === 3) || topChoices.length === 5) {
     return(
-      <TwoWayTie nameOne={topChoices[0].name} nameTwo={topChoices[1].name} retryPhase={retryPhase} retryWithTwo={retryWithTwo} pickRandom={pickRandom}/>
+      <NoConsensus tieBreakers={tieBreakers} tieBreakerPicked={tieBreakerPicked}/>
     );
-  } else if(topChoices.length === 3) {
+  } else {
     return(
-      <ThreeWayTie retryPhase={retryPhase} pickRandom={pickRandom}/>
+      <OptionsTied nameOne={topChoices[0].name} nameTwo={topChoices[1].name} tieBreakers={tieBreakers} tieBreakerPicked={tieBreakerPicked}/>
     );
   }
 }
