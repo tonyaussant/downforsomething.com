@@ -102,7 +102,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('nextPhase', (data) => {
-    functions.resetPhase(data.planCode)
+    functions.nextPhase(data.planCode)
       .catch(error => {
         throw error
       })

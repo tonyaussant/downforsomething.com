@@ -37,19 +37,28 @@ model Results {
 }
 
 model Plans {
-  planCode      String  @id
-  option1Total  Int     @default(0)
-  option2Total  Int     @default(0)
-  option3Total  Int     @default(0)
-  choicesTotal  Int     @default(0)
-  choicesNeeded Int     @default(99)
-  roomOpen      Boolean @default(true)
-  users         Users[]
+  planCode          String  @id
+  option1Total      Int     @default(0)
+  option2Total      Int     @default(0)
+  option3Total      Int     @default(0)
+  option4Total      Int     @default(0)
+  option5Total      Int     @default(0)
+  choicesTotal      Int     @default(0)
+  choicesNeeded     Int     @default(99)
+  retryTotal        Int     @default(0)
+  randomTotal       Int     @default(0)
+  tieBreakersTotal  Int     @default(0)
+  tieBreakersNeeded Int     @default(99)
+  roomOpen          Boolean @default(true)
+  users             Users[]
 }
 
 model Users {
-  id        String  @id @default(uuid())
-  name      String
-  plans     Plans?  @relation(fields: [planCode], references: [planCode])
-  planCode  String?
+  id              String  @id @default(uuid())
+  name            String  
+  phase1Done      Boolean @default(false)
+  phase2Done      Boolean @default(false)
+  tieBreakerDone  Boolean @default(false)
+  plans           Plans?  @relation(fields: [planCode], references: [planCode])
+  planCode        String?
 }

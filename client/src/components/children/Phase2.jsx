@@ -7,8 +7,8 @@ import TieBreaker from './TieBreaker';
 
 function Phase2(props) {
   const {planCode, name} = props.params;
-  const {winnerData, phaseData, topChoices, pageLoaded, phase2WinnerID} = props.state;
-  const {loadPage, retryPhase, retryWithTwo, pickRandom, choiceMade} = props.functions;
+  const {winnerData, phaseData, topChoices, tieBreakers, pageLoaded, phase2WinnerID} = props.state;
+  const {loadPage, optionPicked, tieBreakerPicked} = props.functions;
 
   if(phase2WinnerID) {
     return(
@@ -26,11 +26,11 @@ function Phase2(props) {
     }
   } else if(topChoices[0]) {
     return(
-      <TieBreaker topChoices={topChoices} retryPhase={retryPhase} retryWithTwo={retryWithTwo} pickRandom={pickRandom}/>
+      <TieBreaker topChoices={topChoices} tieBreakers={tieBreakers} tieBreakerPicked={tieBreakerPicked}/>
     );
   } else if(phaseData[0]) {
     return(
-      <Options phaseData={phaseData} choiceMade={choiceMade}/>
+      <Options phaseData={phaseData} optionPicked={optionPicked}/>
     );
   } else {
     return(
