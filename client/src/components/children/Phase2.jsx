@@ -7,7 +7,7 @@ import TieBreaker from './TieBreaker';
 
 function Phase2(props) {
   const {planCode, name} = props.params;
-  const {winnerData, phaseData, topChoices, users, tieBreakers, pageLoaded, phase2WinnerID} = props.state;
+  const {phase1WinnerData, phaseData, topChoices, users, tieBreakers, pageLoaded, phase2WinnerID} = props.state;
   const {loadPage, optionPicked, tieBreakerPicked, restartPhase} = props.functions;
 
   if(phase2WinnerID) {
@@ -15,9 +15,9 @@ function Phase2(props) {
       <Redirect to={`/results/${phase2WinnerID}/${planCode}/${name}`}/>
     );
   } else if(!pageLoaded) {
-    if(winnerData.id) {
+    if(phase1WinnerData.id) {
       return(
-        <PrePhase winnerData={winnerData} displayName={name} loadPage={loadPage}/>
+        <PrePhase winnerData={phase1WinnerData} displayName={name} loadPage={loadPage}/>
       );
     } else {
       return(

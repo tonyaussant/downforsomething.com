@@ -21,7 +21,7 @@ function OptionsTied(props) {
 
             <h2 className='sub-title lobby__title'>click whichever button represents how you would like to break the tie</h2>
             
-            <button className='button choices__button' value='retry' onClick={(event) => tieBreakerPicked(event)}>retry phase</button>
+            <button className='button choices__button' value='retry' onClick={(event) => tieBreakerPicked(event)}>retry</button>
             <button className='button choices__button' value='random' onClick={(event) => tieBreakerPicked(event)}>random option</button>
           </div>
         </section>

@@ -11,7 +11,8 @@ class Phases extends Component {
     phaseData: [],
     hiddenPhaseData: [],
     topChoices: [],
-    winnerData: [],
+    phase1WinnerData: [],
+    phase2WinnerData: [],
     resultsData: [],
     users: [],
     phase1WinnerID: '',
@@ -73,6 +74,7 @@ class Phases extends Component {
     });
 
     socket.on('pickRandom', () => {
+      console.log('pickRandom');
       this.getPlanData();
     });
 
@@ -129,7 +131,7 @@ class Phases extends Component {
     axios.get(`http://localhost:8080/phase1/${winnerID}`)
     .then((result) => {
       this.setState({
-        winnerData: result.data
+        phase1WinnerData: result.data
       }, () => {
         this.getPhase2Data(winnerID);
       });
@@ -143,7 +145,7 @@ class Phases extends Component {
     axios.get(`http://localhost:8080/phase2/${winnerID}`)
     .then((result) => {
       this.setState({
-        winnerData: result.data
+        phase2WinnerData: result.data
       }, () => {
         this.getResultsData(winnerID);
       });
@@ -404,6 +406,7 @@ class Phases extends Component {
 
     const winningOptionData = consensusChecker(optionData, option1, option2, option3, option4, option5);
     if(winningOptionData.length === 1) {
+      console.log(path);
       if(path === '/phase1/:planCode/:name/') {
         this.startNextPhase(winningOptionData[0].id);
       } else {

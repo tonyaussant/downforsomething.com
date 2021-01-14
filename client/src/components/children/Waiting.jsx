@@ -10,7 +10,7 @@ function Waiting(props) {
 
       <div className='main'>
         <div className='main__wrapper'>
-          <h1 className='title'>waiting for rest of group to choose</h1>
+          <h1 className='title lobby__title'>waiting for rest of group to choose</h1>
 
           <UserFinished phase={phase} users={users}/>
         </div>

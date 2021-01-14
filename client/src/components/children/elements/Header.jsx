@@ -11,7 +11,7 @@ function Header(props) {
           <img className='header__logo' src={logo} alt='down for something logo'/>
   
           <nav>
-            <button className='button header__button' onClick={() => restartPhase(phase)}>restart phase</button>
+            <button className='button header__second-button' onClick={() => restartPhase(phase)}>restart</button>
             <Link className='button header__button' to='/'>
               main
             </Link>
@@ -27,7 +27,7 @@ function Header(props) {
   
           <nav>
             <Link className='button header__button' to='/'>
-              home
+              main
             </Link>
           </nav>
         </div>
