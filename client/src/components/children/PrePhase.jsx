@@ -1,11 +1,11 @@
 import Header from './elements/Header';
 
 function PrePhase(props) {
-  const {loadPage} = props;
+  const {winnerData, displayName, loadPage} = props;
   
-  if(props.winnerData) {
-    const {name, img} = props.winnerData;
-
+  if(winnerData) {
+    const {name, img} = winnerData;
+    
     return(
       <div>
         <Header/>
@@ -22,8 +22,6 @@ function PrePhase(props) {
       </div>
     );
   } else {
-    const {displayName} = props;
-
     return(
       <div>
         <Header/>

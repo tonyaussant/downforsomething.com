@@ -78,7 +78,7 @@ body {
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 0.875rem;
-  margin: 1rem 0 1.25rem;
+  margin: 1rem 0 1.75rem;
 }
 
 a {
@@ -113,8 +113,17 @@ a {
   color: #37393A;
   font-weight: bold;
   background-color: #FAFAFB;
+  border: 0.125rem solid #FAFAFB;
+  padding: 0.375rem 0.625rem;
+}
+
+.header__second-button {
+  color: #37393A;
+  font-weight: bold;
+  background-color: #FAFAFB;
   border: 0.125rem solid #2071C1;
   padding: 0.375rem 0.625rem;
+  margin-right: 0.375rem;
 }
 
 .landing-page {

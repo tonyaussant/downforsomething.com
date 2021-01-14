@@ -7,46 +7,59 @@ import Header from './children//elements/Header';
 class JoinPlan extends Component {
   state = {
     planCode: '',
-    name: ''
+    name: '',
+    nameErrorMsg: '',
+    planErrorMsg: ''
   }
 
   joinPlan = event => {
     event.preventDefault();
     const name = event.target.name.value;
-    const planCode = event.target.room.value;
 
-    axios.get(`http://localhost:8080/plans/${planCode}`)
-    .then((result) => {
-      if(result.data.roomOpen) {
-        const socket = io('http://localhost:8040');
+    if(name.trim()) {
+      const planCode = event.target.room.value;
 
-        socket.emit('joinRoom', {
-          planCode: planCode,
-        });
-
-        socket.emit('joinPlan', {
-          planCode: planCode,
-          name: name
-        });
-        
-        socket.on('joinPlan', () => {
-          this.setState({
+      axios.get(`http://localhost:8080/plans/${planCode}`)
+      .then((result) => {
+        if(result.data.roomOpen) {
+          const socket = io('http://localhost:8040');
+  
+          socket.emit('joinRoom', {
+            planCode: planCode,
+          });
+  
+          socket.emit('joinPlan', {
             planCode: planCode,
             name: name
           });
-        });
-      } else {
-        console.log('plan has already started');
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+          
+          socket.on('joinPlan', () => {
+            this.setState({
+              planCode: planCode,
+              name: name
+            });
+          });
+        } else {
+          this.setState({
+            planErrorMsg: 'this plan does not exist or has already started. please try with a different code'
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    } else {
+      this.setState({
+        nameErrorMsg: 'please enter a name'
+      });
+    }
   }
 
   render() {
-    if(this.state.planCode) {
-      return <Redirect to={`/lobby/${this.state.planCode}/${this.state.name}`}/>
+    const {planCode, name, nameErrorMsg, planErrorMsg} = this.state;
+
+    if(planCode) {
+      return <Redirect to={`/lobby/${planCode}/${name}`}/>
     } else {
       return(
         <div>
@@ -57,10 +70,16 @@ class JoinPlan extends Component {
 
               <form className='create-join__form' action='submit' onSubmit={this.joinPlan}>
                 <label className='text' htmlFor='name'>name:</label>
-                <input className='input create-join__input' type='text' name='name'/>
+                <div>
+                  <input className='input create-join__input' type='text' name='name'/>
+                  <p className='text'>{nameErrorMsg}</p>
+                </div>
                 
                 <label className='text' htmlFor='name'>plan code:</label>
-                <input className='input create-join__input' type='text' name='room'/>
+                <div>
+                  <input className='input create-join__input' type='text' name='room'/>
+                  <p className='text'>{planErrorMsg}</p>
+                </div>
 
                 <input className='button create-join__button' type='submit' value='join plan'/>
               </form>

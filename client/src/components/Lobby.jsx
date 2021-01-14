@@ -4,7 +4,7 @@ import {Redirect} from 'react-router-dom';
 import {io} from 'socket.io-client';
 import Header from './children/elements/Header';
 import Loading from './children/Loading';
-import UserName from './children/elements/UserName';
+import UserJoined from './children/elements/UserJoined';
 
 class Lobby extends Component {
   state = {
@@ -75,7 +75,7 @@ class Lobby extends Component {
       
                 <ul className='demo'>
                   {users.map((user) => 
-                  <UserName key={user.id} name={user.name}/>)}
+                  <UserJoined key={user.id} name={user.name}/>)}
                 </ul>
       
                 <button className='button' onClick={() => this.startPlan()}>start</button>

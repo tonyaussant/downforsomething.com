@@ -1,7 +1,7 @@
 import {Component} from 'react';
 import axios from 'axios';
 import {io} from 'socket.io-client';
-import {randomOptionThree, randomOptionFive, consensusChecker} from '../functions/functions';
+import {consensusChecker} from '../functions/functions';
 import Phase1 from './children/Phase1';
 import Phase2 from './children/Phase2';
 import Results from './children/Results';
@@ -11,7 +11,8 @@ class Phases extends Component {
     phaseData: [],
     hiddenPhaseData: [],
     topChoices: [],
-    winnerData: [],
+    phase1WinnerData: [],
+    phase2WinnerData: [],
     resultsData: [],
     users: [],
     phase1WinnerID: '',
@@ -41,7 +42,7 @@ class Phases extends Component {
 
   componentDidMount() {
     const {parentID, planCode} = this.props.match.params;
-    const {path} = this.props.match;
+    let {path} = this.props.match;
     
     if(path === '/phase1/:planCode/:name/') {
       this.getPhase1Data();
@@ -58,15 +59,23 @@ class Phases extends Component {
     });
 
     socket.on('finishedPhase', () => {
-      this.getPlanData();
+      this.getUserData();
     });
 
     socket.on('retryPhase', () => {
+      const {parentID} = this.props.match.params;
+      let {path} = this.props.match;
+      
       if(path === '/phase1/:planCode/:name/') {
         this.getPhase1Data();
       } else {
-        this.getPhase1WinnerData(parentID);
+        this.getPhase2Data(parentID);
       }
+    });
+
+    socket.on('pickRandom', () => {
+      console.log('pickRandom');
+      this.getPlanData();
     });
 
     socket.on('nextPhase', (winnerID) => {
@@ -103,12 +112,14 @@ class Phases extends Component {
         option3Total: 0,
         choicesMade: 0,
         choicesTotal: 0,
+        retry: 0,
+        random: 0,
         retryTotal: 0,
         randomTotal: 0,
         tieBreakers: 0,
         tieBreakersTotal: 0
       }, () => {
-        this.getPlanData();
+        this.getUserData();
       });
     })
     .catch((error) => {
@@ -120,7 +131,7 @@ class Phases extends Component {
     axios.get(`http://localhost:8080/phase1/${winnerID}`)
     .then((result) => {
       this.setState({
-        winnerData: result.data
+        phase1WinnerData: result.data
       }, () => {
         this.getPhase2Data(winnerID);
       });
@@ -134,7 +145,7 @@ class Phases extends Component {
     axios.get(`http://localhost:8080/phase2/${winnerID}`)
     .then((result) => {
       this.setState({
-        winnerData: result.data
+        phase2WinnerData: result.data
       }, () => {
         this.getResultsData(winnerID);
       });
@@ -163,10 +174,14 @@ class Phases extends Component {
         option5Total: 0,
         choicesMade: 0,
         choicesTotal: 0,
+        retry: 0,
+        random: 0,
+        retryTotal: 0,
+        randomTotal: 0,
         tieBreakers: 0,
         tieBreakersTotal: 0
       }, () => {
-        this.getPlanData();
+        this.getUserData();
       });
     })
     .catch((error) => {
@@ -182,6 +197,20 @@ class Phases extends Component {
         pageLoaded: true
       }, () => {
         this.deletePlanData();
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
+
+  getUserData = () => {  
+    axios.get(`http://localhost:8080/plans/${this.props.match.params.planCode}/users`)
+    .then((result) => {
+      this.setState({
+        users: result.data
+      }, () => {
+        this.getPlanData();
       });
     })
     .catch((error) => {
@@ -205,14 +234,14 @@ class Phases extends Component {
         tieBreakersTotal: result.data.tieBreakersTotal,
         tieBreakersNeeded: result.data.tieBreakersNeeded
       }, () => {
-        if(this.state.choicesTotal === this.state.choicesNeeded) {
+        if(this.state.tieBreakersTotal === this.state.tieBreakersNeeded) {
+          this.checkTieBreakerConsensus();
+        } else if(this.state.choicesTotal === this.state.choicesNeeded) {
           if(this.state.hiddenPhaseData[0]) {
             this.checkOptionsConsensus(this.state.hiddenPhaseData);
           } else {
             this.checkOptionsConsensus(this.state.phaseData);
           }
-        } else if(this.state.tieBreakersTotal === this.state.tieBreakersNeeded) {
-          this.checkTieBreakerConsensus();
         }
       });
     })
@@ -254,9 +283,9 @@ class Phases extends Component {
         choicesMade: this.state.choicesMade + 1
       }, () => {
         if(path === phase1Path && this.state.choicesMade === 3) {
-          this.finishedPhase();
+          this.finishedPhase('phase1Done');
         } else if(this.state.choicesMade === 5) {
-          this.finishedPhase();
+          this.finishedPhase('phase2Done');
         }
       });
     } else {
@@ -267,11 +296,11 @@ class Phases extends Component {
       }, () => {
         if(path === phase1Path) {
           if(this.state.choicesMade === 3) {
-            this.finishedPhase();
+            this.finishedPhase('phase1Done');
           }
         } else {
           if(this.state.choicesMade === 5) {
-            this.finishedPhase();
+            this.finishedPhase('phase2Done');
           }
         }
       });
@@ -286,32 +315,48 @@ class Phases extends Component {
         retry: 1,
         tieBreakers: 1
       }, () => {
-        this.finishedPhase();
+        this.finishedTieBreaker();
       });
     } else {
       this.setState({
         random: 1,
         tieBreakers: 1
       }, () => {
-        this.finishedPhase();
+        this.finishedTieBreaker();
       });
     }
   }
 
-  finishedPhase = () => {
+  finishedPhase = (phaseDone) => {
+    const {planCode, name} = this.props.match.params;
     const socket = io('http://localhost:8040');
+    const specificUser = this.state.users.filter((user) => user.name === name);
+    const userID = specificUser[0].id;
 
     socket.emit('finishedPhase', {
-      planCode: this.props.match.params.planCode,
+      planCode: planCode,
+      userID: userID,
       option1: this.state.option1,
       option2: this.state.option2,
       option3: this.state.option3,
       option4: this.state.option4,
       option5: this.state.option5,
       choicesMade: this.state.choicesMade,
+      phaseDone: phaseDone
+    });
+  }
+
+  finishedTieBreaker = () => {
+    const {planCode, name} = this.props.match.params;
+    const socket = io('http://localhost:8040');
+    const specificUser = this.state.users.filter((user) => user.name === name);
+    const userID = specificUser[0].id;
+
+    socket.emit('finishedTieBreaker', {
+      planCode: planCode,
+      userID: userID,
       retry: this.state.retry,
-      random: this.state.random,
-      tieBreakers: this.state.tieBreakers
+      random: this.state.random
     });
   }
 
@@ -343,6 +388,14 @@ class Phases extends Component {
     });
   }
 
+  restartPhase = (phase) => {
+    if(phase === 'phase1') {
+      this.getPhase1Data();
+    } else {
+      this.getPhase2Data(this.props.match.params.parentID)
+    }
+  }
+
   checkOptionsConsensus = (optionData) => {
     const option1 = this.state.option1Total;
     const option2 = this.state.option2Total;
@@ -353,6 +406,7 @@ class Phases extends Component {
 
     const winningOptionData = consensusChecker(optionData, option1, option2, option3, option4, option5);
     if(winningOptionData.length === 1) {
+      console.log(path);
       if(path === '/phase1/:planCode/:name/') {
         this.startNextPhase(winningOptionData[0].id);
       } else {
@@ -385,33 +439,19 @@ class Phases extends Component {
   }
 
   pickRandom = () => {
-    const {hiddenPhaseData, phaseData} = this.state;
     const {path} = this.props.match;
+    const socket = io('http://localhost:8040');
 
     if(path === '/phase1/:planCode/:name/') {
-      const winningOption = randomOptionThree();
-
-      this.setState({
-        [winningOption]: 999
-      }, () => {
-        if(hiddenPhaseData[0]) {
-          this.checkOptionsConsensus(hiddenPhaseData);
-        } else {
-          this.checkOptionsConsensus(phaseData);
-        }
-      })
+      socket.emit('pickRandom', {
+        planCode: this.props.match.params.planCode,
+        phase: 'phase1'
+      });
     } else {
-      const winningOption = randomOptionFive();
-
-      this.setState({
-        [winningOption]: 999
-      }, () => {
-        if(hiddenPhaseData[0]) {
-          this.checkOptionsConsensus(hiddenPhaseData);
-        } else {
-          this.checkOptionsConsensus(phaseData);
-        }
-      })
+      socket.emit('pickRandom', {
+        planCode: this.props.match.params.planCode,
+        phase: 'phase2'
+      });
     }
   }
 
@@ -419,9 +459,10 @@ class Phases extends Component {
     const {path} = this.props.match;
 
     const functions = {
-      loadPage: this.loadPage, 
+      loadPage: this.loadPage,
       optionPicked: this.optionPicked,
-      tieBreakerPicked: this.tieBreakerPicked
+      tieBreakerPicked: this.tieBreakerPicked,
+      restartPhase: this.restartPhase
     }
 
     if(path === '/phase1/:planCode/:name/') {
