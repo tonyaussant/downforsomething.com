@@ -1,5 +1,6 @@
 const {PrismaClient} = require('@prisma/client');
 const prisma = new PrismaClient();
+const helperFunc = require('./helper');
 
 async function createPlan(planCode, displayName) {
   await prisma.plans.create({
@@ -64,10 +65,41 @@ async function finishedPhase(data) {
       option3Total: currentData.option3Total + data.option3,
       option4Total: currentData.option4Total + data.option4,
       option5Total: currentData.option5Total + data.option5,
-      choicesTotal: currentData.choicesTotal + data.choicesMade,
+      choicesTotal: currentData.choicesTotal + data.choicesMade
+    }
+  });
+  await prisma.users.update({
+    where: {
+     id: data.userID
+    },
+    data: {
+      [data.phaseDone]: true
+    }
+  });
+}
+
+async function finishedTieBreaker(data) {
+  const currentData = await prisma.plans.findUnique({
+    where: {
+      planCode: data.planCode
+    }
+  });
+  await prisma.plans.update({
+    where: {
+      planCode: data.planCode
+    },
+    data: {
       retryTotal: currentData.retryTotal + data.retry,
       randomTotal: currentData.randomTotal + data.random,
-      tieBreakersTotal: currentData.tieBreakersTotal + data.tieBreakers
+      tieBreakersTotal: currentData.tieBreakersTotal + 1
+    }
+  });
+  await prisma.users.update({
+    where: {
+     id: data.userID
+    },
+    data: {
+      tieBreakerDone: true
     }
   });
 }
@@ -89,6 +121,55 @@ async function resetPhase(planCode) {
       tieBreakersTotal: 0
     }
   });
+  await prisma.users.updateMany({
+    where: {
+      planCode: planCode
+    },
+    data: {
+      phase1Done: false,
+      phase2Done: false,
+      tieBreakerDone: false
+    }
+  });
+}
+
+async function pickRandom(planCode, phase) {
+  const planData = await prisma.plans.findUnique({
+    where: {
+      planCode: planCode
+    }
+  });
+  if(!planData.randomGenerated) {
+    if(phase === 'phase1') {
+      const winningOption = helperFunc.randomOptionThree();
+      await prisma.plans.update({
+        where: {
+          planCode: planCode
+        },
+        data: {
+          [winningOption]: 999,
+          retryTotal: 0,
+          randomTotal: 0,
+          tieBreakersTotal: 0,
+          randomGenerated: true
+        }
+      });
+    } else {
+      const winningOption = helperFunc.randomOptionFive();
+      await prisma.plans.update({
+        where: {
+          planCode: planCode
+        },
+        data: {
+          [winningOption]: 999,
+          retryTotal: 0,
+          randomTotal: 0,
+          tieBreakersTotal: 0,
+          randomGenerated: true
+        }
+      });
+    }
+  }
 }
 
 async function nextPhase(planCode) {
@@ -112,17 +193,33 @@ async function nextPhase(planCode) {
       choicesTotal: 0,
       retryTotal: 0,
       randomTotal: 0,
-      tieBreakersTotal: 0
+      tieBreakersTotal: 0,
+      randomGenerated: false
+    }
+  });
+  await prisma.users.updateMany({
+    where: {
+      planCode: planCode
+    },
+    data: {
+      tieBreakerDone: false
     }
   });
 }
 
 async function deletePlan(planCode) {
-  await prisma.plans.delete({
+  const planData = await prisma.plans.findUnique({
     where: {
       planCode: planCode
     }
   });
+  if(planData) {
+    await prisma.plans.delete({
+      where: {
+        planCode: planCode
+      }
+    });
+  }
 }
 
 function planExpiry(planCode) {
@@ -134,7 +231,7 @@ function planExpiry(planCode) {
     .finally(async () => {
       await prisma.$disconnect();
     });
-  }, 1800000);
+  }, 21600000);
 }
 
-module.exports = {createPlan, createUser, startPlan, finishedPhase, resetPhase, nextPhase, deletePlan, planExpiry}
+module.exports = {createPlan, createUser, startPlan, finishedPhase, finishedTieBreaker, resetPhase, pickRandom, nextPhase, deletePlan, planExpiry}

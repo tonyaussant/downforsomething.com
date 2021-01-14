@@ -50,6 +50,7 @@ model Plans {
   tieBreakersTotal  Int     @default(0)
   tieBreakersNeeded Int     @default(99)
   roomOpen          Boolean @default(true)
+  randomGenerated   Boolean @default(false)
   users             Users[]
 }
 

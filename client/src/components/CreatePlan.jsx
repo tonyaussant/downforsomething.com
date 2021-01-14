@@ -7,35 +7,44 @@ import Header from './children/elements/Header';
 class CreatePlan extends Component {
   state = {
     planCode: '',
-    name: ''
+    name: '',
+    errorMsg: ''
   }
 
   createPlan = event => {
     event.preventDefault();
     const name = event.target.name.value;
-    const planCode = randomize('aA0', 6);
-    const socket = io('http://localhost:8040');
+    if(name.trim()) {
+      const planCode = randomize('aA0', 6);
+      const socket = io('http://localhost:8040');
 
-    socket.emit('joinRoom', {
-      planCode: planCode,
-    });
+      socket.emit('joinRoom', {
+        planCode: planCode,
+      });
 
-    socket.emit('createPlan', {
-      planCode: planCode,
-      name: name
-    });
-    
-    socket.on('createPlan', () => {
-      this.setState({
+      socket.emit('createPlan', {
         planCode: planCode,
         name: name
       });
-    });
+      
+      socket.on('createPlan', () => {
+        this.setState({
+          planCode: planCode,
+          name: name
+        });
+      });
+    } else {
+      this.setState({
+        errorMsg: 'please enter a name'
+      });
+    }
   }
 
   render() {
-    if(this.state.planCode) {
-      return <Redirect to={`/lobby/${this.state.planCode}/${this.state.name}`}/>
+    const {planCode, name, errorMsg} = this.state;
+
+    if(planCode) {
+      return <Redirect to={`/lobby/${planCode}/${name}`}/>
     } else {
       return(
         <div>
@@ -46,7 +55,12 @@ class CreatePlan extends Component {
 
               <form className='create-join__form' action='submit' onSubmit={this.createPlan}>
                 <label className='text' htmlFor='name'>display name:</label>
-                <input className='input create-join__input' type='text' name='name'/>
+                <div>
+                  <input className='input create-join__input' type='text' name='name'/>
+                  <p className='text'>{errorMsg}</p>
+                </div>
+                
+
 
                 <input className='button create-join__button' type='submit' value='create plan'/>
               </form>

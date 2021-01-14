@@ -16,7 +16,7 @@ const cors = require('cors');
 const phase1Route = require('./routes/phase1');
 const phase2Route = require('./routes/phase2');
 const plansRoute = require('./routes/plans');
-const functions = require('./functions/prisma');
+const prismaFunc = require('./functions/prisma');
 
 require('dotenv').config();
 const mainPort = process.env.MAIN_PORT;
@@ -35,19 +35,19 @@ io.on('connection', (socket) => {
   });
 
   socket.on('createPlan', (data) => {
-    functions.createPlan(data.planCode, data.name)
+    prismaFunc.createPlan(data.planCode, data.name)
       .catch(error => {
         throw error
       })
       .finally(async () => {
         io.to(data.planCode).emit('createPlan');
-        functions.planExpiry(data.planCode);
+        prismaFunc.planExpiry(data.planCode);
         await prisma.$disconnect();
       });
   });
 
   socket.on('joinPlan', (data) => {
-    functions.createUser(data.planCode, data.name)
+    prismaFunc.createUser(data.planCode, data.name)
       .catch(error => {
         throw error
       })
@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('startPlan', (data) => {
-    functions.startPlan(data.planCode)
+    prismaFunc.startPlan(data.planCode)
       .catch(error => {
         throw error
       })
@@ -69,7 +69,18 @@ io.on('connection', (socket) => {
   });
 
   socket.on('finishedPhase', (data) => {
-    functions.finishedPhase(data)
+    prismaFunc.finishedPhase(data)
+      .catch(error => {
+        throw error
+      })
+      .finally(async () => {
+        io.to(data.planCode).emit('finishedPhase');
+        await prisma.$disconnect();
+      });
+  });
+
+  socket.on('finishedTieBreaker', (data) => {
+    prismaFunc.finishedTieBreaker(data)
       .catch(error => {
         throw error
       })
@@ -80,7 +91,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('retryPhase', (data) => {
-    functions.resetPhase(data.planCode)
+    prismaFunc.resetPhase(data.planCode)
       .catch(error => {
         throw error
       })
@@ -90,19 +101,19 @@ io.on('connection', (socket) => {
       });
   });
 
-  socket.on('retryWithTwo', (data) => {
-    functions.resetPhase(data.planCode)
+  socket.on('pickRandom', (data) => {
+    prismaFunc.pickRandom(data.planCode, data.phase)
       .catch(error => {
         throw error
       })
       .finally(async () => {
-        io.to(data.planCode).emit('retryWithTwo');
+        io.to(data.planCode).emit('pickRandom');
         await prisma.$disconnect();
       });
   });
 
   socket.on('nextPhase', (data) => {
-    functions.nextPhase(data.planCode)
+    prismaFunc.nextPhase(data.planCode)
       .catch(error => {
         throw error
       })
@@ -117,7 +128,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('deletePlan', (data) => {
-    functions.deletePlan(data.planCode)
+    prismaFunc.deletePlan(data.planCode)
       .catch(error => {
         throw error
       })

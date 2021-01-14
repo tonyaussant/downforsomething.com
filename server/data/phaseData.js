@@ -6,22 +6,28 @@ const option1 = {
     create: [
     { 
       option: 1,
-      name: 'go hiking or biking',
+      name: 'take a hike',
       img: 'https://media.giphy.com/media/dZRCL4lz0lZKdlckNp/giphy.gif',
       results: {
-        create: [
-        {
+        create: {
           name: '20 best hikes near vancouver',
           url: 'https://www.explore-mag.com/20-of-the-Best-Hiking-Trails-near-Vancouver'
-        },
-        {
-          name: '5 best bike rides in metro vancouver',
-          url: 'https://vancouversun.com/news/local-news/5-best-bike-rides-in-metro-vancouver'
-        }]
+        }
       }
     },
     { 
       option: 2,
+      name: 'go biking',
+      img: 'https://media.giphy.com/media/ftvphb1LgYP9SgoNGn/giphy.gif',
+      results: {
+        create: {
+          name: '5 best bike rides in metro vancouver',
+          url: 'https://vancouversun.com/news/local-news/5-best-bike-rides-in-metro-vancouver'
+        }
+      }
+    },
+    { 
+      option: 3,
       name: 'play mini golf',
       img: 'https://media.giphy.com/media/O2kFK6fdz217a/giphy.gif',
       results: {
@@ -32,19 +38,25 @@ const option1 = {
       }
     },
     { 
-      option: 3,
-      name: 'have a park or beach hang',
-      img: 'https://media.giphy.com/media/KGz8qEN28Q1O0/giphy.gif',
+      option: 4,
+      name: 'have a park hang',
+      img: 'https://media.giphy.com/media/3s4jDUE8ifcVu3LriA/giphy.gif',
       results: {
-        create: [
-        {
+        create: {
           name: '11 best parks in vancouver',
           url: 'https://www.cntraveler.com/gallery/best-parks-in-vancouver'
-        },
-        {
+        }
+      }
+    },
+    { 
+      option: 5,
+      name: 'hit the beach',
+      img: 'https://media.giphy.com/media/KGz8qEN28Q1O0/giphy.gif',
+      results: {
+        create: {
           name: 'locals guide to the best beaches in vancouver',
           url: 'https://www.theunconventionalroute.com/vancouver-beaches'
-        }]
+        }
       }
     }]
   }
@@ -76,6 +88,21 @@ const option2 = {
     },
     { 
       option: 2,
+      name: 'see some stand-up',
+      img: 'https://media.giphy.com/media/XoA10PvETJ5adCgSkt/giphy.gif',
+      results: {
+        create: [{
+          name: 'little mountain gallery - upcoming events',
+          url: 'https://littlemountaingallery.ca/events/photo/'
+        },
+        {
+          name: 'comedy events vancouver',
+          url: 'https://www.facebook.com/groups/ComedyEventsVancouver/'
+        }]
+      }
+    },
+    { 
+      option: 3,
       name: 'go clubbing',
       img: 'https://media.giphy.com/media/MJL5ae814FDTW/giphy.gif',
       results: {
@@ -86,7 +113,22 @@ const option2 = {
       }
     },
     { 
-      option: 3,
+      option: 4,
+      name: 'do an escape room',
+      img: 'https://media.giphy.com/media/3o7WIMbAvsMddDqXsc/giphy.gif',
+      results: {
+        create: [{
+          name: 'top escape rooms in vancouver',
+          url: 'https://hijinkslife.com/blog/top-escape-rooms-vancouver/'
+        },
+        {
+          name: 'vancouver escape room guide',
+          url: 'https://www.vancouverescaperooms.ca/'
+        }]
+      }
+    },
+    { 
+      option: 5,
       name: 'see a movie',
       img: 'https://media.giphy.com/media/Bzebpz5rnyBb2/giphy.gif',
       results: {
@@ -117,7 +159,18 @@ const option3 = {
     },
     { 
       option: 2,
-      name: 'play games online',
+      name: 'host a murder mystery party',
+      img: 'https://media.giphy.com/media/gSYzK9VGVQxoY/giphy.gif',
+      results: {
+        create: {
+          name: 'downloadable murder mystery party kits',
+          url: 'https://www.playingwithmurder.com/?gclid=Cj0KCQiA0fr_BRDaARIsAABw4Evt0cod821MRUsg4wjnNSfe4PHN7Iy7IMNPCp_AWV8cV_bfEIBqhFIaAldQEALw_wcB'
+        }
+      }
+    },
+    { 
+      option: 3,
+      name: 'do some online gaming',
       img: 'https://media.giphy.com/media/cgCMnZr84zE40/giphy.gif',
       results: {
         create: {
@@ -127,7 +180,7 @@ const option3 = {
       }
     },
     { 
-      option: 3,
+      option: 4,
       name: 'have a house party',
       img: 'https://media.giphy.com/media/13jxyFwcS7dsdy/giphy.gif',
       results: {
@@ -139,6 +192,17 @@ const option3 = {
           name: '10 fun drinking games',
           url: 'https://www.scoopwhoop.com/inothernews/fun-drinking-games'
         }]
+      }
+    },
+    { 
+      option: 5,
+      name: 'have a movie night',
+      img: 'https://media.giphy.com/media/39yFBbGDm70xdS6x3f/giphy.gif',
+      results: {
+        create: {
+          name: 'what\'s new on netflix canada',
+          url: 'https://www.whats-on-netflix.com/whats-new/ca/'
+        }
       }
     }]
   }
