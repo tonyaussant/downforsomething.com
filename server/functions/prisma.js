@@ -213,7 +213,7 @@ async function deletePlan(planCode) {
       planCode: planCode
     }
   });
-  if(planData) {
+  if(planData[0]) {
     await prisma.plans.delete({
       where: {
         planCode: planCode

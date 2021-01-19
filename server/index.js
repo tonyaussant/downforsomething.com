@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 const express = require('express');
 const app = express();
 
-const server = require('http').createServer();
+const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
   pingTimeout: 30000,
   cors: {
@@ -13,21 +13,36 @@ const io = require('socket.io')(server, {
 });
 
 const cors = require('cors');
+const mysql = require("mysql");
 const phase1Route = require('./routes/phase1');
 const phase2Route = require('./routes/phase2');
 const plansRoute = require('./routes/plans');
 const prismaFunc = require('./functions/prisma');
 
 require('dotenv').config();
-const mainPort = process.env.MAIN_PORT;
-const socketPort = process.env.SOCKET_PORT;
-const mainURL = process.env.BACKEND_URL;
+const PORT = process.env.PORT;
 
 app.use(express.json());
 app.use(cors());
 app.use('/phase1', phase1Route);
 app.use('/phase2', phase2Route);
 app.use('/plans', plansRoute);
+
+let connection;
+
+if (process.env.JAWSDB_URL) {
+  connection = mysql.createConnection(process.env.JAWSDB_URL);
+} else {
+  connection = mysql.createConnection(process.env.DATABASE_URL);
+}
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("../client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
+  });
+}
 
 io.on('connection', (socket) => {
   socket.on('joinRoom', (data) => {
@@ -138,10 +153,12 @@ io.on('connection', (socket) => {
   });
 });
 
-app.listen(mainPort, () => {
-  console.log(`listening at ${mainURL}:${mainPort}`);
+server.listen(PORT, () => {
+  console.log(`listening at //localhost:${PORT}`);
 });
 
-server.listen(socketPort, () => {
-  console.log(`& ${mainURL}:${socketPort}`);
+connection.connect(error => {
+  console.log("connected as id " + connection.threadId);
 });
+
+module.exports = connection;

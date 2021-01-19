@@ -5,6 +5,8 @@ import {consensusChecker} from '../functions/functions';
 import Phase1 from './children/Phase1';
 import Phase2 from './children/Phase2';
 import Results from './children/Results';
+const backendURL = process.env.NODE_ENV === "production"
+? 'https://downforsomething.com' : process.env.REACT_APP_BACKEND_URL;
 
 class Phases extends Component {
   state = {
@@ -52,7 +54,7 @@ class Phases extends Component {
       this.getPhase2WinnerData(parentID);
     }
 
-    const socket = io('http://localhost:8040');
+    const socket = io(`${backendURL}`);
 
     socket.emit('joinRoom', {
       planCode: planCode
@@ -74,7 +76,6 @@ class Phases extends Component {
     });
 
     socket.on('pickRandom', () => {
-      console.log('pickRandom');
       this.getPlanData();
     });
 
@@ -98,7 +99,7 @@ class Phases extends Component {
   }
 
   getPhase1Data = () => {
-    axios.get('http://localhost:8080/phase1')
+    axios.get(`${backendURL}/phase1`)
     .then((result) => {
       this.setState({
         phaseData: result.data,
@@ -128,7 +129,7 @@ class Phases extends Component {
   }
 
   getPhase1WinnerData(winnerID) {
-    axios.get(`http://localhost:8080/phase1/${winnerID}`)
+    axios.get(`${backendURL}/${winnerID}`)
     .then((result) => {
       this.setState({
         phase1WinnerData: result.data
@@ -142,7 +143,7 @@ class Phases extends Component {
   }
 
   getPhase2WinnerData(winnerID) {
-    axios.get(`http://localhost:8080/phase2/${winnerID}`)
+    axios.get(`${backendURL}/phase2/${winnerID}`)
     .then((result) => {
       this.setState({
         phase2WinnerData: result.data
@@ -156,7 +157,7 @@ class Phases extends Component {
   }2
 
   getPhase2Data = (parentID) => {
-    axios.get(`http://localhost:8080/phase1/${parentID}/phase2`)
+    axios.get(`${backendURL}/phase1/${parentID}/phase2`)
     .then((result) => {
       this.setState({
         phaseData: result.data,
@@ -190,7 +191,7 @@ class Phases extends Component {
   }
 
   getResultsData(parentID) {
-    axios.get(`http://localhost:8080/phase2/${parentID}/results`)
+    axios.get(`${backendURL}/phase2/${parentID}/results`)
     .then((result) => {
       this.setState({
         resultsData: result.data,
@@ -205,7 +206,7 @@ class Phases extends Component {
   }
 
   getUserData = () => {  
-    axios.get(`http://localhost:8080/plans/${this.props.match.params.planCode}/users`)
+    axios.get(`${backendURL}/plans/${this.props.match.params.planCode}/users`)
     .then((result) => {
       this.setState({
         users: result.data
@@ -219,7 +220,7 @@ class Phases extends Component {
   }
 
   getPlanData = () => {
-    axios.get(`http://localhost:8080/plans/${this.props.match.params.planCode}`)
+    axios.get(`${backendURL}/plans/${this.props.match.params.planCode}`)
     .then((result) => {
       this.setState({
         option1Total: result.data.option1Total,
@@ -251,7 +252,7 @@ class Phases extends Component {
   }
 
   deletePlanData = () => {
-    const socket = io('http://localhost:8040');
+    const socket = io(`${backendURL}`);
 
     socket.emit('deletePlan', {
       planCode: this.props.match.params.planCode
@@ -329,7 +330,7 @@ class Phases extends Component {
 
   finishedPhase = (phaseDone) => {
     const {planCode, name} = this.props.match.params;
-    const socket = io('http://localhost:8040');
+    const socket = io(`${backendURL}`);
     const specificUser = this.state.users.filter((user) => user.name === name);
     const userID = specificUser[0].id;
 
@@ -348,7 +349,7 @@ class Phases extends Component {
 
   finishedTieBreaker = () => {
     const {planCode, name} = this.props.match.params;
-    const socket = io('http://localhost:8040');
+    const socket = io(`${backendURL}`);
     const specificUser = this.state.users.filter((user) => user.name === name);
     const userID = specificUser[0].id;
 
@@ -361,7 +362,7 @@ class Phases extends Component {
   }
 
   resetPlanData = () => {
-    const socket = io('http://localhost:8040');
+    const socket = io(`${backendURL}`);
 
     socket.emit('resetPlan', {
       planCode: this.props.match.params.planCode
@@ -369,7 +370,7 @@ class Phases extends Component {
   }
 
   startNextPhase = (winnerID) => {
-    const socket = io('http://localhost:8040');
+    const socket = io(`${backendURL}`);
     this.setState({
       pageLoaded: false
     }, () => {
@@ -381,7 +382,7 @@ class Phases extends Component {
   }
 
   getResults = (winnerID) => {
-    const socket = io('http://localhost:8040');
+    const socket = io(`${backendURL}`);
     socket.emit('getResults', {
       planCode: this.props.match.params.planCode,
       winnerID: winnerID
@@ -406,7 +407,6 @@ class Phases extends Component {
 
     const winningOptionData = consensusChecker(optionData, option1, option2, option3, option4, option5);
     if(winningOptionData.length === 1) {
-      console.log(path);
       if(path === '/phase1/:planCode/:name/') {
         this.startNextPhase(winningOptionData[0].id);
       } else {
@@ -431,7 +431,7 @@ class Phases extends Component {
   }
 
   retryPhase = () => {
-    const socket = io('http://localhost:8040');
+    const socket = io(`${backendURL}`);
 
     socket.emit('retryPhase', {
       planCode: this.props.match.params.planCode
@@ -440,7 +440,7 @@ class Phases extends Component {
 
   pickRandom = () => {
     const {path} = this.props.match;
-    const socket = io('http://localhost:8040');
+    const socket = io(`${backendURL}`);
 
     if(path === '/phase1/:planCode/:name/') {
       socket.emit('pickRandom', {
