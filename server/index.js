@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 const express = require('express');
 const app = express();
 
-const server = require('http').createServer();
+const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
   pingTimeout: 30000,
   cors: {
@@ -20,7 +20,7 @@ const plansRoute = require('./routes/plans');
 const prismaFunc = require('./functions/prisma');
 
 require('dotenv').config();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 app.use(express.json());
 app.use(cors());
@@ -34,6 +34,14 @@ if (process.env.JAWSDB_URL) {
   connection = mysql.createConnection(process.env.JAWSDB_URL);
 } else {
   connection = mysql.createConnection(process.env.DATABASE_URL);
+}
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("../client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
+  });
 }
 
 io.on('connection', (socket) => {
@@ -146,7 +154,7 @@ io.on('connection', (socket) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`listening at //localhost:8080:${PORT}`);
+  console.log(`listening at //localhost:${PORT}`);
 });
 
 connection.connect(error => {
