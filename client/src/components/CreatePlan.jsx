@@ -14,6 +14,7 @@ class CreatePlan extends Component {
   }
 
   createPlan = event => {
+    console.log(BACKEND_URL);
     event.preventDefault();
     const name = event.target.name.value;
     if(name.trim()) {

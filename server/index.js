@@ -12,6 +12,7 @@ const io = require('socket.io')(server, {
   }
 });
 
+const path = require("path");
 const cors = require('cors');
 const mysql = require("mysql");
 const phase1Route = require('./routes/phase1');
@@ -23,6 +24,7 @@ require('dotenv').config();
 const PORT = process.env.PORT || process.env.DEV_PORT;
 
 app.use(express.json());
+app.use(express.urlencoded({extended: false}));
 app.use(cors());
 app.use('/phase1', phase1Route);
 app.use('/phase2', phase2Route);
