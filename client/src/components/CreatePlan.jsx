@@ -3,7 +3,7 @@ import {Redirect} from 'react-router-dom';
 import {io} from 'socket.io-client';
 import randomize from 'randomatic';
 import Header from './children/elements/Header';
-const backendURL = process.env.NODE_ENV === "production"
+const BACKEND_URL = process.env.NODE_ENV === "production"
 ? 'https://downforsomething.herokuapp.com' : process.env.REACT_APP_BACKEND_URL;
 
 class CreatePlan extends Component {
@@ -18,7 +18,7 @@ class CreatePlan extends Component {
     const name = event.target.name.value;
     if(name.trim()) {
       const planCode = randomize('aA0', 6);
-      const socket = io(`${backendURL}`);
+      const socket = io(`${BACKEND_URL}`);
 
       socket.emit('joinRoom', {
         planCode: planCode,

@@ -20,7 +20,7 @@ const plansRoute = require('./routes/plans');
 const prismaFunc = require('./functions/prisma');
 
 require('dotenv').config();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || process.env.DEV_PORT;
 
 app.use(express.json());
 app.use(cors());

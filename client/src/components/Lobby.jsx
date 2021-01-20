@@ -5,7 +5,7 @@ import {io} from 'socket.io-client';
 import Header from './children/elements/Header';
 import Loading from './children/Loading';
 import UserJoined from './children/elements/UserJoined';
-const backendURL = process.env.NODE_ENV === "production"
+const BACKEND_URL = process.env.NODE_ENV === "production"
 ? 'https://downforsomething.herokuapp.com' : process.env.REACT_APP_BACKEND_URL;
 
 class Lobby extends Component {
@@ -16,7 +16,7 @@ class Lobby extends Component {
 
   componentDidMount() {
     this.getUsers();
-    const socket = io(`${backendURL}`);
+    const socket = io(`${BACKEND_URL}`);
 
     socket.emit('joinRoom', {
       planCode: this.props.match.params.planCode
@@ -32,7 +32,7 @@ class Lobby extends Component {
   }
 
   getUsers = () => {
-    axios.get(`${backendURL}/plans/${this.props.match.params.planCode}/users`)
+    axios.get(`${BACKEND_URL}/plans/${this.props.match.params.planCode}/users`)
     .then((result) => {
       this.setState({
         users: result.data
@@ -44,7 +44,7 @@ class Lobby extends Component {
   }
 
   startPlan = () => {
-    const socket = io(`${backendURL}`);
+    const socket = io(`${BACKEND_URL}`);
 
     socket.emit('startPlan', {
       planCode: this.props.match.params.planCode

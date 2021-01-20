@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 import {io} from 'socket.io-client';
 import Header from './children//elements/Header';
-const backendURL = process.env.NODE_ENV === "production"
+const BACKEND_URL = process.env.NODE_ENV === "production"
 ? 'https://downforsomething.herokuapp.com' : process.env.REACT_APP_BACKEND_URL;
 
 class JoinPlan extends Component {
@@ -21,10 +21,10 @@ class JoinPlan extends Component {
     if(name.trim()) {
       const planCode = event.target.room.value;
 
-      axios.get(`${backendURL}/plans/${planCode}`)
+      axios.get(`${BACKEND_URL}/plans/${planCode}`)
       .then((result) => {
         if(result.data.roomOpen) {
-          const socket = io(`${backendURL}`);
+          const socket = io(`${BACKEND_URL}`);
   
           socket.emit('joinRoom', {
             planCode: planCode,
