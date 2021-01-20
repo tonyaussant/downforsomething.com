@@ -6,7 +6,7 @@ import Phase1 from './children/Phase1';
 import Phase2 from './children/Phase2';
 import Results from './children/Results';
 const backendURL = process.env.NODE_ENV === "production"
-? 'http://downforsomething.com' : process.env.REACT_APP_BACKEND_URL;
+? 'https://downforsomething.herokuapp.com' : process.env.REACT_APP_BACKEND_URL;
 
 class Phases extends Component {
   state = {
