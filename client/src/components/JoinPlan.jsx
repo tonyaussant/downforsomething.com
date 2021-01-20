@@ -4,7 +4,7 @@ import {Redirect} from 'react-router-dom';
 import {io} from 'socket.io-client';
 import Header from './children//elements/Header';
 const backendURL = process.env.NODE_ENV === "production"
-? 'http://downforsomething.com' : process.env.REACT_APP_BACKEND_URL;
+? 'https://downforsomething.herokuapp.com' : process.env.REACT_APP_BACKEND_URL;
 
 class JoinPlan extends Component {
   state = {

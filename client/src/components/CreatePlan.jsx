@@ -4,7 +4,7 @@ import {io} from 'socket.io-client';
 import randomize from 'randomatic';
 import Header from './children/elements/Header';
 const backendURL = process.env.NODE_ENV === "production"
-? 'http://downforsomething.com' : process.env.REACT_APP_BACKEND_URL;
+? 'https://downforsomething.herokuapp.com' : process.env.REACT_APP_BACKEND_URL;
 
 class CreatePlan extends Component {
   state = {
