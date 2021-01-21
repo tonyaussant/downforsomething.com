@@ -32,7 +32,7 @@ class Lobby extends Component {
   }
 
   getUsers = () => {
-    axios.get(`${BACKEND_URL}/plans/${this.props.match.params.planCode}/users`)
+    axios.get(`${BACKEND_URL}/api/plans/${this.props.match.params.planCode}/users`)
     .then((result) => {
       this.setState({
         users: result.data
