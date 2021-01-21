@@ -20,8 +20,8 @@ const phase2Route = require('./routes/phase2');
 const plansRoute = require('./routes/plans');
 const prismaFunc = require('./functions/prisma');
 
-require('dotenv').config();
-const PORT = process.env.PORT || process.env.DEV_PORT;
+// require('dotenv').config();
+// const PORT = process.env.PORT || process.env.DEV_PORT;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -155,7 +155,7 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(PORT, () => {
+server.listen(process.env.PORT || process.env.DEV_PORT, () => {
   console.log(`listening at //localhost:${PORT}`);
 });
 
