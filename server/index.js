@@ -20,7 +20,7 @@ const phase2Route = require('./routes/phase2');
 const plansRoute = require('./routes/plans');
 const prismaFunc = require('./functions/prisma');
 
-// require('dotenv').config();
+require('dotenv').config();
 // const PORT = process.env.PORT || process.env.DEV_PORT;
 
 app.use(express.json());
