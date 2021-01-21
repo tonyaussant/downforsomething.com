@@ -4,6 +4,10 @@ const prisma = new PrismaClient();
 const express = require('express');
 const app = express();
 
+require('dotenv').config();
+const PORT = process.env.PORT || process.env.DEV_PORT;
+const INDEX = '/index.html';
+
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
   pingTimeout: 30000,
@@ -12,16 +16,12 @@ const io = require('socket.io')(server, {
   }
 });
 
-const path = require("path");
 const cors = require('cors');
 const mysql = require("mysql");
 const phase1Route = require('./routes/phase1');
 const phase2Route = require('./routes/phase2');
 const plansRoute = require('./routes/plans');
 const prismaFunc = require('./functions/prisma');
-
-require('dotenv').config();
-// const PORT = process.env.PORT || process.env.DEV_PORT;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -39,11 +39,7 @@ if (process.env.JAWSDB_URL) {
 }
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("../client/build"));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
-  });
+  app.use.use((req, res) => res.sendFile(INDEX, {root: __dirname}));
 }
 
 io.on('connection', (socket) => {
@@ -155,8 +151,8 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(process.env.PORT || process.env.DEV_PORT, () => {
-  console.log(`listening at //localhost:${PORT}`);
+server.listen(PORT, () => {
+  console.log(`listening on Port:${PORT}`);
 });
 
 connection.connect(error => {
