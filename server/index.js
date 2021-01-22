@@ -6,7 +6,6 @@ const app = express();
 
 require('dotenv').config();
 const PORT = process.env.PORT || process.env.DEV_PORT;
-const INDEX = '/index.html';
 
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
