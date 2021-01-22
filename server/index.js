@@ -30,6 +30,10 @@ app.use('/api/phase1', phase1Route);
 app.use('/api/phase2', phase2Route);
 app.use('/api/plans', plansRoute);
 
+const app = next({ 
+  dev: process.env.NODE_ENV !== 'production'
+})
+
 let connection;
 
 if (process.env.JAWSDB_URL) {
