@@ -6,7 +6,7 @@
   "scripts": {
     "start": "concurrently \"npm start --prefix server\" \"npm start --prefix client\"",
     "dev": "concurrently \"npm run dev --prefix server\" \"npm start --prefix client\"",
-    "prisma": "concurrently \"npx prisma generate\" \"node initializePhaseData.js\"",
+    "prisma": "npx prisma generate && node initializePhaseData.js",
     "heroku-postbuild": "npm install --prefix client && npm install --prefix server && npm run prisma && npm run build --prefix client"
   },
   "repository": {
