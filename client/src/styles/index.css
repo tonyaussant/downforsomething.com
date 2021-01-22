@@ -85,6 +85,10 @@ a {
   text-decoration: none;
 }
 
+li {
+  list-style-type: none;
+}
+
 .header {
   padding: 1rem 0;
   -webkit-box-shadow: 0 6px 6px -6px #37393A;
@@ -117,12 +121,8 @@ a {
   padding: 0.375rem 0.625rem;
 }
 
-.header__second-button {
-  color: #37393A;
-  font-weight: bold;
-  background-color: #FAFAFB;
+.header__button--restart {
   border: 0.125rem solid #2071C1;
-  padding: 0.375rem 0.625rem;
   margin-right: 0.375rem;
 }
 
@@ -176,7 +176,7 @@ a {
   padding-bottom: 1.25rem;
 }
 
-.choice-card {
+.option-card {
   padding: 1rem 0;
   margin: 0.125rem;
   border-radius: 1rem;
@@ -184,7 +184,7 @@ a {
           box-shadow: 3px 3px 3px -2px #37393A;
 }
 
-.choice-card__wrapper {
+.option-card__wrapper {
   width: 80%;
   max-width: 185rem;
   margin: 0 auto;
@@ -200,7 +200,7 @@ a {
           align-items: center;
 }
 
-.choice-card__button-box {
+.option-card__button-box {
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -210,21 +210,12 @@ a {
           justify-content: space-between;
 }
 
-.choices__title {
-  padding-bottom: 1.5rem;
-}
-
-.choices__button {
-  margin-right: 1rem;
-  margin-bottom: 1rem;
-}
-
-.link-card__name {
+.link__name {
   padding: 1.25rem 0 0.25rem;
   font-weight: bold;
 }
 
-.link-card__url {
+.link__url {
   word-wrap: break-word;
   color: #2071C1;
   text-decoration: underline;

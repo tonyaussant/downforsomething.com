@@ -1,6 +1,6 @@
 import Header from './elements/Header';
 import Loading from './Loading';
-import LinkCard from './elements/LinkCard';
+import Link from './elements/Link';
 
 function Results(props) {
   const {phase2WinnerData, resultsData, pageLoaded} = props.state;
@@ -24,8 +24,10 @@ function Results(props) {
 
             <h2 className='sub-title'>here are some suggestions to help you have the best time:</h2>
 
-            {resultsData.map((link) =>
-            <LinkCard key={link.id} name={link.name} url={link.url}/>)}
+            <ul>
+              {resultsData.map((link) =>
+              <Link key={link.id} name={link.name} url={link.url}/>)}
+            </ul>
           </div>
         </section>
       </div>

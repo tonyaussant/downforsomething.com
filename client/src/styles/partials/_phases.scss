@@ -1,4 +1,4 @@
-.choice-card {
+.option-card {
   padding: 1rem 0;
   margin: 0.125rem;
   border-radius: 1rem;
@@ -17,5 +17,18 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+  }
+}
+
+.link {
+  &__name {
+    padding: 1.25rem 0 0.25rem;
+    font-weight: bold;
+  }
+
+  &__url {
+    word-wrap: break-word;
+    color: $color-highlight;
+    text-decoration: underline;
   }
 }

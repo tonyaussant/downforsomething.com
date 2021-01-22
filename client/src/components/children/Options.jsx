@@ -5,12 +5,12 @@ function Options(props) {
   const {phase, phaseData, optionPicked, restartPhase} = props
 
   return(
-    <div>
+    <ul>
       <Header phase={phase} restartPhase={restartPhase}/>
 
       {phaseData.map((choice, index) => 
       <OptionCard key={choice.id}  index={index} option={choice.option} name={choice.name} img={choice.img} optionPicked={optionPicked}/>)}
-    </div>
+    </ul>
   );
 }
 
