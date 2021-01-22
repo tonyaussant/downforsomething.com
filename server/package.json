@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "prisma": "npx prisma generate && npx node initializePhaseData.js"
+    "prisma": "npx prisma generate && node initializePhaseData.js"
   },
   "keywords": [],
   "author": "",
