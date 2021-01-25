@@ -3,7 +3,8 @@ import {Redirect} from 'react-router-dom';
 import {io} from 'socket.io-client';
 import randomize from 'randomatic';
 import Header from './children/elements/Header';
-const BACKEND_URL = 'https://downforsomething.herokuapp.com';
+const BACKEND_URL = process.env.NODE_ENV === "production"
+? 'https://downforsomething.herokuapp.com' : process.env.REACT_APP_BACKEND_URL;
 
 class CreatePlan extends Component {
   state = {
@@ -13,7 +14,7 @@ class CreatePlan extends Component {
   }
 
   createPlan = event => {
-    console.log(BACKEND_URL);
+    console.log(process.env.NODE_ENV);
     event.preventDefault();
     const name = event.target.name.value;
     if(name.trim()) {
