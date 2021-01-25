@@ -4,6 +4,14 @@ const prisma = new PrismaClient();
 const express = require('express');
 const app = express();
 
+if(process.env.NODE_ENV === "production") {
+  app.use(express.static("../client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
+  });
+}
+
 require('dotenv').config();
 const PORT = process.env.PORT || process.env.DEV_PORT;
 
@@ -30,23 +38,6 @@ app.use('/api/phase2', phase2Route);
 app.use('/api/plans', plansRoute);
 
 let connection = mysql.createConnection(process.env.DATABASE_URL);
-
-if(process.env.NODE_ENV === "production") {
-  app.use(express.static("../client/build"));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
-  });
-
-  app.use(forceSSL);
-}
-
-forceSSL = (req, res, next) => {
-  if (req.headers['x-forwarded-proto'] !== 'https') {
-      return res.redirect(['https://', req.get('Host'), req.url].join(''));
-  }
-  return next();
-};
 
 io.on('connection', (socket) => {
   socket.on('joinRoom', (data) => {
