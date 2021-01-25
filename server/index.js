@@ -6,7 +6,6 @@ const app = express();
 
 require('dotenv').config();
 const PORT = process.env.PORT || process.env.DEV_PORT;
-const INDEX = '/index.html';
 
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
@@ -30,16 +29,15 @@ app.use('/api/phase1', phase1Route);
 app.use('/api/phase2', phase2Route);
 app.use('/api/plans', plansRoute);
 
-let connection;
+let connection = mysql.createConnection(process.env.DATABASE_URL);
 
-if (process.env.JAWSDB_URL) {
-  connection = mysql.createConnection(process.env.JAWSDB_URL);
-} else {
-  connection = mysql.createConnection(process.env.DATABASE_URL);
-}
+if(process.env.NODE_ENV === "production") {
+  app.use(express.static("../client/build"));
 
-if (process.env.NODE_ENV === "production") {
-  app.use.use((req, res) => res.sendFile(INDEX, {root: __dirname}));
+  app.get("*", (req, res) => {
+    res.redirect('https://' + req.headers.host + req.url);
+    res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
+  });
 }
 
 io.on('connection', (socket) => {

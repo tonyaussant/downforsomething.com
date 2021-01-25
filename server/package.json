@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "prisma": "prisma generate --schema=./prisma/schema.prisma"
   },
   "keywords": [],
   "author": "",
@@ -26,22 +27,5 @@
   "engines": {
     "node": "^14.15.0",
     "npm": "^6.14.8"
-  },
-  "module.exports": {
-    "development": {
-      "client": "mysql",
-      "connection": {
-        "host": "127.0.0.1",
-        "user": "root",
-        "password": "strongiswrong",
-        "database": "downforsomething_db",
-        "charset": "utf8",
-        "insecureAuth": true
-      }
-    },
-    "production": {
-      "client": "mysql",
-      "connection": "process.env.JAWSDB_URL"
-    }
   }
 }
