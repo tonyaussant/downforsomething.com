@@ -29,13 +29,7 @@ app.use('/api/phase1', phase1Route);
 app.use('/api/phase2', phase2Route);
 app.use('/api/plans', plansRoute);
 
-let connection;
-
-if(process.env.JAWSDB_URL) {
-  connection = mysql.createConnection(process.env.JAWSDB_URL);
-} else {
-  connection = mysql.createConnection(process.env.DATABASE_URL);
-}
+let connection = mysql.createConnection(process.env.DATABASE_URL);
 
 if(process.env.NODE_ENV === "production") {
   app.use(express.static("../client/build"));
