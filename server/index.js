@@ -8,12 +8,7 @@ require('dotenv').config();
 const PORT = process.env.PORT || process.env.DEV_PORT;
 
 const server = require('http').createServer(app);
-const io = require('socket.io')(server, {
-  pingTimeout: 30000,
-  cors: {
-    origin: '*',
-  }
-});
+const io = require('socket.io')(server);
 
 const cors = require('cors');
 const mysql = require("mysql");

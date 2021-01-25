@@ -14,7 +14,6 @@ class CreatePlan extends Component {
   }
 
   createPlan = event => {
-    console.log(process.env.NODE_ENV);
     event.preventDefault();
     const name = event.target.name.value;
     if(name.trim()) {
