@@ -13,7 +13,6 @@ class CreatePlan extends Component {
   }
 
   createPlan = event => {
-    console.log(process.env.NODE_ENV);
     console.log(BACKEND_URL);
     event.preventDefault();
     const name = event.target.name.value;
