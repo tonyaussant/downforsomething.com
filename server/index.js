@@ -8,7 +8,12 @@ require('dotenv').config();
 const PORT = process.env.PORT || process.env.DEV_PORT;
 
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, {
+  pingTimeout: 30000,
+  cors: {
+    origin: '*',
+  }
+});
 
 const cors = require('cors');
 const mysql = require("mysql");
@@ -32,7 +37,16 @@ if(process.env.NODE_ENV === "production") {
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
   });
+
+  app.use(forceSSL);
 }
+
+forceSSL = (req, res, next) => {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
+      return res.redirect(['https://', req.get('Host'), req.url].join(''));
+  }
+  return next();
+};
 
 io.on('connection', (socket) => {
   socket.on('joinRoom', (data) => {
