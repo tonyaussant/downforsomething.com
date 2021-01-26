@@ -15,6 +15,7 @@ const io = require('socket.io')(server, {
   }
 });
 
+const path = require('path');
 const cors = require('cors');
 const mysql = require("mysql");
 const phase1Route = require('./routes/phase1');
