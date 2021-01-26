@@ -37,6 +37,16 @@ body {
   font-size: 1rem;
 }
 
+.list {
+  list-style-type: none;
+  padding-bottom: 1.25rem;
+}
+
+.list__text {
+  color: #909497;
+  padding-bottom: 0.75rem;
+}
+
 .button {
   color: #FAFAFB;
   background-color: #2071C1;
@@ -83,10 +93,6 @@ body {
 
 a {
   text-decoration: none;
-}
-
-li {
-  list-style-type: none;
 }
 
 .header {
@@ -164,16 +170,39 @@ li {
   padding-top: 1.25rem;
 }
 
+.create-join__input-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
 .create-join__input {
-  margin: 0.5rem 0 1rem;
+  margin: 0.5rem 0.75rem 1rem 0;
+}
+
+.create-join__error {
+  color: #c42a19;
+  margin-bottom: 0.5rem;
 }
 
 .create-join__button {
   margin-top: 0.25rem;
 }
 
-.lobby__title {
+.waiting__title {
   padding-bottom: 1.25rem;
+}
+
+.directions__instructions {
+  padding-bottom: 1.75rem;
+  font-weight: normal;
+}
+
+.directions__paragraph {
+  padding-bottom: 0.75rem;
 }
 
 .option-card {
@@ -210,6 +239,14 @@ li {
           justify-content: space-between;
 }
 
+.options-tied__title {
+  padding-bottom: 1.5rem;
+}
+
+.options-tied__button {
+  margin: 0.25rem 1rem 1rem 0;
+}
+
 .link__name {
   padding: 1.25rem 0 0.25rem;
   font-weight: bold;
@@ -219,24 +256,5 @@ li {
   word-wrap: break-word;
   color: #2071C1;
   text-decoration: underline;
-}
-
-.demo {
-  padding-bottom: 1.25rem;
-}
-
-.demo__link {
-  color: #909497;
-  list-style-type: none;
-  padding-bottom: 0.75rem;
-}
-
-.directions {
-  padding-bottom: 1.75rem;
-  font-weight: normal;
-}
-
-.paragraph {
-  padding-bottom: 0.75rem;
 }
 /*# sourceMappingURL=index.css.map */

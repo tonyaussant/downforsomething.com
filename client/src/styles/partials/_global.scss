@@ -34,6 +34,16 @@ body {
   font-size: 1rem;
 }
 
+.list {
+  list-style-type: none;
+  padding-bottom: 1.25rem;
+
+  &__text {
+    color: #909497;
+    padding-bottom: 0.75rem;
+  }
+}
+
 .button {
   color: $color-light;
   background-color: $color-highlight;
@@ -77,8 +87,4 @@ body {
 
 a {
   text-decoration: none;
-}
-
-li {
-  list-style-type: none;
 }

@@ -4,7 +4,7 @@ function UserFinished(props) {
   const {phase, users} = props;
 
   return(
-    <ul className='demo'>
+    <ul className='list'>
       {users
         .filter((user) => ((phase === 'phase1' && user.phase1Done) || (phase === 'phase2' && user.phase2Done) || (phase === 'tieBreaker' && user.tieBreakerDone)))
         .map((user) => (<UserFinishedCard key={user.id} name={user.name}/>))}

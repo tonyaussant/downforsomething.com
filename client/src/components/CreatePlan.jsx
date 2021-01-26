@@ -57,9 +57,9 @@ class CreatePlan extends Component {
 
               <form className='create-join__form' action='submit' onSubmit={this.createPlan}>
                 <label className='text' htmlFor='name'>display name:</label>
-                <div>
+                <div className='create-join__input-box'>
                   <input className='input create-join__input' type='text' name='name'/>
-                  <p className='text'>{errorMsg}</p>
+                  <p className='text create-join__error'>{errorMsg}</p>
                 </div>
                 
 

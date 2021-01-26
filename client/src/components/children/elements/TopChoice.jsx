@@ -1,6 +1,6 @@
 function TopChoice(props) {
   return(
-    <li className='sub-title demo__link'>{props.name}</li>
+    <li className='sub-title list__text'>{props.name}</li>
   );
 }
 

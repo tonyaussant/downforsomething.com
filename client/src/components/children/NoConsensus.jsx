@@ -10,13 +10,13 @@ function NoConsensus(props) {
       <div>
         <Header/>
   
-        <section className='main choices'>
+        <section className='main options-tied'>
           <div className='main__wrapper'>
-            <h1 className='title choices__title'>no consensus reached. all options received the same amount of votes</h1>
-            <h2 className='sub-title lobby__title'>click whichever button represents how you would like to break the tie</h2>
+            <h1 className='title options-tied__title'>no consensus reached. all options received the same amount of votes</h1>
+            <h2 className='sub-title options-tied__title'>click whichever button represents how you would like to break the tie</h2>
             
-            <button className='button choices__button' value='retry' onClick={(event) => tieBreakerPicked(event)}>retry</button>
-            <button className='button choices__button' value='random' onClick={(event) => tieBreakerPicked(event)}>random option</button>
+            <button className='button options-tied__button' value='retry' onClick={(event) => tieBreakerPicked(event)}>retry</button>
+            <button className='button options-tied__button' value='random' onClick={(event) => tieBreakerPicked(event)}>random option</button>
           </div>
         </section>
       </div>
@@ -26,10 +26,10 @@ function NoConsensus(props) {
       <div>
         <Header/>
   
-        <section className='main choices'>
+        <section className='main options-tied'>
           <div className='main__wrapper'>
-            <h1 className='title choices__title'>no consensus reached. all options received the same amount of votes</h1> 
-            <h2 className='sub-title lobby__title'>waiting for rest of group to choose</h2>
+            <h1 className='title options-tied__title'>no consensus reached. all options received the same amount of votes</h1> 
+            <h2 className='sub-title options-tied__title'>waiting for rest of group to choose</h2>
 
             <UserFinished phase ={phase} users={users}/>
           </div>
