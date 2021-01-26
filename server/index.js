@@ -15,6 +15,7 @@ const io = require('socket.io')(server, {
   }
 });
 
+const path = require('path');
 const cors = require('cors');
 const mysql = require("mysql");
 const phase1Route = require('./routes/phase1');
@@ -35,7 +36,6 @@ if(process.env.NODE_ENV === "production") {
   app.use(express.static("../client/build"));
 
   app.get("*", (req, res) => {
-    res.redirect('https://' + req.headers.host + req.url);
     res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
   });
 }

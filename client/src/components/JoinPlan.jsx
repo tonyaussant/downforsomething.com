@@ -43,7 +43,7 @@ class JoinPlan extends Component {
           });
         } else {
           this.setState({
-            planErrorMsg: 'this plan does not exist or has already started. please try with a different code'
+            planErrorMsg: 'plan cannot be joined'
           });
         }
       })
@@ -72,15 +72,15 @@ class JoinPlan extends Component {
 
               <form className='create-join__form' action='submit' onSubmit={this.joinPlan}>
                 <label className='text' htmlFor='name'>name:</label>
-                <div>
+                <div className='create-join__input-box'>
                   <input className='input create-join__input' type='text' name='name'/>
-                  <p className='text'>{nameErrorMsg}</p>
+                  <p className='text create-join__error'>{nameErrorMsg}</p>
                 </div>
                 
                 <label className='text' htmlFor='name'>plan code:</label>
-                <div>
+                <div className='create-join__input-box'>
                   <input className='input create-join__input' type='text' name='room'/>
-                  <p className='text'>{planErrorMsg}</p>
+                  <p className='text create-join__error'>{planErrorMsg}</p>
                 </div>
 
                 <input className='button create-join__button' type='submit' value='join plan'/>

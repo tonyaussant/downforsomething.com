@@ -70,12 +70,12 @@ class Lobby extends Component {
         return(
           <div>
             <Header/>
-            <section className='main lobby'>
+            <section className='main waiting'>
               <div className='main__wrapper'>
-                <h1 className='title lobby__title'>plan code: {planCode}</h1>
-                <h2 className='sub-title lobby__title'>share your plan code with others, and press start when everyone has joined</h2>
+                <h1 className='title waiting__title'>plan code: {planCode}</h1>
+                <h2 className='sub-title waiting__title'>share your plan code with others, and press start when everyone has joined</h2>
       
-                <ul className='demo'>
+                <ul className='list'>
                   {users.map((user) => 
                   <UserJoined key={user.id} name={user.name}/>)}
                 </ul>

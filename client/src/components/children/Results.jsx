@@ -24,7 +24,7 @@ function Results(props) {
 
             <h2 className='sub-title'>here are some suggestions to help you have the best time:</h2>
 
-            <ul>
+            <ul className='list'>
               {resultsData.map((link) =>
               <Link key={link.id} name={link.name} url={link.url}/>)}
             </ul>
