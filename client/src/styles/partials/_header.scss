@@ -3,7 +3,7 @@
   box-shadow: $header-box-shadow;
 
   &__wrapper {
-    @include set-width;
+    @include set-width-header;
     display: flex;
     align-items: center;
     justify-content: space-between;

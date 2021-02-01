@@ -7,7 +7,13 @@ $text-font: 'Open Sans', sans-serif;
 
 $main-border: 0.125rem solid $color-highlight;
 
-$main-box-shadow: 3px 3px 3px -2px $color-dark;
+$main-box-shadow: 0 3px 6px -2px $color-dark;
 $header-box-shadow: 0 6px 6px -6px $color-dark;
 
 $mobile-content-width: 90%;
+$desktop-content-width: 85%;
+$large-desktop-content-width: 80%;
+
+$tablet-breakpoint: 40rem;
+$desktop-breakpoint: 64rem;
+$large-desktop-breakpoint: 96rem;

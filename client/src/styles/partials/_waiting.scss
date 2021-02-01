@@ -5,12 +5,15 @@
 }
 
 .directions {
-  &__instructions {
-    padding-bottom: 1.75rem;
-    font-weight: normal;
-  }
-  
-  &__paragraph {
+  &__text {
     padding-bottom: 0.75rem;
+
+    &--normal {
+      font-weight: normal;
+    }
+  }
+
+  &__button {
+    margin-top: 1rem;
   }
 }
