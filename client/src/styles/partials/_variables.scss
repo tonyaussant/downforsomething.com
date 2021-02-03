@@ -11,9 +11,11 @@ $main-box-shadow: 0 3px 6px -2px $color-dark;
 $header-box-shadow: 0 6px 6px -6px $color-dark;
 
 $mobile-content-width: 90%;
-$desktop-content-width: 85%;
-$large-desktop-content-width: 80%;
+$tablet-content-width: 85%;
+$desktop-content-width: 80%;
+$large-desktop-content-width: 70%;
 
-$tablet-breakpoint: 40rem;
+$small-tablet-breakpoint: 40rem;
+$tablet-breakpoint: 48rem;
 $desktop-breakpoint: 64rem;
 $large-desktop-breakpoint: 96rem;

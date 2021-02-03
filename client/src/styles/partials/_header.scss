@@ -1,6 +1,19 @@
 .header {
   padding: 1rem 0;
+  margin-bottom: 0.5rem;
   box-shadow: $header-box-shadow;
+
+  @include small-tablet {
+    margin-bottom: 0.75rem;
+  }
+
+  @include desktop {
+    margin-bottom: 1.25rem;
+  }
+
+  @include large-desktop {
+    margin-bottom: 1.5rem;
+  }
 
   &__wrapper {
     @include set-width-header;
