@@ -1,12 +1,20 @@
 .waiting {
   &__title {
     padding-bottom: 1.25rem;
+
+    @include small-tablet {
+      padding-bottom: 1.5rem;
+    }
   }
 }
 
 .directions {
   &__text {
     padding-bottom: 0.75rem;
+
+    @include small-tablet {
+      padding-bottom: 1rem;
+    }
 
     &--normal {
       font-weight: normal;

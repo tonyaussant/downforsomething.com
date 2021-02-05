@@ -15,7 +15,7 @@
 }
 
 .option-card {
-  padding: 1rem 0;
+  padding: 1rem 0 1.25rem;
   margin: 0 0.5rem 0.5rem;
   border-radius: 1rem;
   box-shadow: $main-box-shadow;
@@ -45,26 +45,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-
-  &__gif {
-    height: calc(77vw * 0.5946);
-
-    @include small-tablet {
-      height: calc(66.5vw * 0.5946);
-    }
-
-    @include tablet {
-      height: calc(33vw * 0.5946);
-    }
-
-    @include desktop {
-      height: calc(30.5vw * 0.5946);
-    }
-
-    @include large-desktop {
-      height: calc(17.5vw * 0.5946);
-    }
   }
 
   &__button-box {
