@@ -371,14 +371,10 @@ class Phases extends Component {
 
   startNextPhase = (winnerID) => {
     const socket = io(`${BACKEND_URL}`);
-    this.setState({
-      pageLoaded: false
-    }, () => {
-      socket.emit('nextPhase', {
-        planCode: this.props.match.params.planCode,
-        winnerID: winnerID
-      });
-    })
+    socket.emit('nextPhase', {
+      planCode: this.props.match.params.planCode,
+      winnerID: winnerID
+    });
   }
 
   getResults = (winnerID) => {
