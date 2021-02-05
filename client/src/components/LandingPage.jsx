@@ -4,7 +4,7 @@ import logo from '../logo/logo.svg';
 function LandingPage() {
   return(
     <div className='landing-page'>
-      <img src={logo} alt='down for something logo'/>
+      <img className='landing-page__logo' src={logo} alt='down for something logo'/>
       <h2 className='title landing-page__tagline'>a way to simplify making plans with groups</h2>
 
       <Link className='button landing-page__button' to='/createplan'>

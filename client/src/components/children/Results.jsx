@@ -20,7 +20,7 @@ function Results(props) {
           <div className='main__wrapper'>
             <h1 className='title'>{`the group has chosen to ${name}!`}</h1>
 
-            <img className='gif' src={img} alt={name}/>
+            <img className='gif gif--main' src={img} alt={name}/>
 
             <h2 className='sub-title'>here are some suggestions to help you have the best time:</h2>
 

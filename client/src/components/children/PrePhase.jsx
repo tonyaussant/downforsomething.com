@@ -14,7 +14,7 @@ function PrePhase(props) {
           <div className='main__wrapper'>
             <h1 className='title'>{`the most popular choice is ${name}`}</h1>
 
-            <img className='gif' src={img} alt={name}/>
+            <img className='gif gif--main' src={img} alt={name}/>
 
             <button className='button choices__button' onClick={() => loadPage()}>continue</button>
           </div>
@@ -28,11 +28,11 @@ function PrePhase(props) {
   
         <section className='main directions'>
           <div className='main__wrapper'>
-            <h1 className='sub-title directions__paragraph'>{`hey ${displayName},`}</h1>
-            <p className='sub-title directions__paragraph'>you will now be given some options for what your group wants to do together</p>
-            <p className='sub-title directions__instructions'>select "i'm in" for as many options that you are up for</p>
+            <h1 className='sub-title directions__text'>{`hey ${displayName},`}</h1>
+            <h2 className='sub-title directions__text directions__text--normal'>you will now be given some options for what your group wants to do together</h2>
+            <h2 className='sub-title directions__text directions__text--normal'>select "i'm in" for as many options that you are up for</h2>
   
-            <button className='button' onClick={() => loadPage()}>start</button>
+            <button className='button directions__button' onClick={() => loadPage()}>start</button>
           </div>
         </section>
       </div>

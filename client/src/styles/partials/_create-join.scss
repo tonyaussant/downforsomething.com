@@ -22,5 +22,9 @@
 
   &__button {
     margin-top: 0.25rem;
+
+    @include small-tablet {
+      margin-top: 0.5rem;
+    }
   }
 }

@@ -1,4 +1,65 @@
+@mixin small-tablet {
+  @media (min-width: $small-tablet-breakpoint) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: $tablet-breakpoint) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $desktop-breakpoint) {
+    @content;
+  }
+}
+
+@mixin large-desktop {
+  @media (min-width: $large-desktop-breakpoint) {
+    @content;
+  }
+}
+
 @mixin set-width {
   width: $mobile-content-width;
   margin: 0 auto;
+
+  @include small-tablet {
+    width: $tablet-content-width
+  }
+
+  @include desktop {
+    width: $desktop-content-width;
+  }
+
+  @include large-desktop {
+    width: $large-desktop-content-width;
+  }
+}
+
+@mixin set-width-header {
+  width: $mobile-content-width;
+  margin: 0 auto;
+
+  @include desktop {
+    width: $tablet-content-width
+  }
+
+  @include large-desktop {
+    width: $desktop-content-width;
+  }
+}
+
+@mixin set-width-options {
+  width: $tablet-content-width;
+
+  @include desktop {
+    width: $desktop-content-width;
+  }
+
+  @include large-desktop {
+    width: $large-desktop-content-width;
+  }
 }

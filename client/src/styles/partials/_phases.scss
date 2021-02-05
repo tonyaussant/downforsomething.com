@@ -1,8 +1,42 @@
+.options {
+  &__list {
+    width: 100%;
+
+    @include small-tablet {
+      @include set-width-options;
+      margin: 0 auto;
+    }
+
+    @include tablet {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+}
+
 .option-card {
-  padding: 1rem 0;
-  margin: 0.125rem;
+  padding: 1rem 0 1.25rem;
+  margin: 0 0.5rem 0.5rem;
   border-radius: 1rem;
   box-shadow: $main-box-shadow;
+
+  @include small-tablet {
+    margin: 0 0.5rem 1rem;
+  }
+
+  @include tablet {
+    width: calc(50% - 1rem);
+  }
+
+  @include desktop {
+    margin: 0 0.75rem 1.5rem;
+    width: calc(50% - 1.5rem);
+  }
+
+  @include large-desktop {
+    margin: 0 0.875rem 1.75rem;
+    width: calc(33.33% - 1.75rem);
+  }
 
   &__wrapper {
     width: 80%;
@@ -15,6 +49,7 @@
 
   &__button-box {
     width: 100%;
+    max-width: 32rem;
     display: flex;
     justify-content: space-between;
   }
