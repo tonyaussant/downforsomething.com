@@ -73,6 +73,12 @@ body {
   padding-bottom: 1.25rem;
 }
 
+@media (min-width: 64rem) {
+  .list {
+    padding-bottom: 1.75rem;
+  }
+}
+
 .list__text {
   color: #909497;
   padding-bottom: 0.75rem;
@@ -130,50 +136,25 @@ body {
 .gif {
   display: block;
   width: 100%;
+  max-width: 32rem;
+  height: calc(90.5vw * 0.5946);
+  max-height: 19.0272rem;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 0.875rem;
   margin: 1rem 0 1.75rem;
 }
 
-.gif--main {
-  max-width: 32rem;
-  height: calc(90.5vw * 0.5946);
-  max-height: 19.0272rem;
-}
-
 @media (min-width: 40rem) {
-  .gif--main {
+  .gif {
     margin: 1.375rem 0 2.125rem;
     border-radius: 1.25rem;
   }
 }
 
-.gif--options {
-  height: calc(77vw * 0.5946);
-}
-
-@media (min-width: 40rem) {
-  .gif--options {
-    height: calc(66.5vw * 0.5946);
-  }
-}
-
-@media (min-width: 48rem) {
-  .gif--options {
-    height: calc(33vw * 0.5946);
-  }
-}
-
 @media (min-width: 64rem) {
-  .gif--options {
-    height: calc(30.5vw * 0.5946);
-  }
-}
-
-@media (min-width: 96rem) {
-  .gif--options {
-    height: calc(17.5vw * 0.5946);
+  .gif {
+    margin: 1.875rem 0 2.625rem;
   }
 }
 
@@ -353,8 +334,20 @@ a {
   }
 }
 
+@media (min-width: 64rem) {
+  .landing-page__tagline {
+    padding: 2.5rem 0 2.75rem;
+  }
+}
+
 .landing-page__button {
   margin-bottom: 1.25rem;
+}
+
+@media (min-width: 64rem) {
+  .landing-page__button {
+    margin-bottom: 1.5rem;
+  }
 }
 
 .create-join__form {
@@ -371,6 +364,12 @@ a {
   padding-top: 1.25rem;
 }
 
+@media (min-width: 64rem) {
+  .create-join__form {
+    padding-top: 1.5rem;
+  }
+}
+
 .create-join__input-box {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -384,9 +383,21 @@ a {
   margin: 0.5rem 0.75rem 1rem 0;
 }
 
+@media (min-width: 64rem) {
+  .create-join__input {
+    margin: 0.5rem 1rem 1.5rem 0;
+  }
+}
+
 .create-join__error {
   color: #c42a19;
   margin-bottom: 0.5rem;
+}
+
+@media (min-width: 64rem) {
+  .create-join__error {
+    margin-bottom: 1rem;
+  }
 }
 
 .create-join__button {
@@ -409,6 +420,12 @@ a {
   }
 }
 
+@media (min-width: 64rem) {
+  .waiting__title {
+    padding-bottom: 1.75rem;
+  }
+}
+
 .directions__text {
   padding-bottom: 0.75rem;
 }
@@ -419,12 +436,24 @@ a {
   }
 }
 
+@media (min-width: 64rem) {
+  .directions__text {
+    padding-bottom: 1.25rem;
+  }
+}
+
 .directions__text--normal {
   font-weight: normal;
 }
 
 .directions__button {
   margin-top: 1rem;
+}
+
+@media (min-width: 64rem) {
+  .directions__button {
+    margin-top: 1.5rem;
+  }
 }
 
 .options__list {
@@ -482,6 +511,7 @@ a {
 
 @media (min-width: 64rem) {
   .option-card {
+    padding: 1.5rem 0 2rem;
     margin: 0 0.75rem 1.5rem;
     width: calc(50% - 1.5rem);
   }
@@ -510,6 +540,35 @@ a {
           align-items: center;
 }
 
+.option-card__gif {
+  height: calc(77vw * 0.5946);
+}
+
+@media (min-width: 40rem) {
+  .option-card__gif {
+    height: calc(66.5vw * 0.5946);
+  }
+}
+
+@media (min-width: 48rem) {
+  .option-card__gif {
+    height: calc(33vw * 0.5946);
+  }
+}
+
+@media (min-width: 64rem) {
+  .option-card__gif {
+    margin: 1.75rem 0 2.25rem;
+    height: calc(30.5vw * 0.5946);
+  }
+}
+
+@media (min-width: 96rem) {
+  .option-card__gif {
+    height: calc(17.5vw * 0.5946);
+  }
+}
+
 .option-card__button-box {
   width: 100%;
   max-width: 32rem;
@@ -525,13 +584,53 @@ a {
   padding-bottom: 1.5rem;
 }
 
+@media (min-width: 64rem) {
+  .options-tied__title {
+    padding-bottom: 1.75rem;
+  }
+}
+
 .options-tied__button {
   margin: 0.25rem 1rem 1rem 0;
+}
+
+@media (min-width: 64rem) {
+  .options-tied__button {
+    margin: 0.5rem 1.25rem 1.5rem 0;
+  }
+}
+
+.results__gif {
+  margin-bottom: 2.5rem;
+}
+
+@media (min-width: 40rem) {
+  .results__gif {
+    margin-bottom: 2.875rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .results__gif {
+    margin-bottom: 3.75rem;
+  }
 }
 
 .link__name {
   padding: 1.25rem 0 0.25rem;
   font-weight: bold;
+}
+
+@media (min-width: 64rem) {
+  .link__name {
+    padding: 1.5rem 0 0.25rem;
+  }
+}
+
+@media (min-width: 96rem) {
+  .link__name {
+    padding: 1.75rem 0 0.25rem;
+  }
 }
 
 .link__url {

@@ -29,9 +29,17 @@
     @include small-tablet {
       padding: 1.75rem 0 2rem;
     }
+
+    @include desktop {
+      padding: 2.5rem 0 2.75rem;
+    }
   }
 
   &__button {
     margin-bottom: 1.25rem;
+
+    @include desktop {
+      margin-bottom: 1.5rem;
+    }
   }
 }

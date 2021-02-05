@@ -4,6 +4,10 @@
     flex-direction: column;
     align-items: flex-start;
     padding-top: 1.25rem;
+
+    @include desktop {
+      padding-top: 1.5rem;
+    }
   }
 
   &__input-box {
@@ -13,11 +17,19 @@
 
   &__input {
     margin: 0.5rem 0.75rem 1rem 0;
+
+    @include desktop {
+      margin: 0.5rem 1rem 1.5rem 0;
+    }
   }
 
   &__error {
     color: #c42a19;
     margin-bottom: 0.5rem;
+
+    @include desktop {
+      margin-bottom: 1rem;
+    }
   }
 
   &__button {
