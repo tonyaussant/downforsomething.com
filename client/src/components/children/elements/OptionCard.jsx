@@ -4,7 +4,7 @@ function OptionCard(props) {
   return(
     <li className='option-card'>
       <div className='option-card__wrapper'>
-        <h2 className='title'>{name}</h2>
+        <h2 className='title option-card__title'>{name}</h2>
 
         <img className='gif option-card__gif' src={img} alt={name}/>
 
