@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npm install --prefix server && npm prisma --prefix server && npm start --prefix server\" \"npm install --prefix client && npm start --prefix client\"",
+    "start": "concurrently \"npm install --prefix server && npm start --prefix server\" \"npm install --prefix client && npm start --prefix client\"",
     "dev": "concurrently \"npm run dev --prefix server\" \"npm start --prefix client\"",
-    "build": "npm install --prefix server && npm install --prefix client",
-    "prisma generate": "prisma generate --schema=./server/prisma/schema.prisma"
+    "build": "npm install --prefix server && npm install --prefix client"
   },
   "repository": {
     "type": "git",
