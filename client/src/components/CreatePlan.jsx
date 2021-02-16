@@ -37,7 +37,7 @@ class CreatePlan extends Component {
       });
     } else {
       this.setState({
-        errorMsg: 'please enter a name '
+        errorMsg: 'please enter a name'
       });
     }
   }
