@@ -3,7 +3,7 @@ import {Redirect} from 'react-router-dom';
 import {io} from 'socket.io-client';
 import randomize from 'randomatic';
 import Header from './children/elements/Header';
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : 'https://downforsomething.com/';
+const BACKEND_URL = 'http://localhost:8080';
 
 class CreatePlan extends Component {
   state = {
