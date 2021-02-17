@@ -6,7 +6,7 @@ import Header from './children/elements/Header';
 import Loading from './children/Loading';
 import UserJoined from './children/elements/UserJoined';
 const BACKEND_URL = process.env.NODE_ENV === "production"
-? 'https://downforsomething.herokuapp.com' : process.env.REACT_APP_BACKEND_URL;
+? 'https://downforsomething.com' : process.env.REACT_APP_BACKEND_URL;
 
 class Lobby extends Component {
   state = {
