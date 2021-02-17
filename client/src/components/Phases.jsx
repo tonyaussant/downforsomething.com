@@ -5,8 +5,7 @@ import {consensusChecker} from '../functions/functions';
 import Phase1 from './children/Phase1';
 import Phase2 from './children/Phase2';
 import Results from './children/Results';
-const BACKEND_URL = process.env.NODE_ENV === "production"
-? 'https://downforsomething.com' : process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 class Phases extends Component {
   state = {
