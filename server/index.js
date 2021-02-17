@@ -26,9 +26,9 @@ const prismaFunc = require('./functions/prisma');
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cors());
-app.use('/api/phase1', phase1Route);
-app.use('/api/phase2', phase2Route);
-app.use('/api/plans', plansRoute);
+app.use('/phase1', phase1Route);
+app.use('/phase2', phase2Route);
+app.use('/plans', plansRoute);
 
 io.on('connection', (socket) => {
   socket.on('joinRoom', (data) => {
