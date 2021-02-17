@@ -30,16 +30,6 @@ app.use('/api/phase1', phase1Route);
 app.use('/api/phase2', phase2Route);
 app.use('/api/plans', plansRoute);
 
-let connection = mysql.createConnection(process.env.DATABASE_URL);
-
-if(process.env.NODE_ENV === "production") {
-  app.use(express.static("../client/build"));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
-  });
-}
-
 io.on('connection', (socket) => {
   socket.on('joinRoom', (data) => {
     socket.join(data.planCode);
@@ -152,9 +142,3 @@ io.on('connection', (socket) => {
 server.listen(PORT, () => {
   console.log(`listening on Port:${PORT}`);
 });
-
-connection.connect(error => {
-  console.log("connected as id " + connection.threadId);
-});
-
-module.exports = connection;
