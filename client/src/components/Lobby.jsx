@@ -5,7 +5,7 @@ import {io} from 'socket.io-client';
 import Header from './children/elements/Header';
 import Loading from './children/Loading';
 import UserJoined from './children/elements/UserJoined';
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = 'http://localhost:5000';
 
 class Lobby extends Component {
   state = {

@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 import {io} from 'socket.io-client';
 import Header from './children//elements/Header';
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = 'http://localhost:5000';
 
 class JoinPlan extends Component {
   state = {
