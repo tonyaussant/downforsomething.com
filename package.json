@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npm run prisma --prefix server && npm start --prefix server\" \"npm start --prefix client\"",
-    "dev": "concurrently \"npm run dev --prefix server\" \"npm start --prefix client\"",
-    "build": "npm install && concurrently \"npm install --prefix server\" \"npm install --prefix client\""
+    "start": "npm run prisma --prefix server && npm start --prefix server && npm start --prefix client",
+    "dev": "npm run dev --prefix server && npm start --prefix client",
+    "build": "npm install && npm install --prefix server && npm install --prefix client"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,6 @@
   },
   "homepage": "https://github.com/TonyAussant/downforsomething.com#readme",
   "dependencies": {
-    "concurrently": "^5.3.0",
     "dotenv": "^8.2.0",
     "@prisma/cli": "^2.14.0"
   },
