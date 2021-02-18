@@ -5,7 +5,7 @@ import {io} from 'socket.io-client';
 import Header from './children/elements/Header';
 import Loading from './children/Loading';
 import UserJoined from './children/elements/UserJoined';
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 class Lobby extends Component {
   state = {
@@ -31,7 +31,7 @@ class Lobby extends Component {
   }
 
   getUsers = () => {
-    axios.get(`${BACKEND_URL}/api/plans/${this.props.match.params.planCode}/users`)
+    axios.get(`${BACKEND_URL}/plans/${this.props.match.params.planCode}/users`)
     .then((result) => {
       this.setState({
         users: result.data

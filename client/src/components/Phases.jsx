@@ -5,7 +5,7 @@ import {consensusChecker} from '../functions/functions';
 import Phase1 from './children/Phase1';
 import Phase2 from './children/Phase2';
 import Results from './children/Results';
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 class Phases extends Component {
   state = {
@@ -98,7 +98,7 @@ class Phases extends Component {
   }
 
   getPhase1Data = () => {
-    axios.get(`${BACKEND_URL}/api/phase1`)
+    axios.get(`${BACKEND_URL}/phase1`)
     .then((result) => {
       this.setState({
         phaseData: result.data,
@@ -128,7 +128,7 @@ class Phases extends Component {
   }
 
   getPhase1WinnerData(winnerID) {
-    axios.get(`${BACKEND_URL}/api/phase1/${winnerID}`)
+    axios.get(`${BACKEND_URL}/phase1/${winnerID}`)
     .then((result) => {
       this.setState({
         phase1WinnerData: result.data
@@ -142,7 +142,7 @@ class Phases extends Component {
   }
 
   getPhase2WinnerData(winnerID) {
-    axios.get(`${BACKEND_URL}/api/phase2/${winnerID}`)
+    axios.get(`${BACKEND_URL}/phase2/${winnerID}`)
     .then((result) => {
       this.setState({
         phase2WinnerData: result.data
@@ -156,7 +156,7 @@ class Phases extends Component {
   }2
 
   getPhase2Data = (parentID) => {
-    axios.get(`${BACKEND_URL}/api/phase1/${parentID}/phase2`)
+    axios.get(`${BACKEND_URL}/phase1/${parentID}/phase2`)
     .then((result) => {
       this.setState({
         phaseData: result.data,
@@ -190,7 +190,7 @@ class Phases extends Component {
   }
 
   getResultsData(parentID) {
-    axios.get(`${BACKEND_URL}/api/phase2/${parentID}/results`)
+    axios.get(`${BACKEND_URL}/phase2/${parentID}/results`)
     .then((result) => {
       this.setState({
         resultsData: result.data,
@@ -205,7 +205,7 @@ class Phases extends Component {
   }
 
   getUserData = () => {  
-    axios.get(`${BACKEND_URL}/api/plans/${this.props.match.params.planCode}/users`)
+    axios.get(`${BACKEND_URL}/plans/${this.props.match.params.planCode}/users`)
     .then((result) => {
       this.setState({
         users: result.data
@@ -219,7 +219,7 @@ class Phases extends Component {
   }
 
   getPlanData = () => {
-    axios.get(`${BACKEND_URL}/api/plans/${this.props.match.params.planCode}`)
+    axios.get(`${BACKEND_URL}/plans/${this.props.match.params.planCode}`)
     .then((result) => {
       this.setState({
         option1Total: result.data.option1Total,

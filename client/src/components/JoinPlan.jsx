@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 import {io} from 'socket.io-client';
 import Header from './children//elements/Header';
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 class JoinPlan extends Component {
   state = {
@@ -20,7 +20,7 @@ class JoinPlan extends Component {
     if(name.trim()) {
       const planCode = event.target.room.value;
 
-      axios.get(`${BACKEND_URL}/api/plans/${planCode}`)
+      axios.get(`${BACKEND_URL}/plans/${planCode}`)
       .then((result) => {
         if(result.data.roomOpen) {
           const socket = io(`${BACKEND_URL}`);
