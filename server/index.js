@@ -12,9 +12,8 @@ const io = require('socket.io')(server, {
   }
 });
 
-const path = require('path');
+require('dotenv').config();
 const cors = require('cors');
-const mysql = require("mysql");
 const phase1Route = require('./routes/phase1');
 const phase2Route = require('./routes/phase2');
 const plansRoute = require('./routes/plans');
@@ -136,6 +135,6 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(5000, () => {
-  console.log(`listening on Port:5000`);
+server.listen(process.env.PORT, () => {
+  console.log(`listening on ${process.env.LOCAL_URL}`);
 });
