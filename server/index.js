@@ -135,6 +135,6 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(process.env.PORT, () => {
-  console.log(`listening on ${process.env.LOCAL_URL}`);
+server.listen(process.env.BACKEND_PORT, () => {
+  console.log(`listening on ${process.env.BACKEND_URL}`);
 });
