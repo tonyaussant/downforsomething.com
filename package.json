@@ -6,7 +6,7 @@
   "scripts": {
     "start": "concurrently \"npm start --prefix server\" \"npm start --prefix client\"",
     "dev": "concurrently \"npm run dev --prefix server\" \"npm start --prefix client\"",
-    "build": "npm install && concurrently \"npm install --prefix server && npm run prisma --prefix server\" \"npm install --prefix client && npm audit fix --prefix client\""
+    "build": "npm install && concurrently \"npm install --prefix server && npm run prisma --prefix server\" \"npm install --prefix client && npm audit fix --prefix client && sudo kill -9 `sudo lsof -t -i:9001 --prefix client\""
   },
   "repository": {
     "type": "git",
