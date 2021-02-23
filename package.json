@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npm start --prefix client\" \"npm start --prefix server\"",
+    "start": "concurrently \"npm start --prefix server\"",
     "dev": "concurrently \"npm run dev --prefix server\" \"npm start --prefix client\"",
-    "build": "npm install && concurrently \"npm install --prefix server && npm run prisma --prefix server\" \"npm install --prefix client && npm audit fix --prefix client\""
+    "build": "npm install && concurrently \"npm install --prefix server && npm run prisma --prefix server\" \"npm install --prefix client && npm audit fix --prefix client && npm start --prefix client\""
   },
   "repository": {
     "type": "git",
