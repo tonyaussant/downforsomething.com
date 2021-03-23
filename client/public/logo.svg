@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="533.33331"
+   width="533.48761"
+   viewBox="-19.20465 -32 73.994865 128"
+   version="1.1"
+   id="svg863"
+   sodipodi:docname="logo.svg"
+   inkscape:version="1.0 (4035a4f, 2020-05-01)">
+  <metadata
+     id="metadata867">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     fit-margin-bottom="0"
+     fit-margin-right="0"
+     fit-margin-left="0"
+     fit-margin-top="0"
+     inkscape:document-rotation="0"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10000"
+     guidetolerance="10000"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="766"
+     id="namedview865"
+     showgrid="false"
+     inkscape:zoom="0.725"
+     inkscape:cx="331.54327"
+     inkscape:cy="212.87356"
+     inkscape:window-x="0"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg863" />
+  <defs
+     id="defs839">
+    <linearGradient
+       id="a">
+      <stop
+         offset="0"
+         stop-color="#38aab0"
+         id="stop833"
+         style="stop-color:#1a727c;stop-opacity:1" />
+      <stop
+         offset="1"
+         stop-color="#0f5f68"
+         id="stop835"
+         style="stop-color:#000207;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient
+       gradientTransform="translate(-46.21572,-956.362)"
+       y2="924.79102"
+       x2="62.66"
+       y1="1004.077"
+       x1="63.570999"
+       gradientUnits="userSpaceOnUse"
+       id="b"
+       xlink:href="#a" />
+    <filter
+       height="1.0005263"
+       y="-0.00026312578"
+       width="1.0000471"
+       x="-2.3531724e-05"
+       id="filter867"
+       style="color-interpolation-filters:sRGB"
+       inkscape:collect="always">
+      <feGaussianBlur
+         id="feGaussianBlur869"
+         stdDeviation="0.0012553292"
+         inkscape:collect="always" />
+    </filter>
+  </defs>
+  <path
+     style="fill:url(#b)"
+     fill="url(#b)"
+     d="m -46.21572,-32 h 128 V 96 h -128 z"
+     id="path841" />
+  <g
+     transform="translate(-344.71072,-373.568)"
+     id="g861">
+    <path
+       d="m 362.87,419.068 c -24.4,0 -46.795,4.029 -64.375,10.719 v 39.781 h 128 v -40.062 c -17.465,-6.52 -39.572,-10.438 -63.625,-10.438 z"
+       id="path855" />
+    <path
+       style="line-height:normal;-inkscape-font-specification:Sans;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-transform:none;fill:#629ea9;fill-opacity:1;marker:none;filter:url(#filter867)"
+       d="m 362.816,419.01 c -24.456,0 -46.667,4.044 -64.317,10.76 v 0.36 l -0.011,0.308 0.89,-0.022 c 17.396,-6.493 39.442,-10.406 63.438,-10.406 22.16,1.219 44.95,3.765 63.678,10.45 v -0.346 l 0.012,-0.366 0.013,-0.236 C 408.986,422.967 386.924,419.01 362.816,419.01 Z"
+       color="#000000"
+       font-weight="400"
+       font-family="Sans"
+       overflow="visible"
+       fill="#fff"
+       id="path859" />
+  </g>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:111.113px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.77783"
+     x="-16.728405"
+     y="61.003506"
+     id="text871"
+     transform="scale(1.0990937,0.90984053)"><tspan
+       sodipodi:role="line"
+       id="tspan869"
+       x="-16.728405"
+       y="61.003506"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:111.113px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:2.77783">T</tspan></text>
+</svg>
