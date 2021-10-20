@@ -10,21 +10,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TonyAussant/downforsomething.com.git"
+    "url": "git+https://github.com/tonyaussant/downforsomething.com.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TonyAussant/downforsomething.com/issues"
+    "url": "https://github.com/tonyaussant/downforsomething.com/issues"
   },
-  "homepage": "https://github.com/TonyAussant/downforsomething.com#readme",
+  "homepage": "https://github.com/tonyaussant/downforsomething.com#readme",
   "dependencies": {
     "concurrently": "^5.3.0",
-    "dotenv": "^8.2.0"
-  },
-  "engines": {
-    "node": "14.15.0",
-    "npm": "6.14.8"
+    "dotenv": "^8.2.0",
+    "node": "^16.11.1"
   }
 }
