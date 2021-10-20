@@ -1,0 +1,8 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"checkJs": false,
+		"jsx": "react",
+		"allowUmdGlobalAccess": true
+	}
+}
