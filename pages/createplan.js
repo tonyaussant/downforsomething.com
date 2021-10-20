@@ -1,16 +1,11 @@
-import {Component} from 'react';
-import {Redirect} from 'react-router-dom';
-import {io} from 'socket.io-client';
-import randomize from 'randomatic';
-import Header from './children/elements/Header';
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import {useState} from 'react'
+import randomize from 'randomatic'
+import Header from './children/elements/Header'
 
-class CreatePlan extends Component {
-  state = {
-    planCode: '',
-    name: '',
-    errorMsg: ''
-  }
+const CreatePlanLayout = () => {
+const [planCode, setPlanCode] = useState(null)
+const [name, setName] = useState(null)
+const [errorMsg, setErrorMsg] = useState(null)
 
   createPlan = event => {
     event.preventDefault();
@@ -73,4 +68,4 @@ class CreatePlan extends Component {
   }
 }
 
-export default CreatePlan;
+export default CreatePlanLayout
