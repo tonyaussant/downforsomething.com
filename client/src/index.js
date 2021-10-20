@@ -6,7 +6,7 @@ import LandingPage from './components/LandingPage';
 import CreatePlan from './components/CreatePlan';
 import JoinPlan from './components/JoinPlan';
 import Lobby from './components/Lobby';
-import Phases from './components/Phases';
+import Phases from './components/Phases'
 
 ReactDOM.render(
   <React.StrictMode>

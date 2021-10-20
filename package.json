@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npm start --prefix server\" \"npm start --prefix client\"",
-    "dev": "concurrently \"npm run dev --prefix server\" \"npm start --prefix client\"",
-    "build": "npm install && concurrently \"npm install --prefix server && npm run prisma --prefix server\" \"npm install --prefix client && npm audit fix --prefix client\""
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,9 @@
   "dependencies": {
     "concurrently": "^5.3.0",
     "dotenv": "^8.2.0",
-    "node": "^16.11.1"
+    "next": "^11.1.2",
+    "node": "^16.11.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   }
 }
