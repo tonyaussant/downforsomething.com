@@ -6,9 +6,6 @@ const CreatePlanApi = async (req, res) => {
 	const file = 'CreatePlanApi'
 
 	const { name } = req.body
-
-	console.log(req.body)
-
 	const planId = randomize('aA0', 6)
 
 	const { data: planCreate, error: planCreateError } = await prisma.plan.create(

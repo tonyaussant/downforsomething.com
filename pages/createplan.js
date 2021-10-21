@@ -1,18 +1,15 @@
 import { useState } from 'react'
+import { useAppContext } from 'contexts'
 
 import useCreatePlanOnSubmit from 'hooks/createPlanOnSubmit'
-
 import Header from 'design/elements/header'
 
 const CreatePlan = () => {
-	const [name, setName] = useState('')
+	const { name, setName } = useAppContext()
+
 	const [submit, setSubmit] = useState(false)
-	const [planId, setPlanId] = useState(null)
 
 	const { error: errorMsg } = useCreatePlanOnSubmit({
-		name,
-		planId,
-		setPlanId,
 		submit
 	})
 
