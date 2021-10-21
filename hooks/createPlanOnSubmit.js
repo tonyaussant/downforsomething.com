@@ -1,9 +1,21 @@
 import { useEffect } from 'react'
+import useSwr from 'swr'
 
-const CreatePlanOnSubmitHook = ({ setErrorMsg, name, setPlanCode }) => {
+import fetcher from 'utils/fetcher'
+
+const CreatePlanOnSubmitHook = ({
+	setErrorMsg,
+	name,
+	planCode,
+	setPlanCode,
+}) => {
 	useEffect(() => {
-		if (name.trim()) {
-			setPlanCode(randomize('aA0', 6))
+		if (name.trim() && !planCode) {
+			;(async () => {
+				const { data: planCodeCreate } = useSwr('api/planCode/create/', fetcher)
+
+				if (planCodeCreate) setPlanCode(planCodeCreate.planCode)
+			})()
 		} else setErrorMsg('please enter a name')
 	}, [name])
 }
