@@ -1,3 +1,5 @@
+import randomize from 'randomatic'
+
 import prisma from 'utils/prisma'
 
 const CreatePlanApi = async (req, res) => {
@@ -5,18 +7,32 @@ const CreatePlanApi = async (req, res) => {
 
 	const { name } = req.body
 
-	const { data: planCodeCreate } = await prisma.plans.create({
-		data: {
-			planCode: planCode,
-			users: {
-				create: [
-					{
-						name
-					}
-				]
-			}
+	console.log(req.body)
+
+	const planId = randomize('aA0', 6)
+
+	const { data: planCreate, error: planCreateError } = await prisma.plan.create(
+		{
+			data: {
+				planId,
+				users: {
+					create: [
+						{
+							name
+						}
+					]
+				}
+			},
+			select: { planId: true }
 		}
-	})
+	)
+
+	if (!planCreate || planCreateError)
+		return res.json({
+			error: { code: planCreateError || 'unknown_error', file }
+		})
+
+	return res.json({ data: planCreate })
 }
 
 export default CreatePlanApi

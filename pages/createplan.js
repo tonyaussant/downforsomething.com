@@ -1,16 +1,22 @@
 import { useState } from 'react'
 
-import Header from './children/elements/Header'
+import useCreatePlanOnSubmit from 'hooks/createPlanOnSubmit'
 
-const CreatePlanLayout = () => {
-	const [planCode, setPlanCode] = useState(null)
-	const [name, setName] = useState(null)
-	const [errorMsg, setErrorMsg] = useState(null)
+import Header from 'design/elements/header'
 
-	// if(planCode) {
-	//   return <Redirect to={`/lobby/${planCode}/${name}`}/>
-	// } else {
-	//   return(
+const CreatePlan = () => {
+	const [name, setName] = useState('')
+	const [submit, setSubmit] = useState(false)
+	const [planId, setPlanId] = useState(null)
+
+	const { error: errorMsg } = useCreatePlanOnSubmit({
+		name,
+		planId,
+		setPlanId,
+		submit
+	})
+
+	console.log(planId)
 
 	return (
 		<div>
@@ -19,33 +25,38 @@ const CreatePlanLayout = () => {
 				<div className='main__wrapper'>
 					<h1 className='title'>create a plan</h1>
 
-					<form
-						className='create-join__form'
-						action='submit'
-						onSubmit={(x) => setName(x?.name)}
-					>
+					<div className='create-join__wrapper'>
 						<label className='text' htmlFor='name'>
 							display name:
 						</label>
+
 						<div className='create-join__input-box'>
 							<input
-								className='input create-join__input'
-								type='text'
-								name='name'
+								{...{
+									className: 'input create-join__input',
+									onChange: (x) => setName(x?.target?.value),
+									name: 'name',
+									type: 'text',
+									value: name
+								}}
 							/>
+
 							<p className='text create-join__error'>{errorMsg}</p>
 						</div>
 
-						<input
-							className='button create-join__button'
-							type='submit'
-							value='create plan'
-						/>
-					</form>
+						<div
+							{...{
+								className: 'button create-join__button',
+								onClick: () => setSubmit(true)
+							}}
+						>
+							create plan
+						</div>
+					</div>
 				</div>
 			</section>
 		</div>
 	)
 }
 
-export default CreatePlanLayout
+export default CreatePlan

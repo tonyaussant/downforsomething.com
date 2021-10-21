@@ -350,7 +350,7 @@ a {
   }
 }
 
-.create-join__form {
+.create-join__wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -365,7 +365,7 @@ a {
 }
 
 @media (min-width: 64rem) {
-  .create-join__form {
+  .create-join__wrapper {
     padding-top: 1.5rem;
   }
 }

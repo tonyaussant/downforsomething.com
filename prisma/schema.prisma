@@ -15,7 +15,7 @@ generator client {
 
 model Plan {
   planId            String  @id
-  users             User[]
+  Users             User[]
   choicesTotal      Int?
   choicesNeeded     Int?
   option1Total      Int?
@@ -34,7 +34,7 @@ model Plan {
 
 model User {
   id              String  @id @default(uuid())
-  plan            Plan?  @relation(fields: [planId], references: [planId])
+  Plan            Plan?  @relation(fields: [planId], references: [planId])
   planId          String?
   name            String  
   phase1Done      Boolean @default(false)

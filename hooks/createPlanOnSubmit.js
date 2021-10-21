@@ -1,24 +1,42 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import fetcher from 'utils/fetcher'
 
 const CreatePlanOnSubmitHook = ({
-	setErrorMsg,
 	name,
-	planCode,
-	setPlanCode
+	planId,
+	setPlanId,
+	submit,
+	setSubmit
 }) => {
-	useEffect(() => {
-		if (name.trim() && !planCode) {
-			;(async () => {
-				const { data: planCodeCreate } = await fetcher('api/planCode/create/', {
-					name
-				})
+	const [errorMsg, setErrorMsg] = useState(null)
 
-				if (planCodeCreate) setPlanCode(planCodeCreate.planCode)
-			})()
-		} else setErrorMsg('please enter a name')
-	}, [name])
+	console.log(name)
+
+	useEffect(() => {
+		if (submit) {
+			if (name?.trim() && !planId) {
+				;(async () => {
+					const { data: planCreate, error: planCreateError } = await fetcher(
+						'/api/plan/create/',
+						{
+							name: name?.trim()
+						}
+					)
+
+					if (planCreateError) console.error(planCreateError)
+
+					if (planCreate) setPlanId(planCreate.planId)
+				})()
+			} else {
+				setSubmit(false)
+
+				setErrorMsg('please enter a name')
+			}
+		}
+	}, [submit])
+
+	return { error: errorMsg }
 }
 
 export default CreatePlanOnSubmitHook
