@@ -15,31 +15,31 @@ const CreatePlanLayout = () => {
 	return (
 		<div>
 			<Header />
-			<section className="main create-join">
-				<div className="main__wrapper">
-					<h1 className="title">create a plan</h1>
+			<section className='main create-join'>
+				<div className='main__wrapper'>
+					<h1 className='title'>create a plan</h1>
 
 					<form
-						className="create-join__form"
-						action="submit"
+						className='create-join__form'
+						action='submit'
 						onSubmit={(x) => setName(x?.name)}
 					>
-						<label className="text" htmlFor="name">
+						<label className='text' htmlFor='name'>
 							display name:
 						</label>
-						<div className="create-join__input-box">
+						<div className='create-join__input-box'>
 							<input
-								className="input create-join__input"
-								type="text"
-								name="name"
+								className='input create-join__input'
+								type='text'
+								name='name'
 							/>
-							<p className="text create-join__error">{errorMsg}</p>
+							<p className='text create-join__error'>{errorMsg}</p>
 						</div>
 
 						<input
-							className="button create-join__button"
-							type="submit"
-							value="create plan"
+							className='button create-join__button'
+							type='submit'
+							value='create plan'
 						/>
 					</form>
 				</div>
