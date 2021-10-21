@@ -16,8 +16,6 @@ const CreatePlan = () => {
 		submit
 	})
 
-	console.log(planId)
-
 	return (
 		<div>
 			<Header />

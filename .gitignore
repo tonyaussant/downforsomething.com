@@ -137,3 +137,6 @@ ehthumbs.db
 
 # CSS
 *.css.map
+
+# VSCode settings
+.vscode

@@ -1,28 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Phase1` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Phase2` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Plans` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Results` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Users` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropTable
-DROP TABLE `Phase1`;
-
--- DropTable
-DROP TABLE `Phase2`;
-
--- DropTable
-DROP TABLE `Plans`;
-
--- DropTable
-DROP TABLE `Results`;
-
--- DropTable
-DROP TABLE `Users`;
-
 -- CreateTable
 CREATE TABLE `Plan` (
     `planId` VARCHAR(191) NOT NULL,

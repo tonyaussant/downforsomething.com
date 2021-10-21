@@ -15,7 +15,7 @@ const CreatePlanApi = async (req, res) => {
 		{
 			data: {
 				planId,
-				users: {
+				Users: {
 					create: [
 						{
 							name
