@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+
+import { useAppContext } from 'contexts'
 import fetcher from 'utils/fetcher'
 
-const CreatePlanOnSubmitHook = ({ name, setPlanId, submit, setSubmit }) => {
+const CreatePlanOnSubmitHook = ({ submit, setSubmit }) => {
+	const router = useRouter()
+
+	const { name, setPlanId } = useAppContext()
+
 	const [errorMsg, setErrorMsg] = useState(null)
 
 	useEffect(() => {
@@ -17,7 +24,11 @@ const CreatePlanOnSubmitHook = ({ name, setPlanId, submit, setSubmit }) => {
 
 					if (planCreateError) console.error(planCreateError)
 
-					if (planCreate) setPlanId(planCreate.planId)
+					if (planCreate) {
+						setPlanId(planCreate.planId)
+
+						router.push(`/lobby/${planCreate.planId}`)
+					}
 				})()
 			} else {
 				setSubmit(false)

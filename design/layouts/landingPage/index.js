@@ -8,7 +8,7 @@ const LandingPageLayout = () => {
 			<img
 				{...{
 					className: 'landing-page__logo',
-					src: 'logo.svg',
+					src: '/logo.svg',
 					alt: 'down for something logo'
 				}}
 			/>
@@ -17,18 +17,18 @@ const LandingPageLayout = () => {
 				a way to simplify making plans with groups
 			</h2>
 
-			<div
+			<button
 				{...{
 					className: 'button landing-page__button',
-					onClick: () => router.push('/createplan')
+					onClick: () => router.push('/create')
 				}}
 			>
 				create a plan
-			</div>
+			</button>
 
-			<div className='button landing-page__button' to='/joinplan'>
+			<button className='button landing-page__button' to='/joinplan'>
 				join a plan
-			</div>
+			</button>
 		</div>
 	)
 }
