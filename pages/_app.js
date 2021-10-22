@@ -1,13 +1,5 @@
-import { AppProvider } from 'contexts'
-
 import 'design/styles/index.css'
 
-function MyApp({ Component, pageProps }) {
-	return (
-		<AppProvider>
-			<Component {...pageProps} />
-		</AppProvider>
-	)
-}
+const MyApp = ({ Component, pageProps }) => <Component {...pageProps} />
 
 export default MyApp

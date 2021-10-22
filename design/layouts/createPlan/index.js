@@ -1,14 +1,13 @@
 import { useState } from 'react'
 
-import { useAppContext } from 'contexts'
 import useCreatePlanOnSubmit from 'hooks/createPlanOnSubmit'
 
-const CreatePlan = () => {
-	const { name, setName } = useAppContext()
-
+const CreatePlanLayout = () => {
+	const [name, setName] = useState('')
 	const [submit, setSubmit] = useState(false)
 
 	const { error: errorMsg } = useCreatePlanOnSubmit({
+		name,
 		submit,
 		setSubmit
 	})
@@ -51,4 +50,4 @@ const CreatePlan = () => {
 	)
 }
 
-export default CreatePlan
+export default CreatePlanLayout

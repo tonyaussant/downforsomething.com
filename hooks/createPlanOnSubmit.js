@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import Cookies from 'js-cookie'
 
-import { useAppContext } from 'contexts'
 import fetcher from 'utils/fetcher'
 
-const CreatePlanOnSubmitHook = ({ submit, setSubmit }) => {
+const CreatePlanOnSubmitHook = ({ name, submit, setSubmit }) => {
 	const router = useRouter()
-
-	const { name, setPlanId } = useAppContext()
 
 	const [errorMsg, setErrorMsg] = useState(null)
 
@@ -25,9 +23,9 @@ const CreatePlanOnSubmitHook = ({ submit, setSubmit }) => {
 					if (planCreateError) console.error(planCreateError)
 
 					if (planCreate) {
-						setPlanId(planCreate.planId)
+						Cookies.set('name', name, { expires: 1 })
 
-						router.push(`/lobby/${planCreate.planId}`)
+						router.push(`/plan/${planCreate.planId}`)
 					}
 				})()
 			} else {

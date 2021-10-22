@@ -1,6 +1,6 @@
 import Header from 'design/elements/header'
 
-const Loading = () => (
+const LoadingElement = () => (
 	<div>
 		<Header />
 
@@ -10,4 +10,4 @@ const Loading = () => (
 	</div>
 )
 
-export default Loading
+export default LoadingElement
