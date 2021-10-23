@@ -4,9 +4,10 @@ import planSelect from 'utils/planSelect'
 const GetPlanApi = async (req, res) => {
 	const file = 'GetPlanApi'
 
+	const { planId } = req.body
 	const { where } = req.query
 
-	if (!where)
+	if (!planId && !where)
 		return res.json({
 			error: { code: 'missing_argument', file }
 		})
@@ -14,7 +15,7 @@ const GetPlanApi = async (req, res) => {
 	try {
 		const planGet = await prisma.plan.findUnique({
 			where: {
-				planId: JSON.parse(where).planId
+				planId: planId || JSON.parse(where).planId
 			},
 			select: planSelect
 		})

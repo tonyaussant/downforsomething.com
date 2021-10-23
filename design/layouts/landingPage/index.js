@@ -26,7 +26,12 @@ const LandingPageLayout = () => {
 				create a plan
 			</button>
 
-			<button className='button landing-page__button' to='/joinplan'>
+			<button
+				{...{
+					className: 'button landing-page__button',
+					onClick: () => router.push('/join')
+				}}
+			>
 				join a plan
 			</button>
 		</div>

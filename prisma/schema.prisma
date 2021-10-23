@@ -33,9 +33,9 @@ model Plan {
 }
 
 model User {
-  id              String  @id @default(uuid())
-  Plan            Plan?  @relation(fields: [planId], references: [planId])
-  planId          String?
+  userId          String  @id
+  Plan            Plan  @relation(fields: [planId], references: [planId])
+  planId          String
   name            String  
   phase1Done      Boolean @default(false)
   phase2Done      Boolean @default(false)

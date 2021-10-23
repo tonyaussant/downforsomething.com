@@ -3,11 +3,11 @@ import { useState } from 'react'
 import useCreatePlanOnSubmit from 'hooks/createPlanOnSubmit'
 
 const CreatePlanLayout = () => {
-	const [name, setName] = useState('')
+	const [displayName, setDisplayName] = useState('')
 	const [submit, setSubmit] = useState(false)
 
 	const { error: errorMsg } = useCreatePlanOnSubmit({
-		name,
+		displayName,
 		submit,
 		setSubmit
 	})
@@ -26,10 +26,10 @@ const CreatePlanLayout = () => {
 						<input
 							{...{
 								className: 'input create-join__input',
-								onChange: (x) => setName(x?.target?.value),
+								onChange: (x) => setDisplayName(x?.target?.value),
 								name: 'name',
 								type: 'text',
-								value: name
+								value: displayName
 							}}
 						/>
 

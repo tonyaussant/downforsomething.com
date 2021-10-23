@@ -28,7 +28,7 @@ const PlanPage = () => {
 		<div>
 			<Header />
 
-			<Lobby {...{ name, planId, users: planData?.Users }} />
+			<Lobby {...{ planId, users: planData?.Users }} />
 		</div>
 	)
 }

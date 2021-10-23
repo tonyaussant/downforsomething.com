@@ -5,10 +5,10 @@ import prisma from 'utils/prisma'
 const CreatePlanApi = async (req, res) => {
 	const file = 'CreatePlanApi'
 
-	const { name } = req.body
+	const { name, userId } = req.body
 	const planId = randomize('aA0', 6)
 
-	if (!name)
+	if (!name || !userId)
 		return res.json({
 			error: { code: 'missing_argument', file }
 		})
@@ -20,6 +20,7 @@ const CreatePlanApi = async (req, res) => {
 				Users: {
 					create: [
 						{
+							userId,
 							name
 						}
 					]
