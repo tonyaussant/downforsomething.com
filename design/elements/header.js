@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 
-const HeaderElement = ({ phase, restartPhase }) => {
+const HeaderElement = ({ setRestartPhase, showRestart = false }) => {
 	const router = useRouter()
 
 	return (
@@ -15,11 +15,11 @@ const HeaderElement = ({ phase, restartPhase }) => {
 				/>
 
 				<nav>
-					{phase && (
+					{showRestart && (
 						<button
 							{...{
 								className: 'button header__button header__button--restart',
-								onClick: () => restartPhase(phase)
+								onClick: () => setRestartPhase(true)
 							}}
 						>
 							restart
