@@ -13,7 +13,7 @@ const CreatePlanLayout = () => {
 	})
 
 	return (
-		<section className='main create-join'>
+		<main>
 			<div className='main__wrapper'>
 				<h1 className='title'>create a plan</h1>
 
@@ -46,7 +46,7 @@ const CreatePlanLayout = () => {
 					</button>
 				</div>
 			</div>
-		</section>
+		</main>
 	)
 }
 

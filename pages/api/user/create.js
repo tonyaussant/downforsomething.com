@@ -3,9 +3,9 @@ import prisma from 'utils/prisma'
 const CreateUserApi = async (req, res) => {
 	const file = 'CreateUserApi'
 
-	const { name, planId, userId } = req.body
+	const { planId, userId, name } = req.body
 
-	if (!name || !planId || !userId)
+	if (!planId || !userId || !name)
 		return res.json({
 			error: { code: 'missing_argument', file }
 		})
@@ -13,8 +13,8 @@ const CreateUserApi = async (req, res) => {
 	try {
 		await prisma.user.create({
 			data: {
-				userId,
 				Plan: { connect: { planId } },
+				userId,
 				name
 			}
 		})

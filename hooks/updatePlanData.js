@@ -6,11 +6,7 @@ const UpdatePlanDataHook = ({ planGet }) => {
 	const [initialData, setInitialData] = useState(null)
 
 	useEffect(() => {
-		console.log('hello')
-
 		if (!initialData || !dequal(planGet, initialData)) {
-			console.log('there')
-
 			setInitialData(planGet)
 
 			setPlanData(planGet)

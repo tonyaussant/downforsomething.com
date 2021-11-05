@@ -20,8 +20,8 @@ const CreatePlanOnSubmitHook = ({ displayName, submit, setSubmit }) => {
 					const { data: planCreate, error: planCreateError } = await fetcher(
 						'/api/plan/create/',
 						{
-							name,
-							userId
+							userId,
+							name
 						}
 					)
 

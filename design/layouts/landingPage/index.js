@@ -4,7 +4,7 @@ const LandingPageLayout = () => {
 	const router = useRouter()
 
 	return (
-		<div className='landing-page'>
+		<main className='landing-page'>
 			<img
 				{...{
 					className: 'landing-page__logo',
@@ -34,7 +34,7 @@ const LandingPageLayout = () => {
 			>
 				join a plan
 			</button>
-		</div>
+		</main>
 	)
 }
 

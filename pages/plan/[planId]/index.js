@@ -6,7 +6,9 @@ import fetcher from 'utils/fetcher'
 import useUpdatePlanData from 'hooks/updatePlanData'
 
 import Lobby from 'design/layouts/lobby'
+import FirstPhase from 'design/layouts/firstPhase'
 import Header from 'design/elements/header'
+import Loading from 'design/elements/loading'
 
 const PlanPage = () => {
 	const router = useRouter()
@@ -24,12 +26,18 @@ const PlanPage = () => {
 
 	const { data: planData } = useUpdatePlanData({ planGet })
 
+	if (!planData) return <Loading />
+
 	return (
-		<div>
+		<>
 			<Header />
 
-			<Lobby {...{ planId, users: planData?.Users }} />
-		</div>
+			{!planData?.planStarted && (
+				<Lobby {...{ planId, users: planData?.Users }} />
+			)}
+
+			{planData?.planStarted && <FirstPhase {...{ name, planId, planData }} />}
+		</>
 	)
 }
 

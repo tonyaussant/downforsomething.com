@@ -4,9 +4,9 @@ const LoadingElement = () => (
 	<div>
 		<Header />
 
-		<div className='main'>
+		<main>
 			<h1 className='title main__wrapper'>loading</h1>
-		</div>
+		</main>
 	</div>
 )
 
