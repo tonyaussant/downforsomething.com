@@ -5,7 +5,12 @@ import randomize from 'randomatic'
 
 import fetcher from 'utils/fetcher'
 
-const JoinPlanOnSubmitHook = ({ displayName, planId, submit, setSubmit }) => {
+const JoinPlanOnSubmitApiHook = ({
+	displayName,
+	planId,
+	submit,
+	setSubmit
+}) => {
 	const router = useRouter()
 
 	const [nameErrorMsg, setNameErrorMsg] = useState(null)
@@ -16,24 +21,31 @@ const JoinPlanOnSubmitHook = ({ displayName, planId, submit, setSubmit }) => {
 
 	useEffect(() => {
 		if (submit) {
-			if (name) {
+			if (name && planId) {
 				;(async () => {
-					const { data: planCreate, error: planCreateError } = await fetcher(
+					const { data: planGet, error: planGetError } = await fetcher(
 						'/api/plan/get/',
 						{
 							planId
 						}
 					)
 
-					if (planCreateError) {
-						console.error(planCreateError)
+					if (planGetError) {
+						console.error(planGetError)
 
 						setSubmit(false)
 
 						setPlanErrorMsg('plan code not found')
 					}
 
-					if (planCreate) {
+					if (
+						planGet?.planStarted &&
+						!planGet.Users.find((x) => x.userId === Cookies.get('id'))
+					) {
+						setSubmit(false)
+
+						setPlanErrorMsg('plan has already started')
+					} else if (planGet) {
 						if (Cookies.get('name') && name !== Cookies.get('name')) {
 							;(async () => {
 								const { error: userDeleteError } = await fetcher(
@@ -63,13 +75,17 @@ const JoinPlanOnSubmitHook = ({ displayName, planId, submit, setSubmit }) => {
 						Cookies.set('name', name, { expires: 1 })
 						Cookies.set('id', userId, { expires: 1 })
 
-						router.push(`/plan/${planCreate.planId}`)
+						router.push(`/plan/${planGet.planId}`)
 					}
 				})()
-			} else {
+			} else if (!name) {
 				setSubmit(false)
 
 				setNameErrorMsg('please enter a name')
+			} else {
+				setSubmit(false)
+
+				setPlanErrorMsg('please enter a plan code')
 			}
 		}
 	}, [submit])
@@ -77,4 +93,4 @@ const JoinPlanOnSubmitHook = ({ displayName, planId, submit, setSubmit }) => {
 	return { nameError: nameErrorMsg, planError: planErrorMsg }
 }
 
-export default JoinPlanOnSubmitHook
+export default JoinPlanOnSubmitApiHook

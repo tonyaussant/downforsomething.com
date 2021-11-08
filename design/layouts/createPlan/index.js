@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import useCreatePlanOnSubmit from 'hooks/createPlanOnSubmit'
+import useCreatePlanOnSubmit from 'hooks/api/createPlanOnSubmit'
 
 const CreatePlanLayout = () => {
 	const [displayName, setDisplayName] = useState('')

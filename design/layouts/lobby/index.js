@@ -1,13 +1,13 @@
 import { useState } from 'react'
 
-import useStartFirstPhase from 'hooks/startFirstPhase'
+import useStartFirstPhase from 'hooks/api/startFirstPhase'
 
 import UserJoined from 'design/layouts/lobby/UserJoined'
 
 const LobbyLayout = ({ planId, users }) => {
 	const [planStarted, setPlanStarted] = useState(false)
 
-	useStartFirstPhase({ planId, planStarted })
+	useStartFirstPhase({ planId, planStarted, users })
 
 	return (
 		<main className='waiting'>

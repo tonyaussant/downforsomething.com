@@ -20,6 +20,11 @@ const GetPlanApi = async (req, res) => {
 			select: planSelect
 		})
 
+		if (!planGet)
+			return res.json({
+				error: { code: 'no_plan_found', file }
+			})
+
 		return res.json({ data: planGet })
 	} catch (err) {
 		return res.json({

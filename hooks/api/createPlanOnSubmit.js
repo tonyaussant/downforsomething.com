@@ -5,7 +5,7 @@ import randomize from 'randomatic'
 
 import fetcher from 'utils/fetcher'
 
-const CreatePlanOnSubmitHook = ({ displayName, submit, setSubmit }) => {
+const CreatePlanOnSubmitApiHook = ({ displayName, submit, setSubmit }) => {
 	const router = useRouter()
 
 	const [errorMsg, setErrorMsg] = useState(null)
@@ -45,4 +45,4 @@ const CreatePlanOnSubmitHook = ({ displayName, submit, setSubmit }) => {
 	return { error: errorMsg }
 }
 
-export default CreatePlanOnSubmitHook
+export default CreatePlanOnSubmitApiHook

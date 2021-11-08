@@ -10,8 +10,6 @@ const DeleteUserApi = async (req, res) => {
 			error: { code: 'missing_argument', file }
 		})
 
-	console.log(userId)
-
 	try {
 		await prisma.user.delete({
 			where: {

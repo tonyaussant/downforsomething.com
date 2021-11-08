@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import PHASE_1_DATA from 'constants/phase1'
 import usePopulateOptionsList from 'hooks/populateOptionsList'
+import useRestartPhaseForUser from 'hooks/restartPhaseForUser'
 
 import Directions from 'design/layouts/phases/firstPhase/Directions'
 import Options from 'design/layouts/phases/Options'
@@ -18,7 +19,12 @@ const FirstPhasePhasesLayout = ({
 
 	usePopulateOptionsList({ setOptionsList, phaseData: PHASE_1_DATA })
 
-	console.log(optionsList)
+	useRestartPhaseForUser({
+		setOptionsList,
+		phaseData: PHASE_1_DATA,
+		restartPhase,
+		setRestartPhase
+	})
 
 	return (
 		<>

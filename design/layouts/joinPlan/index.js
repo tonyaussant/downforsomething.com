@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import useJoinPlanOnSubmit from 'hooks/joinPlanOnSubmit'
+import useJoinPlanOnSubmit from 'hooks/api/joinPlanOnSubmit'
 
 const JoinPlanLayout = () => {
 	const [displayName, setDisplayName] = useState('')
