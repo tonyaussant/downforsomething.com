@@ -40,7 +40,7 @@ const JoinPlanOnSubmitApiHook = ({
 
 					if (
 						planGet?.planStarted &&
-						!planGet.Users.find((x) => x.userId === Cookies.get('id'))
+						!planGet.Users.find((user) => user.userId === Cookies.get('id'))
 					) {
 						setSubmit(false)
 
