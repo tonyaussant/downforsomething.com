@@ -2,17 +2,13 @@ import { useEffect } from 'react'
 
 import fetcher from 'utils/fetcher'
 
-const StartFirstPhaseApiHook = ({ planId, planStarted, users }) => {
+const StartFirstPhaseApiHook = ({ planId, planStarted }) => {
 	useEffect(() => {
 		if (planStarted) {
 			;(async () => {
 				const { error: planUpdateError } = await fetcher('/api/plan/update/', {
 					planId,
-					data: {
-						choicesNeeded: users.length * 3,
-						tieBreakersNeeded: users.length,
-						planStarted: true
-					}
+					data: { planStarted: true }
 				})
 
 				if (planUpdateError) console.error(planUpdateError)

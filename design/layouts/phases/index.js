@@ -5,9 +5,12 @@ const PhasesLayout = ({
 	planId,
 	planData,
 	restartPhase,
-	setRestartPhase
+	setRestartPhase,
+	userId
 }) => (
-	<FirstPhase {...{ name, planId, planData, restartPhase, setRestartPhase }} />
+	<FirstPhase
+		{...{ name, planId, planData, restartPhase, setRestartPhase, userId }}
+	/>
 )
 
 export default PhasesLayout

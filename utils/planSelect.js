@@ -5,8 +5,6 @@ const planSelect = {
 	Users: {
 		select: userSelect
 	},
-	choicesTotal: true,
-	choicesNeeded: true,
 	option1Total: true,
 	option2Total: true,
 	option3Total: true,
@@ -16,8 +14,6 @@ const planSelect = {
 	phase2Winner: true,
 	retryTotal: true,
 	randomTotal: true,
-	tieBreakersTotal: true,
-	tieBreakersNeeded: true,
 	planStarted: true
 }
 

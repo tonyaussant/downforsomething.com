@@ -7,7 +7,7 @@ import UserJoined from 'design/layouts/lobby/UserJoined'
 const LobbyLayout = ({ planId, users }) => {
 	const [planStarted, setPlanStarted] = useState(false)
 
-	useStartFirstPhase({ planId, planStarted, users })
+	useStartFirstPhase({ planId, planStarted })
 
 	return (
 		<main className='waiting'>

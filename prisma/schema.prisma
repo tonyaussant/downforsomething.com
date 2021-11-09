@@ -16,8 +16,6 @@ generator client {
 model Plan {
   planId            String  @id
   Users             User[]
-  choicesTotal      Int @default(0)
-  choicesNeeded     Int?
   option1Total      Int @default(0)
   option2Total      Int @default(0)
   option3Total      Int @default(0)
@@ -27,8 +25,6 @@ model Plan {
   phase2Winner      Int?
   retryTotal        Int @default(0)
   randomTotal       Int @default(0) 
-  tieBreakersTotal  Int @default(0) 
-  tieBreakersNeeded Int?
   planStarted       Boolean @default(false)
 }
 

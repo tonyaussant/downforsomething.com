@@ -17,6 +17,8 @@ const PlanPage = () => {
 	const [restartPhase, setRestartPhase] = useState(false)
 
 	const name = Cookies.get('name')
+	const userId = Cookies.get('id')
+
 	const planId = router.query.planId
 
 	const { data: planGet } = useSWR(
@@ -46,7 +48,7 @@ const PlanPage = () => {
 
 			{planData?.planStarted && (
 				<Phases
-					{...{ name, planId, planData, restartPhase, setRestartPhase }}
+					{...{ name, planId, planData, restartPhase, setRestartPhase, userId }}
 				/>
 			)}
 		</>

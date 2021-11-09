@@ -4,6 +4,7 @@ import PHASE_1_DATA from 'constants/phase1'
 import usePopulateOptionsList from 'hooks/populateOptionsList'
 import useRestartPhaseForUser from 'hooks/restartPhaseForUser'
 import useUpdatePlanWithUserChoices from 'hooks/api/updatePlanWithUserChoices'
+import useUpdateUserWithChoices from 'hooks/api/updateUserWithChoices'
 
 import Directions from 'design/layouts/phases/firstPhase/Directions'
 import Options from 'design/layouts/phases/Options'
@@ -13,7 +14,8 @@ const FirstPhasePhasesLayout = ({
 	planId,
 	planData,
 	restartPhase,
-	setRestartPhase
+	setRestartPhase,
+	userId
 }) => {
 	const [optionsList, setOptionsList] = useState([])
 	const [phaseStarted, setPhaseStarted] = useState(false)
@@ -26,6 +28,8 @@ const FirstPhasePhasesLayout = ({
 		restartPhase,
 		setRestartPhase
 	})
+
+	useUpdateUserWithChoices({ optionsList, userId })
 
 	useUpdatePlanWithUserChoices({ optionsList, planData, planId })
 
