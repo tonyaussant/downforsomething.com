@@ -7,6 +7,7 @@ const SetUserAsPhaseDoneApiHook = ({
 	optionsList,
 	phase1,
 	phase2,
+	setPhaseFinished,
 	tieBreaker
 }) => {
 	useEffect(() => {
@@ -26,6 +27,8 @@ const SetUserAsPhaseDoneApiHook = ({
 				})
 
 				if (userUpdateError) console.error(userUpdateError)
+
+				if (!userUpdateError) setPhaseFinished(true)
 			})()
 		}
 	}, [optionsList])
