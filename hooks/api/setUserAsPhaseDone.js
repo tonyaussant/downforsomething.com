@@ -2,7 +2,13 @@ import { useEffect } from 'react'
 
 import fetcher from 'utils/fetcher'
 
-const UpdateUserWithChoicesApiHook = ({ optionsList, userId }) => {
+const SetUserAsPhaseDoneApiHook = ({
+	optionsList,
+	phase1,
+	phase2,
+	tieBreaker,
+	userId
+}) => {
 	useEffect(() => {
 		if (
 			optionsList?.length &&
@@ -13,7 +19,9 @@ const UpdateUserWithChoicesApiHook = ({ optionsList, userId }) => {
 				const { error: userUpdateError } = await fetcher('/api/user/update/', {
 					userId,
 					data: {
-						phase1Done: true
+						phase1Done: phase1,
+						phase2Done: phase2,
+						tieBreakerDone: tieBreaker
 					}
 				})
 
@@ -23,4 +31,4 @@ const UpdateUserWithChoicesApiHook = ({ optionsList, userId }) => {
 	}, [optionsList])
 }
 
-export default UpdateUserWithChoicesApiHook
+export default SetUserAsPhaseDoneApiHook
