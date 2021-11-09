@@ -1,16 +1,12 @@
 import FirstPhase from 'design/layouts/phases/firstPhase'
 
 const PhasesLayout = ({
-	name,
-	planId,
+	currentUser,
 	planData,
 	restartPhase,
-	setRestartPhase,
-	userId
+	setRestartPhase
 }) => (
-	<FirstPhase
-		{...{ name, planId, planData, restartPhase, setRestartPhase, userId }}
-	/>
+	<FirstPhase {...{ currentUser, planData, restartPhase, setRestartPhase }} />
 )
 
 export default PhasesLayout

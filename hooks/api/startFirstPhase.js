@@ -2,12 +2,12 @@ import { useEffect } from 'react'
 
 import fetcher from 'utils/fetcher'
 
-const StartFirstPhaseApiHook = ({ planId, planStarted }) => {
+const StartFirstPhaseApiHook = ({ planData, planStarted }) => {
 	useEffect(() => {
 		if (planStarted) {
 			;(async () => {
 				const { error: planUpdateError } = await fetcher('/api/plan/update/', {
-					planId,
+					planId: planData.planId,
 					data: { planStarted: true }
 				})
 

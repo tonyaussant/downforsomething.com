@@ -10,12 +10,10 @@ import Directions from 'design/layouts/phases/firstPhase/Directions'
 import Options from 'design/layouts/phases/Options'
 
 const FirstPhasePhasesLayout = ({
-	name,
-	planId,
+	currentUser,
 	planData,
 	restartPhase,
-	setRestartPhase,
-	userId
+	setRestartPhase
 }) => {
 	const [optionsList, setOptionsList] = useState([])
 	const [phaseStarted, setPhaseStarted] = useState(false)
@@ -29,13 +27,13 @@ const FirstPhasePhasesLayout = ({
 		setRestartPhase
 	})
 
-	useSetUserAsPhaseDone({ optionsList, phase1: true, userId })
+	useSetUserAsPhaseDone({ currentUser, optionsList, phase1: true })
 
-	useUpdatePlanWithUserChoices({ optionsList, planData, planId })
+	useUpdatePlanWithUserChoices({ optionsList, planData })
 
 	return (
 		<>
-			{!phaseStarted && <Directions {...{ name, setPhaseStarted }} />}
+			{!phaseStarted && <Directions {...{ currentUser, setPhaseStarted }} />}
 
 			{phaseStarted && <Options {...{ optionsList, setOptionsList }} />}
 		</>

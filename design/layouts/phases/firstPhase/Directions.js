@@ -1,7 +1,7 @@
-const DirectionsFirstPhasePhasesLayout = ({ name, setPhaseStarted }) => (
+const DirectionsFirstPhasePhasesLayout = ({ currentUser, setPhaseStarted }) => (
 	<main className='directions'>
 		<div className='main__wrapper'>
-			<h1 className='sub-title directions__text'>{`hi ${name},`}</h1>
+			<h1 className='sub-title directions__text'>{`hi ${currentUser.name},`}</h1>
 
 			<h2 className='sub-title directions__text directions__text--normal'>
 				you will now be given some options for what your group wants to do

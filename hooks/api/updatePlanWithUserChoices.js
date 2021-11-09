@@ -2,11 +2,7 @@ import { useEffect } from 'react'
 
 import fetcher from 'utils/fetcher'
 
-const UpdatePlanWithUserChoicesApiHook = ({
-	optionsList,
-	planData,
-	planId
-}) => {
+const UpdatePlanWithUserChoicesApiHook = ({ optionsList, planData }) => {
 	useEffect(() => {
 		if (
 			optionsList?.length &&
@@ -15,7 +11,7 @@ const UpdatePlanWithUserChoicesApiHook = ({
 		) {
 			;(async () => {
 				const { error: planUpdateError } = await fetcher('/api/plan/update/', {
-					planId,
+					planId: planData.planId,
 					data: {
 						option1Total: optionsList[0]?.picked
 							? planData.option1Total + 1

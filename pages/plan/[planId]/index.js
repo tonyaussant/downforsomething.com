@@ -16,10 +16,9 @@ const PlanPage = () => {
 
 	const [restartPhase, setRestartPhase] = useState(false)
 
-	const name = Cookies.get('name')
-	const userId = Cookies.get('id')
-
 	const planId = router.query.planId
+
+	const currentUser = { userId: Cookies.get('id'), name: Cookies.get('name') }
 
 	const { data: planGet } = useSWR(
 		`/api/plan/get?where=${JSON.stringify({ planId })}`,
@@ -42,14 +41,10 @@ const PlanPage = () => {
 				}}
 			/>
 
-			{!planData?.planStarted && (
-				<Lobby {...{ planId, users: planData?.Users }} />
-			)}
+			{!planData?.planStarted && <Lobby {...{ currentUser, planData }} />}
 
 			{planData?.planStarted && (
-				<Phases
-					{...{ name, planId, planData, restartPhase, setRestartPhase, userId }}
-				/>
+				<Phases {...{ currentUser, planData, restartPhase, setRestartPhase }} />
 			)}
 		</>
 	)
