@@ -1,4 +1,4 @@
-import prisma from 'utils/prisma'
+import prisma from 'utils/api/prisma'
 import planSelect from 'utils/planSelect'
 
 const GetPlanApi = async (req, res) => {

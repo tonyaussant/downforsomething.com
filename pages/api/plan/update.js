@@ -1,4 +1,4 @@
-import prisma from 'utils/prisma'
+import prisma from 'utils/api/prisma'
 
 const UpdatePlanApi = async (req, res) => {
 	const file = 'UpdatePlanApi'

@@ -12,9 +12,8 @@ const planSelect = {
 	option5Total: true,
 	phase1Winner: true,
 	phase2Winner: true,
-	retryTotal: true,
-	randomTotal: true,
-	planStarted: true
+	planStarted: true,
+	tiedOptions: true
 }
 
 export default planSelect

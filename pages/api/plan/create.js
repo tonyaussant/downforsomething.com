@@ -1,6 +1,6 @@
 import randomize from 'randomatic'
 
-import prisma from 'utils/prisma'
+import prisma from 'utils/api/prisma'
 
 const CreatePlanApi = async (req, res) => {
 	const file = 'CreatePlanApi'

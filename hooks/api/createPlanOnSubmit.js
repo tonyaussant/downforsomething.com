@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import Cookies from 'js-cookie'
 import randomize from 'randomatic'
 
-import fetcher from 'utils/fetcher'
+import fetcher from 'utils/api/fetcher'
 
 const CreatePlanOnSubmitApiHook = ({ displayName, submit, setSubmit }) => {
 	const router = useRouter()

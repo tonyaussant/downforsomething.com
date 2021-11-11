@@ -12,8 +12,7 @@ const WaitingPhasesLayout = ({ currentUser, phase, users }) => (
 					.filter(
 						(user) =>
 							(phase === 'phase1' && user.phase1Done) ||
-							(phase === 'phase2' && user.phase2Done) ||
-							(phase === 'tieBreaker' && user.tieBreakerDone)
+							(phase === 'phase2' && user.phase2Done)
 					)
 					.map((user) => (
 						<UserFinished

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import useSWR from 'swr'
 import Cookies from 'js-cookie'
 
-import fetcher from 'utils/fetcher'
+import fetcher from 'utils/api/fetcher'
 import useUpdatePlanData from 'hooks/updatePlanData'
 
 import Lobby from 'design/layouts/lobby'

@@ -23,9 +23,8 @@ model Plan {
   option5Total      Int @default(0)
   phase1Winner      Int?
   phase2Winner      Int?
-  retryTotal        Int @default(0)
-  randomTotal       Int @default(0) 
   planStarted       Boolean @default(false)
+  tiedOptions       String?
 }
 
 model User {
@@ -35,5 +34,4 @@ model User {
   name            String  
   phase1Done      Boolean @default(false)
   phase2Done      Boolean @default(false)
-  tieBreakerDone  Boolean @default(false)
 }

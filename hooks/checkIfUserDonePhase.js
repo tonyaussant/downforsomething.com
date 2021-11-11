@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 
 import isUserDonePhase from 'utils/isUserDonePhase'
 
-const CheckIfUserDonePhase1Hook = ({
-	currentPhase = 'phase1',
+const CheckIfUserDonePhaseHook = ({
+	currentPhase,
 	currentUser,
 	setPhaseFinished,
 	planData
@@ -16,4 +16,4 @@ const CheckIfUserDonePhase1Hook = ({
 	}, [planData])
 }
 
-export default CheckIfUserDonePhase1Hook
+export default CheckIfUserDonePhaseHook

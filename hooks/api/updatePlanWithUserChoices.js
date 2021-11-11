@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import fetcher from 'utils/fetcher'
+import fetcher from 'utils/api/fetcher'
 
 const UpdatePlanWithUserChoicesApiHook = ({ optionsList, planData }) => {
 	useEffect(() => {

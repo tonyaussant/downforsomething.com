@@ -1,8 +1,9 @@
 import { useState } from 'react'
 
 import PHASE_1_DATA from 'constants/phase1'
-import useCheckIfUserDonePhase1 from 'hooks/checkIfUserDonePhase1'
+import useCheckIfUserDonePhase from 'hooks/checkIfUserDonePhase'
 import usePopulateOptionsList from 'hooks/populateOptionsList'
+import useProcessEndOfPhase1 from 'hooks/api/processEndOfPhase1'
 import useRestartPhaseForUser from 'hooks/restartPhaseForUser'
 import useSetUserAsPhaseDone from 'hooks/api/setUserAsPhaseDone'
 import useUpdatePlanWithUserChoices from 'hooks/api/updatePlanWithUserChoices'
@@ -21,7 +22,12 @@ const FirstPhasePhasesLayout = ({
 	const [phaseStarted, setPhaseStarted] = useState(false)
 	const [phaseFinished, setPhaseFinished] = useState(false)
 
-	useCheckIfUserDonePhase1({ currentUser, setPhaseFinished, planData })
+	useCheckIfUserDonePhase({
+		currentPhase: 'phase1',
+		currentUser,
+		setPhaseFinished,
+		planData
+	})
 
 	usePopulateOptionsList({ setOptionsList, phaseData: PHASE_1_DATA })
 
@@ -40,6 +46,10 @@ const FirstPhasePhasesLayout = ({
 	})
 
 	useUpdatePlanWithUserChoices({ optionsList, planData })
+
+	useProcessEndOfPhase1({ planData })
+
+	console.log(planData)
 
 	return (
 		<>
