@@ -4,7 +4,7 @@ import PHASE_1_DATA from 'constants/phase1'
 import useCheckIfUserDonePhase from 'hooks/checkIfUserDonePhase'
 import usePopulateOptionsList from 'hooks/populateOptionsList'
 import useProcessEndOfPhase1 from 'hooks/api/processEndOfPhase1'
-import useRestartPhaseForUser from 'hooks/restartPhaseForUser'
+import useRestartPhase from 'hooks/restartPhase'
 import useSetUserAsPhaseDone from 'hooks/api/setUserAsPhaseDone'
 import useUpdatePlanWithUserChoices from 'hooks/api/updatePlanWithUserChoices'
 
@@ -29,13 +29,27 @@ const FirstPhasePhasesLayout = ({
 		planData
 	})
 
-	usePopulateOptionsList({ setOptionsList, phaseData: PHASE_1_DATA })
+	const { data: tiedOptions } = useProcessEndOfPhase1({
+		planData,
+		setRestartPhase
+	})
 
-	useRestartPhaseForUser({
+	usePopulateOptionsList({
 		setOptionsList,
 		phaseData: PHASE_1_DATA,
+		tiedOptions
+	})
+
+	useRestartPhase({
+		currentPhase: 'phase1',
+		setOptionsList,
+		phaseData: PHASE_1_DATA,
+		phaseFinished,
+		setPhaseFinished,
+		planData,
 		restartPhase,
-		setRestartPhase
+		setRestartPhase,
+		tiedOptions
 	})
 
 	useSetUserAsPhaseDone({
@@ -46,10 +60,6 @@ const FirstPhasePhasesLayout = ({
 	})
 
 	useUpdatePlanWithUserChoices({ optionsList, planData })
-
-	useProcessEndOfPhase1({ planData })
-
-	console.log(planData)
 
 	return (
 		<>

@@ -1,10 +1,12 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import finishPhase from 'utils/api/finishPhase'
 import getWinningOptions from 'utils/getWinningOptions'
 import isUserDonePhase from 'utils/isUserDonePhase'
 
-const ProcessEndOfPhase1ApiHook = ({ planData }) => {
+const ProcessEndOfPhase1ApiHook = ({ planData, setRestartPhase }) => {
+	const [tiedOptions, setTiedOptions] = useState([])
+
 	useEffect(() => {
 		if (
 			planData.Users.every((user) =>
@@ -24,8 +26,15 @@ const ProcessEndOfPhase1ApiHook = ({ planData }) => {
 					planId: planData.planId,
 					winningOption: winningOptions[0]
 				})
+			else {
+				setTiedOptions(winningOptions)
+
+				setRestartPhase(true)
+			}
 		}
 	}, [planData.Users])
+
+	return { data: tiedOptions }
 }
 
 export default ProcessEndOfPhase1ApiHook

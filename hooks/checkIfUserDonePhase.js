@@ -13,6 +13,7 @@ const CheckIfUserDonePhaseHook = ({
 			isUserDonePhase({ currentPhase, currentUser, userData: planData.Users })
 		)
 			setPhaseFinished(true)
+		else setPhaseFinished(false)
 	}, [planData])
 }
 
